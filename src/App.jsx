@@ -23,12 +23,13 @@ import * as mathjs from "mathjs";
 /*
     Generación de la función del componente Result
 */
-const Result = () => {
-  const value = useContext(ResultContext);
+const Result = (arg) => {
+  const value = useContext(ResultContext) || { arg };
+  console.log(arg);
   if (!Number.isNaN(value.result[0])) {
     return (
       <div className="result">
-        <span>{value.result}</span>
+        <span>{value.result || arg.arg.result[0]}</span>
       </div>
     );
   }
@@ -65,20 +66,22 @@ const CustomEffect = ({ state, setState, stateRef }) => {
   console.log(stateRef);
 };
 
-const clearHookWrapper = (value) => {
-  const { state, setState, stateRef } = value.value;
+const ClearHookWrapper = ({ state, setState, stateRef }) => {
+  //const { state, setState, stateRef } = value.value;
   console.log("clearHookWrapper: ");
   /* console.log(state);
     console.log(stateRef.current);
     console.log(setState); */
   CustomClearHook({ state, setState, stateRef });
+  return <Result arg={state} />;
 };
 
-const CustomClearHook = ({ state, setState, stateRef }) => {
+const CustomClearHook = ({ state, setState }) => {
   console.log("CustomEffectHook");
   console.log(state);
   console.log(setState);
-  console.log(stateRef);
+  const stateRef = useRef(ResultContext);
+  console.log(stateRef.current);
   useEffect(() => {
     stateRef.current = state;
   });
@@ -100,10 +103,12 @@ const CustomClearHook = ({ state, setState, stateRef }) => {
 
 const Clear = (value) => {
   const { state, setState, stateRef } = value.value;
-  CustomClearHook({ state, setState, stateRef });
+  // CustomClearHook({ state, setState, stateRef });
 
   return (
-    <button onClick={() => console.log("borrando memoria...")}>Clear</button>
+    <button onClick={() => ClearHookWrapper({ state, setState, stateRef })}>
+      Clear
+    </button>
   );
 };
 
@@ -119,7 +124,7 @@ const App = () => {
     secondNumber: [5],
   });
 
-  let stateRef = useRef(state);
+  // const stateRef = useRef(state);
 
   const clickHandlerFunction = (value) => {
     console.log("received: ", value);
@@ -216,7 +221,7 @@ const App = () => {
       <Title />
       <div className="react-calculator">
         <ResultContext.Provider value={state}>
-          <Result />
+          <Result arg={state} />
         </ResultContext.Provider>
         <div className="numbers">
           <Button
@@ -271,7 +276,7 @@ const App = () => {
           />
         </div>
         <div className="functions">
-          <Clear value={{ state, setState, stateRef }} />
+          <Clear value={{ state, setState }} />
           <RemoveOperator
             clickHandlerRemoveOperator={clickHandlerRemoveOperator}
           />
