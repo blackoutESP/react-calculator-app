@@ -38,55 +38,6 @@ const Result = () => {
     Generación de la función del componente Clear, para borrar la memoria de la calculadora.
 */
 
-const clearHookWrapper = ({ state, setState }) => {
-    console.log("clearHookWrapper: ");
-    const ClearHook = (state, setState) => {
-        console.log(state);
-        console.log(setState);
-        const stateRef = useRef(state);
-        console.log(stateRef);
-        useEffect(() => {
-            stateRef.current = state;
-        });
-        useEffect(() => {
-            console.log("useEffect: ");
-            /* stateRef.current.result = [""];
-                stateRef.current.secondNumber = [""];
-                stateRef.current.mathOp = "";
-                console.log(stateRef.current); */
-            setState({
-                ...state,
-                result: state.result,
-                secondNumber: state.secondNumber,
-                mathOp: state.mathOp,
-            });
-        }, []);
-    };
-};
-
-const Clear = (value) => {
-    const stateRef = useRef(value.value.state);
-    console.log(stateRef);
-    const useClearHook = () => {
-        useEffect(() => {
-            console.log("useEffect: ");
-            stateRef.current = value.value.state;
-            stateRef.current.result = [""];
-            stateRef.current.secondNumber = [""];
-            stateRef.current.mathOp = "";
-            console.log(stateRef.current);
-            value.value.setState({
-                ...stateRef.current,
-                result: stateRef.current.result,
-                secondNumber: stateRef.current.secondNumber,
-                mathOp: stateRef.current.mathOp,
-            });
-        }, [stateRef.current]);
-    };
-
-    return <button onClick={useClearHook}>Clear</button>;
-};
-
 const ResultContext = createContext();
 
 /*
@@ -98,6 +49,37 @@ const App = () => {
         result: [400],
         secondNumber: [5],
     });
+
+    const [callbackSetup, setCallbackSetup] = useState(false);
+
+    const stateRef = useRef(state);
+
+    const useClearHook = () => {
+        useEffect(() => {
+            if (!callbackSetup) {
+                setCallbackSetup(true);
+                console.log("useEffect: ");
+                /* stateRef.current = state;
+                stateRef.current.result = [""];
+                stateRef.current.secondNumber = [""];
+                stateRef.current.mathOp = ""; */
+                console.log(stateRef.current);
+                setState({
+                    ...stateRef.current,
+                    result: [""],
+                    secondNumber: [""],
+                    mathOp: "",
+                });
+            }
+        }, []);
+        console.log(state);
+    };
+
+    const useClear = useClearHook();
+
+    const Clear = (value) => {
+        return <button onClick={useClear}>Clear</button>;
+    };
 
     const clickHandlerFunction = (value) => {
         console.log("received: ", value);
