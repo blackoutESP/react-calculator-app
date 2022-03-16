@@ -46,8 +46,8 @@ const ResultContext = createContext();
 const App = () => {
     const [state, setState] = useState({
         mathOp: "",
-        result: [400],
-        secondNumber: [5],
+        result: [""],
+        secondNumber: [""],
     });
 
     const [callbackSetup, setCallbackSetup] = useState(false);
@@ -59,11 +59,7 @@ const App = () => {
             if (!callbackSetup) {
                 setCallbackSetup(true);
                 console.log("useEffect: ");
-                /* stateRef.current = state;
-                stateRef.current.result = [""];
-                stateRef.current.secondNumber = [""];
-                stateRef.current.mathOp = ""; */
-                console.log(stateRef.current);
+                //console.log(stateRef.current);
                 setState({
                     ...stateRef.current,
                     result: [""],
@@ -94,6 +90,7 @@ const App = () => {
             if (!Number.isNaN(value)) {
                 setState({
                     ...state,
+                    result: state.result,
                     secondNumber: Number([state.secondNumber, value].join("")),
                 });
             }
@@ -106,16 +103,16 @@ const App = () => {
         console.log("op: ", operation);
         switch (operation) {
             case "+":
-                state.mathOp = "+";
+                setState({ ...state, result: state.result, mathOp: "+" });
                 break;
             case "-":
-                state.mathOp = "-";
+                setState({ ...state, result: state.result, mathOp: "-" });
                 break;
             case "*":
-                state.mathOp = "*";
+                setState({ ...state, result: state.result, mathOp: "*" });
                 break;
             case "/":
-                state.mathOp = "/";
+                setState({ ...state, result: state.result, mathOp: "/" });
                 break;
             default:
                 console.log("No operation selected...");
@@ -154,17 +151,20 @@ const App = () => {
                 });
                 break;
             case "*":
+                console.log(
+                    `${state.result} ${state.mathOp} ${state.secondNumber}`
+                );
                 state.result = mathjs.multiply(
                     state.result,
                     state.secondNumber
                 );
+                console.log(state.result);
                 setState({
                     ...state,
                     result: state.result,
                     secondNumber: state.secondNumber,
                     mathOp: state.mathOp,
                 });
-                console.log(state.result);
                 break;
             case "/":
                 console.log(
@@ -183,7 +183,12 @@ const App = () => {
                 console.log("No operation selected...");
         }
         // actualizar contexto en esta función
-        // setState({...state, result: state.result});
+        setState({
+            ...state,
+            result: state.result,
+            secondNumber: state.secondNumber,
+            mathOp: state.mathOp,
+        });
     };
 
     return (
