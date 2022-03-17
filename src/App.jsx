@@ -34,6 +34,29 @@ const Result = () => {
     }
 };
 
+const useClearHook = (
+    state,
+    setState,
+    callbackSetup,
+    setCallbackSetup,
+    stateRef
+) => {
+    useEffect(() => {
+        if (!callbackSetup) {
+            setCallbackSetup(true);
+            console.log("useEffect: ");
+            //console.log(stateRef.current);
+            setState({
+                ...stateRef.current,
+                result: [""],
+                secondNumber: [""],
+                mathOp: "",
+            });
+        }
+    }, []);
+    console.log(state);
+};
+
 /*
     Generación de la función del componente Clear, para borrar la memoria de la calculadora.
 */
@@ -54,24 +77,13 @@ const App = () => {
 
     const stateRef = useRef(state);
 
-    const useClearHook = () => {
-        useEffect(() => {
-            if (!callbackSetup) {
-                setCallbackSetup(true);
-                console.log("useEffect: ");
-                //console.log(stateRef.current);
-                setState({
-                    ...stateRef.current,
-                    result: [""],
-                    secondNumber: [""],
-                    mathOp: "",
-                });
-            }
-        }, []);
-        console.log(state);
-    };
-
-    const useClear = useClearHook();
+    const useClear = useClearHook(
+        state,
+        setState,
+        callbackSetup,
+        setCallbackSetup,
+        stateRef
+    );
 
     const Clear = (value) => {
         return <button onClick={useClear}>Clear</button>;
