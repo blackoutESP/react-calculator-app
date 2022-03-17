@@ -7,7 +7,6 @@ import React, {
     useState,
     useEffect,
     useRef,
-    useCallback,
 } from "react";
 
 import Title from "./components/Title";
@@ -58,53 +57,6 @@ const Result = () => {
     console.log(state);
 }; */
 
-const useHookWithRefCallback = (
-    state,
-    setState,
-    callbackSetup,
-    setCallbackSetup,
-    stateRef
-) => {
-    setCallbackSetup(true);
-    const setRef = useCallback(
-        (node) => {
-            if (stateRef.current) {
-                // Make sure to cleanup any events/references added to the last instance
-            }
-            /* if (node) {
-                // Check if a node is actually passed. Otherwise node would be null.
-                // You can now do what you need to, addEventListeners, measure, etc.
-                console.log(node);
-            } */
-            // Save a reference to the node
-            stateRef.current = node;
-            console.log(stateRef.current);
-        },
-        [stateRef]
-    );
-    return [setRef];
-};
-
-const Clear = ({ state, setState, stateRef }) => {
-    const [callbackSetup, setCallbackSetup] = useState(false);
-    const useClear = useHookWithRefCallback(
-        state,
-        setState,
-        callbackSetup,
-        setCallbackSetup,
-        stateRef
-    );
-    const useClearHook = useClear;
-    console.log(useClearHook);
-    /* const [ref] = useHookWithRefCallback(
-        state,
-        setState,
-        useCallback,
-        stateRef
-    ); */
-    return <button onClick={() => useClearHook}>Clear</button>;
-};
-
 /*
     Generación de la función del componente Clear, para borrar la memoria de la calculadora.
 */
@@ -121,7 +73,30 @@ const App = () => {
         secondNumber: [""],
     });
 
+    const [callbackSetup, setCallbackSetup] = useState(false);
+
     const stateRef = useRef(state);
+
+    const useHookWithRefCallback = ({state, setState, stateRef}) => {
+        useEffect(() => {
+            console.log("useEffectCallback");
+            console.log(stateRef);
+            setState({
+                ...stateRef,
+                result: stateRef.current.result,
+                secondNumber: stateRef.current.secondNumber,
+                mathOp: stateRef.current.mathOp,
+            });
+        }, []);
+    };
+
+    const useClear = useHookWithRefCallback({ state, setState, stateRef });
+
+    const Clear = ({ state, setState, stateRef }) => {
+        console.log(stateRef);
+        
+        return <button onClick={useClear}>Clear</button>;
+    };
 
     const clickHandlerFunction = (value) => {
         console.log("received: ", value);
@@ -297,7 +272,9 @@ const App = () => {
                     />
                 </div>
                 <div className='functions'>
-                    <Clear value={{ state, setState, stateRef }} />
+                    <Clear
+                        value={{state, setState, stateRef}}
+                    />
                     <RemoveOperator
                         clickHandlerRemoveOperator={clickHandlerRemoveOperator}
                     />
