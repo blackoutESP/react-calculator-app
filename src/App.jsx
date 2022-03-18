@@ -68,9 +68,9 @@ const ResultContext = createContext();
 */
 const App = () => {
     const [state, setState] = useState({
-        mathOp: "",
-        result: [""],
-        secondNumber: [""],
+        mathOp: '',
+        result: [400],
+        secondNumber: [5],
     });
 
     const [callbackSetup, setCallbackSetup] = useState(false);
@@ -81,20 +81,22 @@ const App = () => {
         useEffect(() => {
             console.log("useEffectCallback");
             console.log(stateRef);
+            stateRef.current.mathOp = '';
+            stateRef.current.result = [''];
+            stateRef.current.secondNumber = [''];
             setState({
                 ...stateRef,
                 result: stateRef.current.result,
                 secondNumber: stateRef.current.secondNumber,
                 mathOp: stateRef.current.mathOp,
             });
-        }, []);
+        }, [setState, stateRef]);
     };
 
     const useClear = useHookWithRefCallback({ state, setState, stateRef });
 
     const Clear = ({ state, setState, stateRef }) => {
-        console.log(stateRef);
-        
+        console.log({state});
         return <button onClick={useClear}>Clear</button>;
     };
 
