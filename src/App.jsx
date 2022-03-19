@@ -34,28 +34,36 @@ const Result = () => {
     }
 };
 
-/* const useClearHook = (
-    state,
-    setState,
-    callbackSetup,
-    setCallbackSetup,
-    stateRef
-) => {
+const useHookWithRefCallback = (props) => {
+    console.log(props.value);
     useEffect(() => {
-        if (!callbackSetup) {
-            setCallbackSetup(true);
-            console.log("useEffect: ");
-            //console.log(stateRef.current);
-            setState({
-                ...stateRef.current,
-                result: [""],
-                secondNumber: [""],
-                mathOp: "",
-            });
-        }
+        console.log("useEffectCallback");
+        props.value.stateRef.current = props.value.state;
+        props.value.stateRef.current.result = [""];
+        props.value.stateRef.current.secondNumber = [""];
+        props.value.stateRef.current.mathOp = "";
+        props.value.setState({
+            ...props.value.state,
+            result: props.value.stateRef.current.result,
+            secondNumber: props.value.stateRef.current.secondNumber,
+            mathOp: props.value.stateRef.current.mathOp,
+        });
     }, []);
-    console.log(state);
-}; */
+    console.log(props.value);
+};
+
+
+
+const Clear = (props) => {
+    /* console.log(props);
+    console.log(props.value.state);
+    props.value.stateRef.current = props.value.state;
+    console.log(props.value.stateRef); */
+    const useClear = useHookWithRefCallback(props);
+    return (
+        <button onClick={useClear}>Clear</button>
+    );
+};
 
 /*
     Generación de la función del componente Clear, para borrar la memoria de la calculadora.
@@ -67,36 +75,16 @@ const ResultContext = createContext();
     Generación de la función del componente padre App
 */
 const App = () => {
+
+    let stateRef = useRef();
+
     const [state, setState] = useState({
         mathOp: '',
         result: [400],
         secondNumber: [5],
     });
 
-    const useHookWithRefCallback = ({state, setState}) => {
-        let stateRef = useRef(state);
-        
-        useEffect(() => {
-            console.log("useEffectCallback");
-            stateRef.current = state;
-            stateRef.current.result = [''];
-            stateRef.current.secondNumber = [''];
-            stateRef.current.mathOp = '';
-            setState({
-                ...state,
-                result: stateRef.current.result,
-                secondNumber: stateRef.current.secondNumber,
-                mathOp: stateRef.current.mathOp,
-            });
-            console.log(state);
-        }, []);
-    };
-
-    const useClear = useHookWithRefCallback({ state, setState });
-
-    const Clear = ({ state, setState }) => {
-        return <button onClick={() => console.log('borrando memoria')}>Clear</button>;
-    };
+    const [showState, setShowState] = useState(stateRef.current);
 
     const clickHandlerFunction = (value) => {
         console.log("received: ", value);
@@ -273,7 +261,13 @@ const App = () => {
                 </div>
                 <div className='functions'>
                     <Clear
-                        value={{state, setState}}
+                        value={{
+                            state,
+                            setState,
+                            stateRef,
+                            showState,
+                            setShowState,
+                        }}
                     />
                     <RemoveOperator
                         clickHandlerRemoveOperator={clickHandlerRemoveOperator}
