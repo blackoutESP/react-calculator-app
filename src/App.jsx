@@ -34,37 +34,6 @@ const Result = () => {
     }
 };
 
-const useHookWithRefCallback = (props) => {
-    console.log(props.value);
-    useEffect(() => {
-        console.log("useEffectCallback");
-        props.value.stateRef.current = props.value.state;
-        props.value.stateRef.current.result = [""];
-        props.value.stateRef.current.secondNumber = [""];
-        props.value.stateRef.current.mathOp = "";
-        props.value.setState({
-            ...props.value.state,
-            result: props.value.stateRef.current.result,
-            secondNumber: props.value.stateRef.current.secondNumber,
-            mathOp: props.value.stateRef.current.mathOp,
-        });
-    }, []);
-    console.log(props.value);
-};
-
-
-
-const Clear = (props) => {
-    /* console.log(props);
-    console.log(props.value.state);
-    props.value.stateRef.current = props.value.state;
-    console.log(props.value.stateRef); */
-    const useClear = useHookWithRefCallback(props);
-    return (
-        <button onClick={useClear}>Clear</button>
-    );
-};
-
 /*
     Generación de la función del componente Clear, para borrar la memoria de la calculadora.
 */
@@ -76,15 +45,61 @@ const ResultContext = createContext();
 */
 const App = () => {
 
-    let stateRef = useRef();
-
     const [state, setState] = useState({
         mathOp: '',
         result: [400],
         secondNumber: [5],
     });
 
-    const [showState, setShowState] = useState(stateRef.current);
+    let stateRef = useRef();
+
+    const Clear = (props) => {
+        stateRef = useRef(props.value.state);
+        const [newState, setNewState] = useState(true);
+        if (props.value.state) {
+            setNewState(true);
+        }
+        const useHookWithRefCallback = (
+            props,
+            stateRef,
+            newState,
+            setNewState
+        ) => {
+            useEffect(() => {
+                console.log(newState);
+                console.log(setNewState);
+                console.log("useEffectCallback");
+                stateRef.current = props.value.state;
+                stateRef.current.result = [""];
+                stateRef.current.secondNumber = [""];
+                stateRef.current.mathOp = "";
+                props.value.setState({
+                    ...props.value.state,
+                    result: [""],
+                    secondNumber: [""],
+                    mathOp: "",
+                });
+            }, [props.value, props.value.state, stateRef, newState, setNewState]);
+        };
+
+        useHookWithRefCallback(
+            props,
+            stateRef,
+            newState,
+            setNewState
+        );
+        /* console.log(props);
+        console.log(props.value.state);
+        props.value.stateRef.current = props.value.state;
+        console.log(props.value.stateRef); */
+        /* const useClear = useHookWithRefCallback(
+            props,
+            stateRef,
+            newState,
+            setNewState
+        ); */
+        return <button>Clear</button>;
+    };
 
     const clickHandlerFunction = (value) => {
         console.log("received: ", value);
@@ -264,9 +279,7 @@ const App = () => {
                         value={{
                             state,
                             setState,
-                            stateRef,
-                            showState,
-                            setShowState,
+                            stateRef
                         }}
                     />
                     <RemoveOperator
