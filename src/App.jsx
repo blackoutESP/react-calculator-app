@@ -73,17 +73,17 @@ const App = () => {
         secondNumber: [5],
     });
 
-    const [callbackSetup, setCallbackSetup] = useState(false);
-
-    const stateRef = useRef(state);
-
-    const useHookWithRefCallback = ({state, setState, stateRef}) => {
+    const useHookWithRefCallback = ({state, setState}) => {
+        let stateRef = useRef(state);
+        useEffect(() => {
+          stateRef.current = state;
+        }, [state]);
+        console.log(stateRef);
         useEffect(() => {
             console.log("useEffectCallback");
-            console.log(stateRef);
-            stateRef.current.mathOp = '';
             stateRef.current.result = [''];
             stateRef.current.secondNumber = [''];
+            stateRef.current.mathOp = '';
             setState({
                 ...stateRef,
                 result: stateRef.current.result,
@@ -93,10 +93,9 @@ const App = () => {
         }, [setState, stateRef]);
     };
 
-    const useClear = useHookWithRefCallback({ state, setState, stateRef });
+    const useClear = useHookWithRefCallback({ state, setState });
 
-    const Clear = ({ state, setState, stateRef }) => {
-        console.log({state});
+    const Clear = ({ state, setState }) => {
         return <button onClick={useClear}>Clear</button>;
     };
 
@@ -275,7 +274,7 @@ const App = () => {
                 </div>
                 <div className='functions'>
                     <Clear
-                        value={{state, setState, stateRef}}
+                        value={{state, setState}}
                     />
                     <RemoveOperator
                         clickHandlerRemoveOperator={clickHandlerRemoveOperator}
