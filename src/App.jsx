@@ -75,28 +75,27 @@ const App = () => {
 
     const useHookWithRefCallback = ({state, setState}) => {
         let stateRef = useRef(state);
-        useEffect(() => {
-          stateRef.current = state;
-        }, [state]);
-        console.log(stateRef);
+        
         useEffect(() => {
             console.log("useEffectCallback");
+            stateRef.current = state;
             stateRef.current.result = [''];
             stateRef.current.secondNumber = [''];
             stateRef.current.mathOp = '';
             setState({
-                ...stateRef,
+                ...state,
                 result: stateRef.current.result,
                 secondNumber: stateRef.current.secondNumber,
                 mathOp: stateRef.current.mathOp,
             });
-        }, [setState, stateRef]);
+            console.log(state);
+        }, []);
     };
 
     const useClear = useHookWithRefCallback({ state, setState });
 
     const Clear = ({ state, setState }) => {
-        return <button onClick={useClear}>Clear</button>;
+        return <button onClick={() => console.log('borrando memoria')}>Clear</button>;
     };
 
     const clickHandlerFunction = (value) => {
