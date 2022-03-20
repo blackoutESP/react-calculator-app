@@ -24,14 +24,19 @@ import * as mathjs from "mathjs";
     Generación de la función del componente Result
 */
 const Result = () => {
-    const value = useContext(ResultContext);
+    /* const value = useContext(ResultContext);
     if (!Number.isNaN(value.result[0])) {
         return (
             <div className='result'>
                 <span>{value.result}</span>
             </div>
         );
-    }
+    } */
+    return (
+        <div className='result'>
+            <span>{0}</span>
+        </div>
+    );
 };
 
 /*
@@ -54,50 +59,39 @@ const App = () => {
     let stateRef = useRef();
 
     const Clear = (props) => {
-        stateRef = useRef(props.value.state);
-        const [newState, setNewState] = useState(true);
-        if (props.value.state) {
-            setNewState(true);
-        }
         const useHookWithRefCallback = (
-            props,
-            stateRef,
-            newState,
-            setNewState
+            
         ) => {
+            const { state, setState } = props.value;
+            stateRef.current = useRef(props.value.state);
+            console.log(state);
+            const [updatedState, setUpdatedState] = useState(false);
             useEffect(() => {
-                console.log(newState);
-                console.log(setNewState);
                 console.log("useEffectCallback");
-                stateRef.current = props.value.state;
-                stateRef.current.result = [""];
-                stateRef.current.secondNumber = [""];
-                stateRef.current.mathOp = "";
-                props.value.setState({
-                    ...props.value.state,
-                    result: [""],
-                    secondNumber: [""],
-                    mathOp: "",
-                });
-            }, [props.value, props.value.state, stateRef, newState, setNewState]);
+                console.log(props.value.state);
+                console.log(stateRef.current.current.result);
+                console.log(stateRef.current.current.secondNumber);
+                console.log(stateRef.current.current.mathOp);
+                if (updatedState) {
+                    if (
+                        stateRef.current.current.result === [""] &&
+                        stateRef.current.current.secondNumber === [""] &&
+                        stateRef.current.current.mathOp === "") {
+                            // aquí creo que no necesito escribir nada más...
+                    } else {
+                        setState({
+                            ...state,
+                            result: stateRef.current.current.result,
+                            secondNumber: stateRef.current.current.secondNumber,
+                            mathOp: stateRef.current.current.mathOp,
+                        });
+                        setUpdatedState(false);
+                    }
+                }
+            }, [state, setState, updatedState]);
         };
 
-        useHookWithRefCallback(
-            props,
-            stateRef,
-            newState,
-            setNewState
-        );
-        /* console.log(props);
-        console.log(props.value.state);
-        props.value.stateRef.current = props.value.state;
-        console.log(props.value.stateRef); */
-        /* const useClear = useHookWithRefCallback(
-            props,
-            stateRef,
-            newState,
-            setNewState
-        ); */
+        useHookWithRefCallback(props);
         return <button>Clear</button>;
     };
 
@@ -279,7 +273,7 @@ const App = () => {
                         value={{
                             state,
                             setState,
-                            stateRef
+                            stateRef,
                         }}
                     />
                     <RemoveOperator
@@ -308,7 +302,7 @@ const App = () => {
                 />
                 <Equal
                     symbol={"="}
-                    result={state.result}
+                    result={state}
                     className={"math-operations"}
                     clickHandlerEqual={clickHandlerEqual}
                 />
