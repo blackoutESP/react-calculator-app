@@ -55,7 +55,7 @@ const App = () => {
         result: [400],
         secondNumber: [5],
     });
-
+    
     let stateRef = useRef();
 
     const Clear = (props) => {
@@ -64,14 +64,8 @@ const App = () => {
         ) => {
             const { state, setState } = props.value;
             stateRef.current = useRef(props.value.state);
-            console.log(state);
             const [updatedState, setUpdatedState] = useState(false);
             useEffect(() => {
-                console.log("useEffectCallback");
-                console.log(props.value.state);
-                console.log(stateRef.current.current.result);
-                console.log(stateRef.current.current.secondNumber);
-                console.log(stateRef.current.current.mathOp);
                 if (updatedState) {
                     if (
                         stateRef.current.current.result === [""] &&
@@ -80,10 +74,10 @@ const App = () => {
                             // aquí creo que no necesito escribir nada más...
                     } else {
                         setState({
-                            ...state,
-                            result: stateRef.current.current.result,
-                            secondNumber: stateRef.current.current.secondNumber,
-                            mathOp: stateRef.current.current.mathOp,
+                            ...stateRef.current,
+                            result: [''],
+                            secondNumber: [''],
+                            mathOp: '',
                         });
                         setUpdatedState(false);
                     }
@@ -91,8 +85,12 @@ const App = () => {
             }, [state, setState, updatedState]);
         };
 
-        useHookWithRefCallback(props);
-        return <button>Clear</button>;
+        const useClear = useHookWithRefCallback();
+        return (
+            <button onClick={(useClear, console.log(state))}>
+                Clear
+            </button>
+        );
     };
 
     const clickHandlerFunction = (value) => {
