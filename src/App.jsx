@@ -24,14 +24,19 @@ import * as mathjs from "mathjs";
     Generación de la función del componente Result
 */
 const Result = () => {
-    const value = useContext(ResultContext);
+    /* const value = useContext(ResultContext);
     if (!Number.isNaN(value.result[0])) {
         return (
             <div className='result'>
                 <span>{value.result}</span>
             </div>
         );
-    }
+    } */
+    return (
+        <div className='result'>
+            <span>{0}</span>
+        </div>
+    );
 };
 
 /*
@@ -44,41 +49,50 @@ const ResultContext = createContext();
     Generación de la función del componente padre App
 */
 const App = () => {
+
     const [state, setState] = useState({
-        mathOp: "",
+        mathOp: '',
         result: [400],
         secondNumber: [5],
     });
 
-    const [callbackSetup, setCallbackSetup] = useState(false);
+    let stateRef = useRef();
 
-    const stateRef = useRef(state);
+    const Clear = (props) => {
+        const useHookWithRefCallback = (
+            
+        ) => {
+            const { state, setState } = props.value;
+            stateRef.current = useRef(props.value.state);
+            console.log(state);
+            const [updatedState, setUpdatedState] = useState(false);
+            useEffect(() => {
+                console.log("useEffectCallback");
+                console.log(props.value.state);
+                console.log(stateRef.current.current.result);
+                console.log(stateRef.current.current.secondNumber);
+                console.log(stateRef.current.current.mathOp);
+                if (updatedState) {
+                    if (
+                        stateRef.current.current.result === [""] &&
+                        stateRef.current.current.secondNumber === [""] &&
+                        stateRef.current.current.mathOp === "") {
+                            // aquí creo que no necesito escribir nada más...
+                    } else {
+                        setState({
+                            ...state,
+                            result: stateRef.current.current.result,
+                            secondNumber: stateRef.current.current.secondNumber,
+                            mathOp: stateRef.current.current.mathOp,
+                        });
+                        setUpdatedState(false);
+                    }
+                }
+            }, [state, setState, updatedState]);
+        };
 
-    const useClearHook = () => {
-        useEffect(() => {
-            if (!callbackSetup) {
-                setCallbackSetup(true);
-                console.log("useEffect: ");
-                /* stateRef.current = state;
-                stateRef.current.result = [""];
-                stateRef.current.secondNumber = [""];
-                stateRef.current.mathOp = ""; */
-                console.log(stateRef.current);
-                setState({
-                    ...stateRef.current,
-                    result: [""],
-                    secondNumber: [""],
-                    mathOp: "",
-                });
-            }
-        }, []);
-        console.log(state);
-    };
-
-    const useClear = useClearHook();
-
-    const Clear = (value) => {
-        return <button onClick={useClear}>Clear</button>;
+        useHookWithRefCallback(props);
+        return <button>Clear</button>;
     };
 
     const clickHandlerFunction = (value) => {
@@ -94,6 +108,7 @@ const App = () => {
             if (!Number.isNaN(value)) {
                 setState({
                     ...state,
+                    result: state.result,
                     secondNumber: Number([state.secondNumber, value].join("")),
                 });
             }
@@ -106,16 +121,16 @@ const App = () => {
         console.log("op: ", operation);
         switch (operation) {
             case "+":
-                state.mathOp = "+";
+                setState({ ...state, result: state.result, mathOp: "+" });
                 break;
             case "-":
-                state.mathOp = "-";
+                setState({ ...state, result: state.result, mathOp: "-" });
                 break;
             case "*":
-                state.mathOp = "*";
+                setState({ ...state, result: state.result, mathOp: "*" });
                 break;
             case "/":
-                state.mathOp = "/";
+                setState({ ...state, result: state.result, mathOp: "/" });
                 break;
             default:
                 console.log("No operation selected...");
@@ -154,17 +169,20 @@ const App = () => {
                 });
                 break;
             case "*":
+                console.log(
+                    `${state.result} ${state.mathOp} ${state.secondNumber}`
+                );
                 state.result = mathjs.multiply(
                     state.result,
                     state.secondNumber
                 );
+                console.log(state.result);
                 setState({
                     ...state,
                     result: state.result,
                     secondNumber: state.secondNumber,
                     mathOp: state.mathOp,
                 });
-                console.log(state.result);
                 break;
             case "/":
                 console.log(
@@ -183,7 +201,12 @@ const App = () => {
                 console.log("No operation selected...");
         }
         // actualizar contexto en esta función
-        // setState({...state, result: state.result});
+        setState({
+            ...state,
+            result: state.result,
+            secondNumber: state.secondNumber,
+            mathOp: state.mathOp,
+        });
     };
 
     return (
@@ -246,7 +269,13 @@ const App = () => {
                     />
                 </div>
                 <div className='functions'>
-                    <Clear value={{ state, setState }} />
+                    <Clear
+                        value={{
+                            state,
+                            setState,
+                            stateRef,
+                        }}
+                    />
                     <RemoveOperator
                         clickHandlerRemoveOperator={clickHandlerRemoveOperator}
                     />
@@ -273,7 +302,7 @@ const App = () => {
                 />
                 <Equal
                     symbol={"="}
-                    result={state.result}
+                    result={state}
                     className={"math-operations"}
                     clickHandlerEqual={clickHandlerEqual}
                 />
