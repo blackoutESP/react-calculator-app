@@ -4,9 +4,7 @@
 import React, {
     createContext,
     useContext,
-    useState,
-    useEffect,
-    useRef,
+    useState
 } from "react";
 
 import Title from "./components/Title";
@@ -24,17 +22,9 @@ import * as mathjs from "mathjs";
     Generación de la función del componente Result
 */
 const Result = () => {
-    /* const value = useContext(ResultContext);
-    if (!Number.isNaN(value.result[0])) {
-        return (
-            <div className='result'>
-                <span>{value.result}</span>
-            </div>
-        );
-    } */
     const { value, setValue } = useContext(ResultContext);
     return (
-        <div className='result' onClick={() => console.log(value)}>
+        <div className='result'>
             <span>{value}</span>
         </div>
     );
@@ -57,7 +47,7 @@ const Clear = ({ setState, setUpdatedState }) => {
         setUpdatedState(false);
         setValue(0)
     }
-    return <button onClick={useClear}></button>
+    return <button onClick={useClear}>Clear</button>
 };
 
 /*
@@ -75,31 +65,6 @@ const App = () => {
 
     const [updatedState, setUpdatedState] = useState(false);
     const [value, setValue] = useState(0);
-
-    /* const Clear = (props) => {
-        const useHookWithRefCallback = (
-            
-        ) => {
-            stateRef.current = useRef(props.value.state);
-            useEffect(() => {
-                if (updatedState) {
-                    console.log("updating...");
-                    stateRef.current.current.result = [""];
-                    stateRef.current.current.secondNumber = [""];
-                    stateRef.current.current.mathOp = "";
-                    setState((state) => ({
-                        result: stateRef.current.current.result,
-                        secondNumber: stateRef.current.current.secondNumber,
-                        mathOp: stateRef.current.current.mathOp,
-                    }));
-                    setUpdatedState(false);
-                }
-            }, []);
-        };
-
-        const useClear = useHookWithRefCallback();
-        return <button onClick={useClear}>Clear</button>;
-    }; */
 
     const clickHandlerFunction = (value) => {
         if (state.mathOp === "") {
@@ -188,7 +153,6 @@ const App = () => {
             case "+":
                 if (!updatedState) {
                     state.result = mathjs.add(state.result, state.secondNumber);
-                    console.log(state.result);
                     setState((state) => ({
                         result: state.result,
                         secondNumber: state.secondNumber,
@@ -206,7 +170,6 @@ const App = () => {
                         state.result,
                         state.secondNumber
                     );
-                    console.log(state.result);
                     setState((state) => ({
                         result: state.result,
                         secondNumber: state.secondNumber,
@@ -224,7 +187,6 @@ const App = () => {
                         state.result,
                         state.secondNumber
                     );
-                    console.log(state.result);
                     setState((state) => ({
                         result: state.result,
                         secondNumber: state.secondNumber,
@@ -242,7 +204,6 @@ const App = () => {
                         state.result,
                         state.secondNumber
                     );
-                    console.log(state.result);
                     setState((state) => ({
                         result: state.result,
                         secondNumber: state.secondNumber,
