@@ -52,7 +52,7 @@ const App = () => {
 
     const [state, setState] = useState({
         mathOp: '',
-        result: [''],
+        result: [400],
         secondNumber: [''],
     });
     
@@ -72,6 +72,7 @@ const App = () => {
                         stateRef.current.current.secondNumber === [''] &&
                         stateRef.current.current.mathOp === '') {
                             // aquí creo que no necesito escribir nada más...
+                            setUpdatedState(false);
                     } else {
                         console.log("updating...");
                         stateRef.current.current.result = [""];
@@ -135,6 +136,7 @@ const App = () => {
     };
 
     const clickHandlerEqual = (state) => {
+        console.log(state);
         switch (state.mathOp) {
             case "+":
                 console.log(
@@ -169,17 +171,16 @@ const App = () => {
                 console.log(
                     `${state.result} ${state.mathOp} ${state.secondNumber}`
                 );
-                state.result = mathjs.multiply(
+                /* state.result = mathjs.multiply(
                     state.result,
                     state.secondNumber
-                );
-                console.log(state.result);
-                setState((state) => ({
+                ); */
+                /* setState((state) => ({
                     ...state,
                     result: state.result,
                     secondNumber: state.secondNumber,
                     mathOp: state.mathOp
-                }));
+                })); */
                 break;
             case "/":
                 console.log(
@@ -198,12 +199,6 @@ const App = () => {
                 console.log("No operation selected...");
         }
         // actualizar contexto en esta función
-        setState({
-            ...state,
-            result: state.result,
-            secondNumber: state.secondNumber,
-            mathOp: state.mathOp,
-        });
     };
 
     return (
@@ -301,7 +296,6 @@ const App = () => {
                     symbol={"="}
                     className={"math-operations"}
                     clickHandlerEqual={clickHandlerEqual}
-                    value={state}
                 />
             </div>
         </main>
