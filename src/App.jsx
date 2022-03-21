@@ -3,6 +3,7 @@
 */
 import React, {
     createContext,
+    useContext,
     useState,
     useEffect,
     useRef,
@@ -31,9 +32,11 @@ const Result = () => {
             </div>
         );
     } */
+    const { value, setValue } = useContext(ResultContext);
+    console.log(value);
     return (
-        <div className='result'>
-            <span>{0}</span>
+        <div className='result' onClick={() => console.log(value)}>
+            <span>{value}</span>
         </div>
     );
 };
@@ -42,11 +45,13 @@ const Result = () => {
     Generación de la función del componente Clear, para borrar la memoria de la calculadora.
 */
 
-const ResultContext = createContext();
+
 
 /*
     Generación de la función del componente padre App
 */
+export const ResultContext = createContext();
+
 const App = () => {
 
     const [state, setState] = useState({
@@ -56,6 +61,7 @@ const App = () => {
     });
 
     const [updatedState, setUpdatedState] = useState(false);
+    const [value, setValue] = useState(0);
     
     let stateRef = useRef();
 
@@ -76,14 +82,12 @@ const App = () => {
                         mathOp: stateRef.current.current.mathOp,
                     }));
                     setUpdatedState(false);
-                } else {
-                    // setUpdatedState(true);
                 }
             }, []);
         };
 
         const useClear = useHookWithRefCallback();
-        return <button onClick={useClear}>Clear</button>;
+        return <button onClick={() => useClear}>Clear</button>;
     };
 
     const clickHandlerFunction = (value) => {
@@ -139,24 +143,28 @@ const App = () => {
                 setState((state) => ({
                     result: state.result,
                     mathOp: "+",
+                    secondNumber: ['']
                 }));
                 break;
             case "-":
                 setState((state) => ({
                     result: state.result,
                     mathOp: "-",
+                    secondNumber: ['']
                 }));
                 break;
             case "*":
                 setState((state) => ({
                     result: state.result,
                     mathOp: "*",
+                    secondNumber: [""]
                 }));
                 break;
             case "/":
                 setState((state) => ({
                     result: state.result,
                     mathOp: "/",
+                    secondNumber: [""]
                 }));
                 break;
             default:
@@ -170,12 +178,13 @@ const App = () => {
                 if (!updatedState) {
                     state.result = mathjs.add(state.result, state.secondNumber);
                     console.log(state.result);
-                    /* setState((state) => ({
+                    setState((state) => ({
                         result: state.result,
-                        secondNumber: [""],
+                        secondNumber: state.secondNumber,
                         mathOp: "",
                     }));
-                    setUpdatedState(true); */
+                    setUpdatedState(true);
+                    setValue(state.result);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -187,12 +196,13 @@ const App = () => {
                         state.secondNumber
                     );
                     console.log(state.result);
-                    /* setState((state) => ({
+                    setState((state) => ({
                         result: state.result,
-                        secondNumber: [""],
+                        secondNumber: state.secondNumber,
                         mathOp: "",
                     }));
-                    setUpdatedState(true); */
+                    setUpdatedState(true);
+                    setValue(state.result);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -204,12 +214,13 @@ const App = () => {
                         state.secondNumber
                     );
                     console.log(state.result);
-                    /* setState((state) => ({
+                    setState((state) => ({
                         result: state.result,
-                        secondNumber: [""],
+                        secondNumber: state.secondNumber,
                         mathOp: "",
                     }));
-                    setUpdatedState(true); */
+                    setUpdatedState(true);
+                    setValue(state.result);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -221,12 +232,13 @@ const App = () => {
                         state.secondNumber
                     );
                     console.log(state.result);
-                    /* setState((state) => ({
+                    setState((state) => ({
                         result: state.result,
-                        secondNumber: [""],
+                        secondNumber: state.secondNumber,
                         mathOp: "",
                     }));
-                    setUpdatedState(true); */
+                    setUpdatedState(true);
+                    setValue(state.result);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -240,7 +252,7 @@ const App = () => {
         <main className='container'>
             <Title />
             <div className='react-calculator'>
-                <ResultContext.Provider value={state}>
+                <ResultContext.Provider value={{value, setValue}}>
                     <Result />
                 </ResultContext.Provider>
                 <div className='numbers'>
@@ -300,7 +312,7 @@ const App = () => {
                         value={{
                             state,
                             setState,
-                            stateRef,
+                            stateRef
                         }}
                     />
                     <RemoveOperator
@@ -331,7 +343,6 @@ const App = () => {
                     symbol={"="}
                     className={"math-operations"}
                     clickHandlerEqual={clickHandlerEqual}
-                    value={state}
                 />
             </div>
         </main>
