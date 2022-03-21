@@ -33,7 +33,6 @@ const Result = () => {
         );
     } */
     const { value, setValue } = useContext(ResultContext);
-    console.log(value);
     return (
         <div className='result' onClick={() => console.log(value)}>
             <span>{value}</span>
@@ -45,7 +44,21 @@ const Result = () => {
     Generación de la función del componente Clear, para borrar la memoria de la calculadora.
 */
 
+const Clear = ({ setState, setUpdatedState }) => {
 
+    const { setValue } = useContext(ResultContext);
+
+    const useClear = () => {
+        setState(() => ({
+            mathOp: '',
+            result: [''],
+            secondNumber: [''],
+        }));
+        setUpdatedState(false);
+        setValue(0)
+    }
+    return <button onClick={useClear}></button>
+};
 
 /*
     Generación de la función del componente padre App
@@ -62,10 +75,8 @@ const App = () => {
 
     const [updatedState, setUpdatedState] = useState(false);
     const [value, setValue] = useState(0);
-    
-    let stateRef = useRef();
 
-    const Clear = (props) => {
+    /* const Clear = (props) => {
         const useHookWithRefCallback = (
             
         ) => {
@@ -87,8 +98,8 @@ const App = () => {
         };
 
         const useClear = useHookWithRefCallback();
-        return <button onClick={() => useClear}>Clear</button>;
-    };
+        return <button onClick={useClear}>Clear</button>;
+    }; */
 
     const clickHandlerFunction = (value) => {
         if (state.mathOp === "") {
@@ -172,7 +183,7 @@ const App = () => {
         }
     };
 
-    const clickHandlerEqual = (state) => {
+    const clickHandlerEqual = () => {
         switch (state.mathOp) {
             case "+":
                 if (!updatedState) {
@@ -251,100 +262,99 @@ const App = () => {
     return (
         <main className='container'>
             <Title />
-            <div className='react-calculator'>
-                <ResultContext.Provider value={{value, setValue}}>
+            <ResultContext.Provider value={{ value, setValue }}>
+                <div className='react-calculator'>
                     <Result />
-                </ResultContext.Provider>
-                <div className='numbers'>
-                    <Button
-                        value={1}
-                        className={"numbers"}
-                        clickHandler={clickHandlerFunction}
+                    <div className='numbers'>
+                        <Button
+                            value={1}
+                            className={"numbers"}
+                            clickHandler={clickHandlerFunction}
+                        />
+                        <Button
+                            value={2}
+                            className={"numbers"}
+                            clickHandler={clickHandlerFunction}
+                        />
+                        <Button
+                            value={3}
+                            className={"numbers"}
+                            clickHandler={clickHandlerFunction}
+                        />
+                        <Button
+                            value={4}
+                            className={"numbers"}
+                            clickHandler={clickHandlerFunction}
+                        />
+                        <Button
+                            value={5}
+                            className={"numbers"}
+                            clickHandler={clickHandlerFunction}
+                        />
+                        <Button
+                            value={6}
+                            className={"numbers"}
+                            clickHandler={clickHandlerFunction}
+                        />
+                        <Button
+                            value={7}
+                            className={"numbers"}
+                            clickHandler={clickHandlerFunction}
+                        />
+                        <Button
+                            value={8}
+                            className={"numbers"}
+                            clickHandler={clickHandlerFunction}
+                        />
+                        <Button
+                            value={9}
+                            className={"numbers"}
+                            clickHandler={clickHandlerFunction}
+                        />
+                        <Button
+                            value={0}
+                            className={"numbers"}
+                            clickHandler={clickHandlerFunction}
+                        />
+                    </div>
+                    <div className='functions'>
+                        <Clear
+                            setState={setState}
+                            setUpdatedState={setUpdatedState}
+                        />
+                        <RemoveOperator
+                            clickHandlerRemoveOperator={
+                                clickHandlerRemoveOperator
+                            }
+                        />
+                    </div>
+                    <MathOperations
+                        operation={"+"}
+                        className={"math-operations"}
+                        clickHandlerOp={clickHandlerOp}
                     />
-                    <Button
-                        value={2}
-                        className={"numbers"}
-                        clickHandler={clickHandlerFunction}
+                    <MathOperations
+                        operation={"-"}
+                        className={"math-operations"}
+                        clickHandlerOp={clickHandlerOp}
                     />
-                    <Button
-                        value={3}
-                        className={"numbers"}
-                        clickHandler={clickHandlerFunction}
+                    <MathOperations
+                        operation={"*"}
+                        className={"math-operations"}
+                        clickHandlerOp={clickHandlerOp}
                     />
-                    <Button
-                        value={4}
-                        className={"numbers"}
-                        clickHandler={clickHandlerFunction}
+                    <MathOperations
+                        operation={"/"}
+                        className={"math-operations"}
+                        clickHandlerOp={clickHandlerOp}
                     />
-                    <Button
-                        value={5}
-                        className={"numbers"}
-                        clickHandler={clickHandlerFunction}
-                    />
-                    <Button
-                        value={6}
-                        className={"numbers"}
-                        clickHandler={clickHandlerFunction}
-                    />
-                    <Button
-                        value={7}
-                        className={"numbers"}
-                        clickHandler={clickHandlerFunction}
-                    />
-                    <Button
-                        value={8}
-                        className={"numbers"}
-                        clickHandler={clickHandlerFunction}
-                    />
-                    <Button
-                        value={9}
-                        className={"numbers"}
-                        clickHandler={clickHandlerFunction}
-                    />
-                    <Button
-                        value={0}
-                        className={"numbers"}
-                        clickHandler={clickHandlerFunction}
+                    <Equal
+                        symbol={"="}
+                        className={"math-operations"}
+                        clickHandlerEqual={clickHandlerEqual}
                     />
                 </div>
-                <div className='functions'>
-                    <Clear
-                        value={{
-                            state,
-                            setState,
-                            stateRef
-                        }}
-                    />
-                    <RemoveOperator
-                        clickHandlerRemoveOperator={clickHandlerRemoveOperator}
-                    />
-                </div>
-                <MathOperations
-                    operation={"+"}
-                    className={"math-operations"}
-                    clickHandlerOp={clickHandlerOp}
-                />
-                <MathOperations
-                    operation={"-"}
-                    className={"math-operations"}
-                    clickHandlerOp={clickHandlerOp}
-                />
-                <MathOperations
-                    operation={"*"}
-                    className={"math-operations"}
-                    clickHandlerOp={clickHandlerOp}
-                />
-                <MathOperations
-                    operation={"/"}
-                    className={"math-operations"}
-                    clickHandlerOp={clickHandlerOp}
-                />
-                <Equal
-                    symbol={"="}
-                    className={"math-operations"}
-                    clickHandlerEqual={clickHandlerEqual}
-                />
-            </div>
+            </ResultContext.Provider>
         </main>
     );
 };

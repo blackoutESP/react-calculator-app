@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { ResultContext } from '../App';
 
 const Equal = ({ symbol, className, clickHandlerEqual}) => {
-    const { value } = useContext(ResultContext);
     return (
         <div className={className}>
-            <button onClick={() => console.log(value)}>{symbol}</button>
+            <button onClick={clickHandlerEqual}>{symbol}</button>
         </div>
     );
 };
