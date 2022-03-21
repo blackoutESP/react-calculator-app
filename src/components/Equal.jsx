@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Equal = ({ symbol, className, clickHandlerEqual, state }) => (
     (
         <div className={ className }>
-            <button onClick={() => clickHandlerEqual(state)}>{ symbol }</button>
+            <button onClick={() => console.log(state)}>{ symbol }</button>
         </div>
     )
 );

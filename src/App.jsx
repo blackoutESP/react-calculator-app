@@ -3,7 +3,6 @@
 */
 import React, {
     createContext,
-    useContext,
     useState,
     useEffect,
     useRef,
@@ -53,7 +52,7 @@ const App = () => {
     const [state, setState] = useState({
         mathOp: '',
         result: [400],
-        secondNumber: [''],
+        secondNumber: [5],
     });
     
     let stateRef = useRef();
@@ -62,31 +61,27 @@ const App = () => {
         const useHookWithRefCallback = (
             
         ) => {
-            const { state, setState } = props.value;
+            // const { state, setState } = props.value;
             stateRef.current = useRef(props.value.state);
             const [updatedState, setUpdatedState] = useState(false);
+            console.log(stateRef.current);
+            console.log(updatedState);
             useEffect(() => {
-                if (updatedState) {
-                    if (
-                        stateRef.current.current.result === [''] &&
-                        stateRef.current.current.secondNumber === [''] &&
-                        stateRef.current.current.mathOp === '') {
-                            // aquí creo que no necesito escribir nada más...
-                            setUpdatedState(false);
-                    } else {
-                        console.log("updating...");
-                        stateRef.current.current.result = [""];
-                        stateRef.current.current.secondNumber = [""];
-                        stateRef.current.current.mathOp = '';
-                        setState((state) => ({
-                            result: stateRef.current.current.result,
-                            secondNumber: stateRef.current.current.secondNumber,
-                            mathOp: stateRef.current.current.mathOp,
-                        }));
-                        setUpdatedState(true);
-                    }
+                if (!updatedState) {
+                    console.log("updating...");
+                    /* stateRef.current.current.result = [""];
+                    stateRef.current.current.secondNumber = [""];
+                    stateRef.current.current.mathOp = "";
+                    setState((state) => ({
+                        result: stateRef.current.current.result,
+                        secondNumber: stateRef.current.current.secondNumber,
+                        mathOp: stateRef.current.current.mathOp,
+                    })); */
+                    setUpdatedState(false);
+                } else {
+                    setUpdatedState(true);
                 }
-            }, [state, setState, updatedState]);
+            }, [updatedState, setUpdatedState]);
         };
 
         const useClear = useHookWithRefCallback();
@@ -97,18 +92,18 @@ const App = () => {
         console.log("received: ", value);
         if (state.mathOp === "") {
             if (!Number.isNaN(value)) {
-                setState({
+                /* setState({
                     ...state,
                     result: Number([state.result, value].join("")),
-                });
+                }); */
             }
         } else if (state.mathOp !== "") {
             if (!Number.isNaN(value)) {
-                setState({
+                /* setState({
                     ...state,
                     result: state.result,
                     secondNumber: Number([state.secondNumber, value].join("")),
-                });
+                }); */
             }
         }
     };
@@ -119,16 +114,16 @@ const App = () => {
         console.log("op: ", operation);
         switch (operation) {
             case "+":
-                setState({ ...state, result: state.result, mathOp: "+" });
+                //setState({ ...state, result: state.result, mathOp: "+" });
                 break;
             case "-":
-                setState({ ...state, result: state.result, mathOp: "-" });
+                //setState({ ...state, result: state.result, mathOp: "-" });
                 break;
             case "*":
-                setState({ ...state, result: state.result, mathOp: "*" });
+                //setState({ ...state, result: state.result, mathOp: "*" });
                 break;
             case "/":
-                setState({ ...state, result: state.result, mathOp: "/" });
+                //setState({ ...state, result: state.result, mathOp: "/" });
                 break;
             default:
                 console.log("No operation selected...");
