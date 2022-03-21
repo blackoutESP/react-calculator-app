@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Equal = ({ symbol, className, state, clickHandlerEqual }) => (
+const Equal = ({ symbol, className, clickHandlerEqual, state }) => (
     (
         <div className={ className }>
-            <button onClick={() => clickHandlerEqual(0)}>{ symbol }</button>
+            <button onClick={() => console.log(state)}>{ symbol }</button>
         </div>
     )
 );

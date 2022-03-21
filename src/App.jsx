@@ -3,7 +3,6 @@
 */
 import React, {
     createContext,
-    useContext,
     useState,
     useEffect,
     useRef,
@@ -56,61 +55,62 @@ const App = () => {
         secondNumber: [5],
     });
 
+    const [updatedState, setUpdatedState] = useState(false);
+    
     let stateRef = useRef();
 
     const Clear = (props) => {
         const useHookWithRefCallback = (
             
         ) => {
-            const { state, setState } = props.value;
             stateRef.current = useRef(props.value.state);
-            console.log(state);
-            const [updatedState, setUpdatedState] = useState(false);
             useEffect(() => {
-                console.log("useEffectCallback");
-                console.log(props.value.state);
-                console.log(stateRef.current.current.result);
-                console.log(stateRef.current.current.secondNumber);
-                console.log(stateRef.current.current.mathOp);
                 if (updatedState) {
-                    if (
-                        stateRef.current.current.result === [""] &&
-                        stateRef.current.current.secondNumber === [""] &&
-                        stateRef.current.current.mathOp === "") {
-                            // aquí creo que no necesito escribir nada más...
-                    } else {
-                        setState({
-                            ...state,
-                            result: stateRef.current.current.result,
-                            secondNumber: stateRef.current.current.secondNumber,
-                            mathOp: stateRef.current.current.mathOp,
-                        });
-                        setUpdatedState(false);
-                    }
+                    console.log("updating...");
+                    stateRef.current.current.result = [""];
+                    stateRef.current.current.secondNumber = [""];
+                    stateRef.current.current.mathOp = "";
+                    setState((state) => ({
+                        result: stateRef.current.current.result,
+                        secondNumber: stateRef.current.current.secondNumber,
+                        mathOp: stateRef.current.current.mathOp,
+                    }));
+                    setUpdatedState(false);
+                } else {
+                    // setUpdatedState(true);
                 }
-            }, [state, setState, updatedState]);
+            }, []);
         };
 
-        useHookWithRefCallback(props);
-        return <button>Clear</button>;
+        const useClear = useHookWithRefCallback();
+        return <button onClick={useClear}>Clear</button>;
     };
 
     const clickHandlerFunction = (value) => {
-        console.log("received: ", value);
         if (state.mathOp === "") {
-            if (!Number.isNaN(value)) {
-                setState({
-                    ...state,
-                    result: Number([state.result, value].join("")),
-                });
+            if (!updatedState) {
+                if (!Number.isNaN(value)) {
+                    setState((state) => ({
+                        result: Number([state.result, value].join("")),
+                    }));
+                    setUpdatedState(true);
+                } else {
+                    // setUpdatedState(true);
+                }
             }
         } else if (state.mathOp !== "") {
-            if (!Number.isNaN(value)) {
-                setState({
-                    ...state,
-                    result: state.result,
-                    secondNumber: Number([state.secondNumber, value].join("")),
-                });
+            if (!updatedState) {
+                if (!Number.isNaN(value)) {
+                    setState((state) => ({
+                        result: Number([state.result, value].join("")),
+                        secondNumber: Number(
+                            [state.secondNumber, value].join("")
+                        ),
+                    }));
+                    setUpdatedState(true);
+                } else {
+                    // setUpdatedState(true);
+                }
             }
         }
     };
@@ -118,95 +118,122 @@ const App = () => {
     const clickHandlerRemoveOperator = () => {};
 
     const clickHandlerOp = (operation) => {
-        console.log("op: ", operation);
         switch (operation) {
             case "+":
-                setState({ ...state, result: state.result, mathOp: "+" });
+                if (!updatedState) {
+                    setState((state) => ({
+                        result: state.result,
+                        mathOp: "+",
+                    }));
+                    setUpdatedState(true);
+                } else {
+                    // setUpdatedState(true);
+                }
                 break;
             case "-":
-                setState({ ...state, result: state.result, mathOp: "-" });
+                if (!updatedState) {
+                    setState((state) => ({
+                        result: state.result,
+                        mathOp: "-",
+                    }));
+                    setUpdatedState(true);
+                } else {
+                    // setUpdatedState(true);
+                }
                 break;
             case "*":
-                setState({ ...state, result: state.result, mathOp: "*" });
+                if (!updatedState) {
+                    setState((state) => ({
+                        result: state.result,
+                        mathOp: "*",
+                    }));
+                    setUpdatedState(true);
+                } else {
+                    // setUpdatedState(true);
+                }
                 break;
             case "/":
-                setState({ ...state, result: state.result, mathOp: "/" });
+                if (!updatedState) {
+                    setState((state) => ({
+                        result: state.result,
+                        mathOp: "/",
+                    }));
+                    setUpdatedState(true);
+                } else {
+                    // setUpdatedState(true);
+                }
                 break;
             default:
-                console.log("No operation selected...");
+                console.log(new Error("No operation selected..."));
         }
     };
 
-    const clickHandlerEqual = () => {
+    const clickHandlerEqual = (state) => {
         switch (state.mathOp) {
             case "+":
-                console.log(
-                    `${state.result} ${state.mathOp} ${state.secondNumber}`
-                );
-                state.result = mathjs.add(state.result, state.secondNumber);
-                console.log(state.result);
-                setState({
-                    ...state,
-                    result: state.result,
-                    secondNumber: state.secondNumber,
-                    mathOp: state.mathOp,
-                });
+                if (!updatedState) {
+                    state.result = mathjs.add(state.result, state.secondNumber);
+                    setState((state) => ({
+                        result: state.result,
+                        secondNumber: [""],
+                        mathOp: "",
+                    }));
+                    setUpdatedState(true);
+                } else {
+                    // setUpdatedState(true);
+                }
                 break;
             case "-":
-                console.log(
-                    `${state.result} ${state.mathOp} ${state.secondNumber}`
-                );
-                state.result = mathjs.subtract(
-                    state.result,
-                    state.secondNumber
-                );
-                console.log(state.result);
-                setState({
-                    ...state,
-                    result: state.result,
-                    secondNumber: state.secondNumber,
-                    mathOp: state.mathOp,
-                });
+                if (!updatedState) {
+                    state.result = mathjs.subtract(
+                        state.result,
+                        state.secondNumber
+                    );
+                    setState((state) => ({
+                        result: state.result,
+                        secondNumber: [""],
+                        mathOp: "",
+                    }));
+                    setUpdatedState(true);
+                } else {
+                    // setUpdatedState(true);
+                }
                 break;
             case "*":
-                console.log(
-                    `${state.result} ${state.mathOp} ${state.secondNumber}`
-                );
-                state.result = mathjs.multiply(
-                    state.result,
-                    state.secondNumber
-                );
-                console.log(state.result);
-                setState({
-                    ...state,
-                    result: state.result,
-                    secondNumber: state.secondNumber,
-                    mathOp: state.mathOp,
-                });
+                if (!updatedState) {
+                    state.result = mathjs.multiply(
+                        state.result,
+                        state.secondNumber
+                    );
+                    setState((state) => ({
+                        result: state.result,
+                        secondNumber: [""],
+                        mathOp: "",
+                    }));
+                    setUpdatedState(true);
+                } else {
+                    // setUpdatedState(true);
+                }
                 break;
             case "/":
-                console.log(
-                    `${state.result} ${state.mathOp} ${state.secondNumber}`
-                );
-                state.result = mathjs.divide(state.result, state.secondNumber);
-                console.log(state.result);
-                setState({
-                    ...state,
-                    result: state.result,
-                    secondNumber: state.secondNumber,
-                    mathOp: state.mathOp,
-                });
+                if (!updatedState) {
+                    state.result = mathjs.divide(
+                        state.result,
+                        state.secondNumber
+                    );
+                    setState((state) => ({
+                        result: state.result,
+                        secondNumber: [""],
+                        mathOp: "",
+                    }));
+                    setUpdatedState(true);
+                } else {
+                    // setUpdatedState(true);
+                }
                 break;
             default:
-                console.log("No operation selected...");
+                console.log(new Error("Unknown clickHandlerEqual handler function error..."));
         }
-        // actualizar contexto en esta función
-        setState({
-            ...state,
-            result: state.result,
-            secondNumber: state.secondNumber,
-            mathOp: state.mathOp,
-        });
     };
 
     return (
@@ -302,7 +329,6 @@ const App = () => {
                 />
                 <Equal
                     symbol={"="}
-                    result={state}
                     className={"math-operations"}
                     clickHandlerEqual={clickHandlerEqual}
                 />
