@@ -93,7 +93,7 @@ const App = () => {
                     setState((state) => ({
                         result: Number([state.result, value].join("")),
                     }));
-                    setUpdatedState(true);
+                    setUpdatedState(false);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -107,7 +107,7 @@ const App = () => {
                             [state.secondNumber, value].join("")
                         ),
                     }));
-                    setUpdatedState(true);
+                    setUpdatedState(false);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -125,7 +125,7 @@ const App = () => {
                         result: state.result,
                         mathOp: "+",
                     }));
-                    setUpdatedState(true);
+                    setUpdatedState(false);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -136,7 +136,7 @@ const App = () => {
                         result: state.result,
                         mathOp: "-",
                     }));
-                    setUpdatedState(true);
+                    setUpdatedState(false);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -147,7 +147,7 @@ const App = () => {
                         result: state.result,
                         mathOp: "*",
                     }));
-                    setUpdatedState(true);
+                    setUpdatedState(false);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -158,7 +158,7 @@ const App = () => {
                         result: state.result,
                         mathOp: "/",
                     }));
-                    setUpdatedState(true);
+                    setUpdatedState(false);
                 } else {
                     // setUpdatedState(true);
                 }
