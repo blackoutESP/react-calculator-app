@@ -51,33 +51,127 @@ const Clear = ({ setState, setUpdatedState }) => {
 };
 
 /*
-    Generación de la función del componente padre App
+    clickHanlderOp 
 */
-export const ResultContext = createContext();
+const clickHandlerOp = (state, operation) => {
+    console.log("clickHandlerOp");
+
+    const useClickHandlerOp = () => {
+        const { setValue, setState } = useContext(ResultContext);
+        switch ([operation && state]) {
+            case [
+                (state.result === [""] &&
+                    operation === "+" &&
+                    state.secondNumber === [""]) ||
+                    (state.secondNumber === [""] && operation === "+"),
+            ]:
+                console.log("plus clickHandlerOp");
+                setState((state) => ({
+                    result: ["-"],
+                    mathOp: "+",
+                    secondNumber: [""],
+                }));
+                setUpdatedState(false);
+                setValue(0);
+                break;
+            case [
+                (state.result === [""] &&
+                    operation === "-" &&
+                    state.secondNumber === [""]) ||
+                    (state.secondNumber === [""] && operation === "-"),
+            ]:
+                console.log("numero negativo...");
+                console.log(state);
+                setState((state) => ({
+                    result: ["-"],
+                    mathOp: "-",
+                    secondNumber: [""],
+                }));
+                setUpdatedState(false);
+                setValue(0);
+                break;
+            case [
+                (state.result === [""] &&
+                    operation === "*" &&
+                    state.secondNumber === [""]) ||
+                    (state.secondNumber === [""] && operation === "*"),
+            ]:
+                setState((state) => ({
+                    result: ["-"],
+                    mathOp: "*",
+                    secondNumber: [""],
+                }));
+                setUpdatedState(false);
+                setValue(0);
+                break;
+            case [
+                (state.result === [""] &&
+                    operation === "/" &&
+                    state.secondNumber === [""]) ||
+                    (state.secondNumber === [""] && operation === "/"),
+            ]:
+                setState((state) => ({
+                    result: ["-"],
+                    mathOp: "/",
+                    secondNumber: [""],
+                }));
+                setUpdatedState(false);
+                setValue(0);
+                break;
+            default:
+                console.log(new Error("No operation selected..."));
+        }
+    };
+};
 
 const AppState = ({ state, setUpdatedState }) => {
     const { setValue, setState } = useContext(ResultContext);
     const { mathOpState, setMathOpState } = useContext(ResultContext);
 
     const useCalculatorState = (mathOpState) => {
-        /* setState(() => ({
-            mathOp: "",
-            result: [""],
-            secondNumber: [""],
-        }));
-        setUpdatedState(false);
-        setValue(0); */
         setState((mathOpState) => ({
-            result: [''],
-            mathOp: '',
-            secondNumber: ['']
+            result: [""],
+            mathOp: "",
+            secondNumber: [""],
         }));
         setUpdatedState(false);
         setValue(0);
     };
 
     useCalculatorState(mathOpState);
-}; 
+
+    return (
+        <div>
+            <MathOperations
+                operation={"+"}
+                className={"math-operations"}
+                clickHandlerOp={clickHandlerOp}
+            />
+            <MathOperations
+                operation={"-"}
+                className={"math-operations"}
+                clickHandlerOp={clickHandlerOp}
+            />
+            <MathOperations
+                operation={"*"}
+                className={"math-operations"}
+                clickHandlerOp={clickHandlerOp}
+            />
+            <MathOperations
+                operation={"/"}
+                className={"math-operations"}
+                clickHandlerOp={clickHandlerOp}
+            />
+        </div>
+    );
+};
+
+
+export const ResultContext = createContext();
+
+/*
+    Generación de la función del componente padre App
+*/
 
 const App = () => {
 
@@ -143,69 +237,6 @@ const App = () => {
     };
 
     const clickHandlerRemoveOperator = () => {};
-
-    const clickHandlerOp = (state, operation) => {
-        console.log("clickHandlerOp");
-        switch ([operation && state]) {
-            case [(state.result === [""] &&
-                operation === "+" &&
-                state.secondNumber === [""]) ||
-                (state.secondNumber === [''] &&
-                    operation === "+")]:
-                console.log("plus clickHandlerOp");
-                setState((state) => ({
-                    result: ["-"],
-                    mathOp: "+",
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break;
-            case [(state.result === [""] &&
-                operation === "-" &&
-                state.secondNumber === [""]) ||
-                (state.secondNumber === [''] &&
-                    operation === "-")]:
-                console.log("numero negativo...");
-                console.log(state);
-                setState((state) => ({
-                    result: ["-"],
-                    mathOp: "-",
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break;
-            case [(state.result === [""] &&
-                operation === "*" &&
-                state.secondNumber === [""]) ||
-                (state.secondNumber === [''] &&
-                    operation === "*")]:
-                setState((state) => ({
-                    result: ["-"],
-                    mathOp: "*",
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break;
-            case [(state.result === [""] &&
-                operation === "/" &&
-                state.secondNumber === [""]) ||
-                (state.secondNumber === [''] &&
-                    operation === "/")]:
-                setState((state) => ({
-                    result: ["-"],
-                    mathOp: "/",
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break;
-            default:
-                console.log(new Error("No operation selected..."));
-        }
-    };
 
     const clickHandlerEqual = () => {
         switch (state.mathOp) {
@@ -359,26 +390,6 @@ const App = () => {
                         />
                     </div>
                     <AppState.Provider value={{ state, setUpdatedState }}>
-                        <MathOperations
-                            operation={"+"}
-                            className={"math-operations"}
-                            clickHandlerOp={clickHandlerOp}
-                        />
-                        <MathOperations
-                            operation={"-"}
-                            className={"math-operations"}
-                            clickHandlerOp={clickHandlerOp}
-                        />
-                        <MathOperations
-                            operation={"*"}
-                            className={"math-operations"}
-                            clickHandlerOp={clickHandlerOp}
-                        />
-                        <MathOperations
-                            operation={"/"}
-                            className={"math-operations"}
-                            clickHandlerOp={clickHandlerOp}
-                        />
                     </AppState.Provider>
                     <Equal
                         symbol={"="}
