@@ -55,21 +55,29 @@ const Clear = ({ setState, setUpdatedState }) => {
 */
 export const ResultContext = createContext();
 
-export const AppState = ({ setUpdatedState }) => {
+const AppState = ({ state, setUpdatedState }) => {
     const { setValue, setState } = useContext(ResultContext);
+    const { mathOpState, setMathOpState } = useContext(ResultContext);
 
-    const useCalculatorState = () => {
-        setState(() => ({
+    const useCalculatorState = (mathOpState) => {
+        /* setState(() => ({
             mathOp: "",
             result: [""],
             secondNumber: [""],
         }));
         setUpdatedState(false);
+        setValue(0); */
+        setState((mathOpState) => ({
+            result: [''],
+            mathOp: '',
+            secondNumber: ['']
+        }));
+        setUpdatedState(false);
         setValue(0);
     };
 
-    return { useCalculatorState };
-};
+    useCalculatorState(mathOpState);
+}; 
 
 const App = () => {
 
@@ -350,34 +358,31 @@ const App = () => {
                             }
                         />
                     </div>
-                    <MathOperations
-                        operation={"+"}
-                        className={"math-operations"}
-                        value={AppState}
-                        clickHandlerOp={clickHandlerOp}
-                    />
-                    <MathOperations
-                        operation={"-"}
-                        className={"math-operations"}
-                        value={AppState}
-                        clickHandlerOp={clickHandlerOp}
-                    />
-                    <MathOperations
-                        operation={"*"}
-                        className={"math-operations"}
-                        value={AppState}
-                        clickHandlerOp={clickHandlerOp}
-                    />
-                    <MathOperations
-                        operation={"/"}
-                        className={"math-operations"}
-                        value={AppState}
-                        clickHandlerOp={clickHandlerOp}
-                    />
+                    <AppState.Provider value={{ state, setUpdatedState }}>
+                        <MathOperations
+                            operation={"+"}
+                            className={"math-operations"}
+                            clickHandlerOp={clickHandlerOp}
+                        />
+                        <MathOperations
+                            operation={"-"}
+                            className={"math-operations"}
+                            clickHandlerOp={clickHandlerOp}
+                        />
+                        <MathOperations
+                            operation={"*"}
+                            className={"math-operations"}
+                            clickHandlerOp={clickHandlerOp}
+                        />
+                        <MathOperations
+                            operation={"/"}
+                            className={"math-operations"}
+                            clickHandlerOp={clickHandlerOp}
+                        />
+                    </AppState.Provider>
                     <Equal
                         symbol={"="}
                         className={"math-operations"}
-                        value={AppState}
                         clickHandlerEqual={clickHandlerEqual}
                     />
                 </div>

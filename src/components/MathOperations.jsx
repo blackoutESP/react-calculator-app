@@ -1,8 +1,14 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-const MathOperations = ({ value, operation, className, clickHandlerOp }) => {
-    if (value.result === [''] && value.mathOp === '' && value.secondNumber === ['']) {
+const MathOperations = ({
+    state,
+    setUpdatedState,
+    operation,
+    className,
+    clickHandlerOp,
+}) => {
+    /* if (value.result === [''] && value.mathOp === '' && value.secondNumber === ['']) {
         console.log(value);
         return (
             <div className={className}>
@@ -19,7 +25,12 @@ const MathOperations = ({ value, operation, className, clickHandlerOp }) => {
                 </button>
             </div>
         );
-    }
+    } */
+    return (
+        <div className={className}>
+            <button onClick={() => console.log(state)}>{operation}</button>
+        </div>
+    );
 };
 
 MathOperations.propTypes = {
