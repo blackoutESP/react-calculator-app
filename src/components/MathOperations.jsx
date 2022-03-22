@@ -6,7 +6,7 @@ const MathOperations = ({ value, operation, className, clickHandlerOp }) => {
         console.log(value);
         return (
             <div className={className}>
-                <button onClick={() => clickHandlerOp(operation)}>
+                <button onClick={() => clickHandlerOp(value, operation)}>
                     {operation}
                 </button>
             </div>
@@ -14,7 +14,7 @@ const MathOperations = ({ value, operation, className, clickHandlerOp }) => {
     } else {
         return (
             <div className={className}>
-                <button onClick={() => clickHandlerOp(operation)}>
+                <button onClick={() => clickHandlerOp(value, operation)}>
                     {operation}
                 </button>
             </div>
