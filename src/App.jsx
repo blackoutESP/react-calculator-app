@@ -137,49 +137,66 @@ const App = () => {
     const clickHandlerRemoveOperator = () => {};
 
     const clickHandlerOp = (state, operation) => {
+        console.log("clickHandlerOp");
         switch (operation) {
-            case (state.result === [""] && operation === "+") || (state.secondNumber && operation === "+"):
+            case (state.result === [""] &&
+                operation === "+" &&
+                state.secondNumber === [""]) ||
+                (state.secondNumber &&
+                    operation === "+" &&
+                    state.secondNumber === [""]):
+                console.log("plus clickHandlerOp");
                 setState((state) => ({
-                    result: ['-'],
+                    result: ["-"],
                     mathOp: "+",
                     secondNumber: [""],
                 }));
+                setUpdatedState(false);
+                setValue(0);
                 break;
-            case (state.result === [""] && operation === "-") ||
-                (state.secondNumber === [""] && operation === "-"):
-                if (
-                    state.result !== [""] &&
-                    state.mathOp === "" &&
-                    state.secondNumber === [""]
-                ) {
-                    console.log("numero negativo...");
-                    console.log(state);
-                    setState((state) => ({
-                        result: ['-'],
-                        mathOp: "-",
-                        secondNumber: [""],
-                    }));
-                } else {
-                    setState((state) => ({
-                        result: state.result,
-                        mathOp: "-",
-                        secondNumber: [""],
-                    }));
-                }
-                break;
-            case (state.result === [""] && operation === "*") || (state.secondNumber &&  operation === "*"):
+            case (state.result === [""] &&
+                operation === "-" &&
+                state.secondNumber === [""]) ||
+                (state.secondNumber &&
+                    operation === "-" &&
+                    state.secondNumber === [""]):
+                console.log("numero negativo...");
+                console.log(state);
                 setState((state) => ({
-                    result: ['-'],
+                    result: ["-"],
+                    mathOp: "-",
+                    secondNumber: [""],
+                }));
+                setUpdatedState(false);
+                setValue(0);
+                break;
+            case (state.result === [""] &&
+                operation === "*" &&
+                state.secondNumber === [""]) ||
+                (state.secondNumber &&
+                    operation === "*" &&
+                    state.secondNumber === [""]):
+                setState((state) => ({
+                    result: ["-"],
                     mathOp: "*",
                     secondNumber: [""],
                 }));
+                setUpdatedState(false);
+                setValue(0);
                 break;
-            case (state.result === [""] && operation === "/") || (state.secondNumber && operation === '/'):
+            case (state.result === [""] &&
+                operation === "/" &&
+                state.secondNumber === [""]) ||
+                (state.secondNumber &&
+                    operation === "/" &&
+                    state.secondNumber === [""]):
                 setState((state) => ({
-                    result: ['-'],
+                    result: ["-"],
                     mathOp: "/",
                     secondNumber: [""],
                 }));
+                setUpdatedState(false);
+                setValue(0);
                 break;
             default:
                 console.log(new Error("No operation selected..."));
@@ -187,7 +204,6 @@ const App = () => {
     };
 
     const clickHandlerEqual = () => {
-        console.log("clickHandlerEqual");
         switch (state.mathOp) {
             case (state.result === [""] && "+") || (state.secondNumber && "+"):
                 if (!updatedState) {
@@ -199,9 +215,6 @@ const App = () => {
                     }));
                     setUpdatedState(true);
                     setValue(state.result);
-                } else if (state.result !== [''] && state.mathOp !== ''){
-                    // actualizar estado!!!
-                    // setUpdatedState(true);
                 }
                 break;
             case (state.result === [""] && "-") || (state.secondNumber && "-"):
