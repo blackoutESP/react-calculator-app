@@ -59,13 +59,12 @@ const Clear = ({ setState, setUpdatedState }) => {
     updatedState={updatedState}
     setUpdatedState={setUpdatedState}
 */
-const clickHandlerOp = ({ value, setValue, state, setState, setUpdatedState, operation }) => {
+const clickHandlerOp = ({ setValue, state, setState, setUpdatedState, operation }) => {
     console.log("clickHandlerOp");
-    console.log(value);
-    console.log(state);
-    console.log(operation);
+    console.log(setValue);
 
-    const useClickHandlerOp = () => {
+    const useClickHandlerOp = (setValue, state, setState, setUpdatedState, operation) => {
+
         switch ([operation && state]) {
             case [
                 (state.result === [""] &&
@@ -128,7 +127,7 @@ const clickHandlerOp = ({ value, setValue, state, setState, setUpdatedState, ope
         }
     };
 
-    clickHandlerOp();
+    clickHandlerOp(setValue, state, setState, setUpdatedState, operation);
 };
 
 const MathOps = ({value, setValue, state, setState, updatedState, setUpdatedState}) => {
