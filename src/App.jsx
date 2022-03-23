@@ -50,55 +50,6 @@ const Clear = ({ setState, setUpdatedState, setValue }) => {
     return <button onClick={useClear}>Clear</button>
 };
 
-const MathOps = ({value, setValue, state, setState, updatedState, setUpdatedState, clickHandlerOp}) => {
-
-    return (
-        <React.Fragment>
-            <MathOperations
-                operation={"+"}
-                className={"math-operations"}
-                value={value}
-                setValue={setValue}
-                state={state}
-                setState={setState}
-                updatedState={updatedState}
-                setUpdatedState={setUpdatedState}
-                clickHandlerOp={clickHandlerOp}
-            />
-            <MathOperations
-                operation={"-"}
-                className={"math-operations"}
-                value={value}
-                setValue={setValue}
-                state={state}
-                updatedState={updatedState}
-                setUpdatedState={setUpdatedState}
-                clickHandlerOp={clickHandlerOp}
-            />
-            <MathOperations
-                operation={"*"}
-                className={"math-operations"}
-                value={value}
-                setValue={setValue}
-                state={state}
-                updatedState={updatedState}
-                setUpdatedState={setUpdatedState}
-                clickHandlerOp={clickHandlerOp}
-            />
-            <MathOperations
-                operation={"/"}
-                className={"math-operations"}
-                value={value}
-                setValue={setValue}
-                state={state}
-                updatedState={updatedState}
-                setUpdatedState={setUpdatedState}
-                clickHandlerOp={clickHandlerOp}
-            />
-        </React.Fragment>
-    )
-};
-
 export const ResultContext = createContext();
 
 /*
@@ -156,9 +107,7 @@ const App = () => {
         switch (operation) {
             case [
                 ((state.result !== [""] &&
-                    operation === "+") &&
-                    (state.secondNumber === [""]) ||
-                    (state.secondNumber === [""] && operation === "+")),
+                    operation === "+"))
             ]:
                 setState((state) => ({
                     result: state.result,
@@ -168,7 +117,7 @@ const App = () => {
                 setUpdatedState(false);
                 setValue(0);
                 break;
-            case [
+            /* case [
                 (state.result === [""] &&
                     operation === "-" &&
                     state.secondNumber === [""]) ||
@@ -206,7 +155,7 @@ const App = () => {
                 }));
                 setUpdatedState(false);
                 setValue(0);
-                break;
+                break; */
             default:
                 console.log(new Error("No operation selected..."));
         }
@@ -214,13 +163,15 @@ const App = () => {
 
     const clickHandlerEqual = () => {
         switch (state.mathOp) {
-            case (state.result === [""] && state.mathOp === "+") || ((state.secondNumber !== state.result || state.secondNumber === state.result) && state.mathOp === "+"):
+            case (state.result === [""] && state.mathOp === "+") || 
+                    ((state.secondNumber !== state.result || 
+                        state.secondNumber === state.result) && state.mathOp === "+"):
                 if (!updatedState) {
                     state.result = mathjs.add(state.result, state.secondNumber);
                     setState((state) => ({
                         result: state.result,
                         secondNumber: state.secondNumber,
-                        mathOp: "",
+                        mathOp: ""
                     }));
                     setUpdatedState(true);
                     setValue(state.result);
@@ -366,17 +317,30 @@ const App = () => {
                         />
                     </div>
                     <div className="operations">
-                        <MathOps
-                            value={value}
-                            setValue={setValue}
-                            state={state}
-                            setState={setState}
-                            updatedState={updatedState}
-                            setUpdatedState={setUpdatedState}
-                            clickHandler={clickHandlerOp} 
+                        <MathOperations
+                            operation={'+'}
+                            className={'math-operations'}
+                            props={{value, setValue, state, setState, updatedState, setUpdatedState, clickHandlerOp}}
+                        />
+                        <MathOperations
+                            operation={'-'}
+                            className={'math-operations'}
+                            props={{value, setValue, state, setState, updatedState, setUpdatedState, clickHandlerOp}}
+                        />
+                        <MathOperations
+                            operation={'*'}
+                            className={'math-operations'}
+                            props={{value, setValue, state, setState, updatedState, setUpdatedState, clickHandlerOp}}
+                        />
+                        <MathOperations
+                            operation={'/'}
+                            className={'math-operations'}
+                            props={{value, setValue, state, setState, updatedState, setUpdatedState, clickHandlerOp}}
                         />
                     </div>
                     <Equal
+                        symbol={'='}
+                        className={'math-operations'}
                         clickHandlerEqual={clickHandlerEqual} 
                     />
                 </div>
