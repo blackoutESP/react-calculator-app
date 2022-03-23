@@ -63,7 +63,7 @@ const clickHandlerOp = ({ setValue, state, setState, setUpdatedState, operation 
     console.log("clickHandlerOp");
     console.log(setValue);
 
-    const useClickHandlerOp = (setValue, state, setState, setUpdatedState, operation) => {
+    const useClickHandlerOp = () => {
 
         switch ([operation && state]) {
             case [
@@ -127,7 +127,7 @@ const clickHandlerOp = ({ setValue, state, setState, setUpdatedState, operation 
         }
     };
 
-    clickHandlerOp(setValue, state, setState, setUpdatedState, operation);
+    clickHandlerOp();
 };
 
 const MathOps = ({value, setValue, state, setState, updatedState, setUpdatedState}) => {
