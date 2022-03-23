@@ -59,7 +59,7 @@ const Clear = ({ setState, setUpdatedState }) => {
     updatedState={updatedState}
     setUpdatedState={setUpdatedState}
 */
-const clickHandlerOp = ({ value, setValue, state, setState, updatedState, setUpdatedState, operation }) => {
+const clickHandlerOp = ({ value, setValue, state, setState, setUpdatedState, operation }) => {
     console.log("clickHandlerOp");
     console.log(value);
     console.log(state);
@@ -131,7 +131,7 @@ const clickHandlerOp = ({ value, setValue, state, setState, updatedState, setUpd
     clickHandlerOp();
 };
 
-const MathOps = ({value, setValue, state, updatedState, setUpdatedState}) => {
+const MathOps = ({value, setValue, state, setState, updatedState, setUpdatedState}) => {
 
     return (
         <React.Fragment>
@@ -141,6 +141,7 @@ const MathOps = ({value, setValue, state, updatedState, setUpdatedState}) => {
                 value={value}
                 setValue={setValue}
                 state={state}
+                setState={setState}
                 updatedState={updatedState}
                 setUpdatedState={setUpdatedState}
                 clickHandlerOp={clickHandlerOp}
