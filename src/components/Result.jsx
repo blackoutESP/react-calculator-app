@@ -27,8 +27,9 @@ import PropTypes from 'prop-types';
 */
 // contextProvider.values._currentValue.result
 const Result = ({ contextProvider }) => {
+    console.log('result context: ', contextProvider) 
     return (
-        <div className="result" onClick={ () => console.log('result context: ', contextProvider) }>
+        <div className="result">
             {/* <contextProvider values={contextProvider.values._currentValue.result}>
                 <span>{ (value) => value }</span>
             </contextProvider> */}

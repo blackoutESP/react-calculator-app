@@ -22,10 +22,15 @@ const MathOperations = ({
             </div>
         );
     } */
+    console.log('MathOperations');
+    console.log(value);
     console.log(state);
+    console.log(operation);
+    console.log(setUpdatedState);
+    console.log(operation);
     return (
         <div className={className}>
-            <button onClick={clickHandlerOp({value, state, operation, setUpdatedState})}>
+            <button onClick={() => console.log('MathOperations')}>
                 {operation}
             </button>
         </div>
