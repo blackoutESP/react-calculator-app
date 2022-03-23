@@ -6,7 +6,7 @@ const MathOperations = ({
 }) => {
     return (
         <div className={className}>
-            <button onClick={() => clickHandlerOp(setValue, state, setState, setUpdatedState, operation)}>
+            <button>
                 {operation}
             </button>
         </div>

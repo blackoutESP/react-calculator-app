@@ -50,87 +50,72 @@ const Clear = ({ setState, setUpdatedState }) => {
     return <button onClick={useClear}>Clear</button>
 };
 
-/*
-    clickHanlderOp
-
-    value={value}
-    setValue={setValue}
-    state={state}
-    updatedState={updatedState}
-    setUpdatedState={setUpdatedState}
-*/
-const clickHandlerOp = ({ setValue, state, setState, setUpdatedState, operation }) => {
+const clickHandlerOp = (setValue, state, setState, setUpdatedState, operation) => {
     console.log("clickHandlerOp");
-    console.log(setValue);
 
-    const useClickHandlerOp = () => {
-
-        switch ([operation && state]) {
-            case [
-                (state.result === [""] &&
-                    operation === "+" &&
-                    state.secondNumber === [""]) ||
-                    (state.secondNumber === [""] && operation === "+"),
-            ]:
-                setState((state) => ({
-                    result: ["-"],
-                    mathOp: "+",
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break;
-            case [
-                (state.result === [""] &&
-                    operation === "-" &&
-                    state.secondNumber === [""]) ||
-                    (state.secondNumber === [""] && operation === "-"),
-            ]:
-                setState((state) => ({
-                    result: ["-"],
-                    mathOp: "-",
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break;
-            case [
-                (state.result === [""] &&
-                    operation === "*" &&
-                    state.secondNumber === [""]) ||
-                    (state.secondNumber === [""] && operation === "*"),
-            ]:
-                setState((state) => ({
-                    result: ["-"],
-                    mathOp: "*",
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break;
-            case [
-                (state.result === [""] &&
-                    operation === "/" &&
-                    state.secondNumber === [""]) ||
-                    (state.secondNumber === [""] && operation === "/"),
-            ]:
-                setState((state) => ({
-                    result: ["-"],
-                    mathOp: "/",
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break;
-            default:
-                console.log(new Error("No operation selected..."));
-        }
-    };
-
-    clickHandlerOp();
+    switch ([operation && state]) {
+        case [
+            (state.result === [""] &&
+                operation === "+" &&
+                state.secondNumber === [""]) ||
+                (state.secondNumber === [""] && operation === "+"),
+        ]:
+            setState((state) => ({
+                result: ["-"],
+                mathOp: "+",
+                secondNumber: [""],
+            }));
+            setUpdatedState(false);
+            setValue(0);
+            break;
+        case [
+            (state.result === [""] &&
+                operation === "-" &&
+                state.secondNumber === [""]) ||
+                (state.secondNumber === [""] && operation === "-"),
+        ]:
+            setState((state) => ({
+                result: ["-"],
+                mathOp: "-",
+                secondNumber: [""],
+            }));
+            setUpdatedState(false);
+            setValue(0);
+            break;
+        case [
+            (state.result === [""] &&
+                operation === "*" &&
+                state.secondNumber === [""]) ||
+                (state.secondNumber === [""] && operation === "*"),
+        ]:
+            setState((state) => ({
+                result: ["-"],
+                mathOp: "*",
+                secondNumber: [""],
+            }));
+            setUpdatedState(false);
+            setValue(0);
+            break;
+        case [
+            (state.result === [""] &&
+                operation === "/" &&
+                state.secondNumber === [""]) ||
+                (state.secondNumber === [""] && operation === "/"),
+        ]:
+            setState((state) => ({
+                result: ["-"],
+                mathOp: "/",
+                secondNumber: [""],
+            }));
+            setUpdatedState(false);
+            setValue(0);
+            break;
+        default:
+            console.log(new Error("No operation selected..."));
+    }
 };
 
-const MathOps = ({value, setValue, state, setState, updatedState, setUpdatedState}) => {
+const MathOps = ({value, setValue, state, setState, updatedState, setUpdatedState, clickHandlerOp}) => {
 
     return (
         <React.Fragment>
@@ -177,7 +162,7 @@ const MathOps = ({value, setValue, state, setState, updatedState, setUpdatedStat
             />
         </React.Fragment>
     )
-}
+};
 
 export const ResultContext = createContext();
 
