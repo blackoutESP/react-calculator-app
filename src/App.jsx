@@ -138,25 +138,41 @@ const MathOps = ({value, setValue, state, updatedState, setUpdatedState}) => {
             <MathOperations
                 operation={"+"}
                 className={"math-operations"}
-                value={{ state, setUpdatedState }}
+                value={value}
+                setValue={setValue}
+                state={state}
+                updatedState={updatedState}
+                setUpdatedState={setUpdatedState}
                 clickHandlerOp={clickHandlerOp}
             />
             <MathOperations
                 operation={"-"}
                 className={"math-operations"}
-                value={{ state, setUpdatedState }}
+                value={value}
+                setValue={setValue}
+                state={state}
+                updatedState={updatedState}
+                setUpdatedState={setUpdatedState}
                 clickHandlerOp={clickHandlerOp}
             />
             <MathOperations
                 operation={"*"}
                 className={"math-operations"}
-                value={{ state, setUpdatedState }}
+                value={value}
+                setValue={setValue}
+                state={state}
+                updatedState={updatedState}
+                setUpdatedState={setUpdatedState}
                 clickHandlerOp={clickHandlerOp}
             />
             <MathOperations
                 operation={"/"}
                 className={"math-operations"}
-                value={{ state, setUpdatedState }}
+                value={value}
+                setValue={setValue}
+                state={state}
+                updatedState={updatedState}
+                setUpdatedState={setUpdatedState}
                 clickHandlerOp={clickHandlerOp}
             />
         </React.Fragment>
@@ -323,7 +339,7 @@ const App = () => {
     return (
         <main className='container'>
             <Title />
-            <ResultContext.Provider value={{ state, setUpdatedState, operation }}>
+            <ResultContext.Provider value={{ state, setUpdatedState }}>
                 <div className='react-calculator'>
                     <Result />
                     <div className='numbers'>
@@ -395,7 +411,7 @@ const App = () => {
                                 setValue={setValue}
                                 state={state}
                                 updatedState={updatedState}
-                                setUpdatedState={setUpdatedState} 
+                                setUpdatedState={setUpdatedState}
                             />
                     </div>
                     <Equal
