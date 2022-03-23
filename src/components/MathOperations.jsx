@@ -2,11 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 const MathOperations = ({
-    state,
-    setUpdatedState,
-    operation,
-    className,
-    clickHandlerOp,
+    value, setValue, state, setUpdatedState, operation, className, clickHandlerOp
 }) => {
     /* if (value.result === [''] && value.mathOp === '' && value.secondNumber === ['']) {
         console.log(value);
@@ -26,9 +22,12 @@ const MathOperations = ({
             </div>
         );
     } */
+    console.log(state);
     return (
         <div className={className}>
-            <button onClick={() => console.log(state)}>{operation}</button>
+            <button onClick={clickHandlerOp({value, state, operation, setUpdatedState})}>
+                {operation}
+            </button>
         </div>
     );
 };

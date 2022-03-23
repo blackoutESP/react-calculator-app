@@ -53,9 +53,10 @@ const Clear = ({ setState, setUpdatedState }) => {
 /*
     clickHanlderOp 
 */
-const clickHandlerOp = (state, operation) => {
+const clickHandlerOp = ({ state, operation, setUpdatedState }) => {
     console.log("clickHandlerOp");
-
+    console.log(state);
+    console.log(operation);
     const useClickHandlerOp = () => {
         const { setValue, setState } = useContext(ResultContext);
         switch ([operation && state]) {
@@ -65,7 +66,6 @@ const clickHandlerOp = (state, operation) => {
                     state.secondNumber === [""]) ||
                     (state.secondNumber === [""] && operation === "+"),
             ]:
-                console.log("plus clickHandlerOp");
                 setState((state) => ({
                     result: ["-"],
                     mathOp: "+",
@@ -80,8 +80,6 @@ const clickHandlerOp = (state, operation) => {
                     state.secondNumber === [""]) ||
                     (state.secondNumber === [""] && operation === "-"),
             ]:
-                console.log("numero negativo...");
-                console.log(state);
                 setState((state) => ({
                     result: ["-"],
                     mathOp: "-",
@@ -145,6 +143,7 @@ const AppState = ({ state, setUpdatedState }) => {
             <MathOperations
                 operation={"+"}
                 className={"math-operations"}
+                value={state}
                 clickHandlerOp={clickHandlerOp}
             />
             <MathOperations
@@ -166,6 +165,32 @@ const AppState = ({ state, setUpdatedState }) => {
     );
 };
 
+/* const MathOps = ({state, setUpdatedState}) => {
+    return (
+        <div>
+            <MathOperations
+                operation={"+"}
+                className={"math-operations"}
+                clickHandlerOp={clickHandlerOp}
+            />
+            <MathOperations
+                operation={"-"}
+                className={"math-operations"}
+                clickHandlerOp={clickHandlerOp}
+            />
+            <MathOperations
+                operation={"*"}
+                className={"math-operations"}
+                clickHandlerOp={clickHandlerOp}
+            />
+            <MathOperations
+                operation={"/"}
+                className={"math-operations"}
+                clickHandlerOp={clickHandlerOp}
+            />
+        </div>
+    );
+}; */
 
 export const ResultContext = createContext();
 
@@ -202,8 +227,6 @@ const App = () => {
                     }));
                 } else if (
                     (Number(state.result).toString().length >= 0 &&
-                        (value === state.result || value !== state.result)) ||
-                    (Number(state.result).toString().length <= 0 &&
                         (value === state.result || value !== state.result))
                 ) {
                     setState((state) => ({
@@ -211,6 +234,12 @@ const App = () => {
                         mathOp: "",
                         secondNumber: [""]
                     }));
+                } else if (
+                    (Number(state.result).toString().length <= 0 &&
+                        (value === state.result || value !== state.result))
+                ) {
+                    console.log('negativo');
+                    console.log(value);
                 }
             }
         } else {
@@ -323,7 +352,9 @@ const App = () => {
     return (
         <main className='container'>
             <Title />
-            <ResultContext.Provider value={{ value, setValue }}>
+            <ResultContext.Provider
+                value={{ value, setValue, state, setUpdatedState }}
+            >
                 <div className='react-calculator'>
                     <Result />
                     <div className='numbers'>
@@ -389,8 +420,26 @@ const App = () => {
                             }
                         />
                     </div>
-                    <AppState.Provider value={{ state, setUpdatedState }}>
-                    </AppState.Provider>
+                    <MathOperations
+                        operation={"+"}
+                        className={"math-operations"}
+                        clickHandlerOp={clickHandlerOp}
+                    />
+                    <MathOperations
+                        operation={"-"}
+                        className={"math-operations"}
+                        clickHandlerOp={clickHandlerOp}
+                    />
+                    <MathOperations
+                        operation={"*"}
+                        className={"math-operations"}
+                        clickHandlerOp={clickHandlerOp}
+                    />
+                    <MathOperations
+                        operation={"/"}
+                        className={"math-operations"}
+                        clickHandlerOp={clickHandlerOp}
+                    />
                     <Equal
                         symbol={"="}
                         className={"math-operations"}
