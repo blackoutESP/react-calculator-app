@@ -34,9 +34,9 @@ const Result = () => {
     Generación de la función del componente Clear, para borrar la memoria de la calculadora.
 */
 
-const Clear = ({ setState, setUpdatedState }) => {
+const Clear = ({ setState, setUpdatedState, setValue }) => {
 
-    const { setValue } = useContext(ResultContext);
+    /* const { setValue } = useContext(ResultContext); */
 
     const useClear = () => {
         setState(() => ({
@@ -45,74 +45,9 @@ const Clear = ({ setState, setUpdatedState }) => {
             secondNumber: [''],
         }));
         setUpdatedState(false);
-        setValue(0)
+        setValue(0);
     }
     return <button onClick={useClear}>Clear</button>
-};
-
-const clickHandlerOp = (setValue, state, setState, setUpdatedState, operation) => {
-    console.log("clickHandlerOp");
-
-    switch ([operation && state]) {
-        case [
-            (state.result === [""] &&
-                operation === "+" &&
-                state.secondNumber === [""]) ||
-                (state.secondNumber === [""] && operation === "+"),
-        ]:
-            setState((state) => ({
-                result: ["-"],
-                mathOp: "+",
-                secondNumber: [""],
-            }));
-            setUpdatedState(false);
-            setValue(0);
-            break;
-        case [
-            (state.result === [""] &&
-                operation === "-" &&
-                state.secondNumber === [""]) ||
-                (state.secondNumber === [""] && operation === "-"),
-        ]:
-            setState((state) => ({
-                result: ["-"],
-                mathOp: "-",
-                secondNumber: [""],
-            }));
-            setUpdatedState(false);
-            setValue(0);
-            break;
-        case [
-            (state.result === [""] &&
-                operation === "*" &&
-                state.secondNumber === [""]) ||
-                (state.secondNumber === [""] && operation === "*"),
-        ]:
-            setState((state) => ({
-                result: ["-"],
-                mathOp: "*",
-                secondNumber: [""],
-            }));
-            setUpdatedState(false);
-            setValue(0);
-            break;
-        case [
-            (state.result === [""] &&
-                operation === "/" &&
-                state.secondNumber === [""]) ||
-                (state.secondNumber === [""] && operation === "/"),
-        ]:
-            setState((state) => ({
-                result: ["-"],
-                mathOp: "/",
-                secondNumber: [""],
-            }));
-            setUpdatedState(false);
-            setValue(0);
-            break;
-        default:
-            console.log(new Error("No operation selected..."));
-    }
 };
 
 const MathOps = ({value, setValue, state, setState, updatedState, setUpdatedState, clickHandlerOp}) => {
@@ -182,56 +117,27 @@ const App = () => {
     const [value, setValue] = useState(0);
 
     const clickHandlerFunction = (value) => {
-        if (state.mathOp === "") {
+        if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
-                if (
-                    (Number(state.result).toString().length >= 0 &&
-                        (value === state.result || value !== state.result)) ||
-                    (Number(state.result).toString().length <= 0 &&
-                        (value === state.result || value !== state.result))
+                if (((Number(state.result).toString().length >= 0 || 
+                    Number(state.result).toString().length <= 0)) &&
+                    ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')
                 ) {
                     setState((state) => ({
                         result: Number(
-                            Number(state.result).toString().concat(value)
+                            -Math.abs((Number(Number(state.result).toString().concat(value))))
                         ),
-                        mathOp: "",
+                        mathOp: '',
                         secondNumber: [""]
                     }));
-                } else if (
-                    (Number(state.result).toString().length >= 0 &&
-                        (value === state.result || value !== state.result))
-                ) {
-                    setState((state) => ({
-                        result: Number(state.result).toString().concat(value),
-                        mathOp: "",
-                        secondNumber: [""]
-                    }));
-                } else if (
-                    (Number(state.result).toString().length <= 0 &&
-                        (value === state.result || value !== state.result))
-                ) {
-                    console.log('negativo');
-                    console.log(value);
-                }
-            }
-        } else {
-            if (!Number.isNaN(value)) {
-                if (
-                    Number(value).toString().length >= 0 &&
-                    (value === state.secondNumber ||
-                        value !== state.secondNumber)
-                ) {
-                    setState((state) => ({
-                        result: state.result,
-                        mathOp: state.mathOp,
-                        secondNumber: Number(Number(state.secondNumber).toString().concat(value))
-                    }));
-                } else {
-                    setState((state) => ({
-                        result: state.result,
-                        mathOp: state.mathOp,
-                        secondNumber: Number(value)
-                    }));
+                } else if (((Number(state.secondNumber).toString().length <= 0 || 
+                    Number(state.secondNumber).toString().length <= 0)) &&
+                    ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)) && state.mathOp === '')) {
+                        setState((state) => ({
+                            result: state.result,
+                            mathOp: '',
+                            secondNumber: -Math.abs((Number(Number(state.secondNumber).toString().concat(value))))
+                        }));
                 }
             }
         }
@@ -239,9 +145,76 @@ const App = () => {
 
     const clickHandlerRemoveOperator = () => {};
 
+    const clickHandlerOp = (value, setValue, state, setState, updatedState, setUpdatedState, operation) => {
+        console.log("clickHandlerOp");
+        console.log(value);
+        console.log(setValue);
+        console.log(state);
+        console.log(setState);
+        console.log(updatedState);
+        console.log(setUpdatedState);
+        switch (operation) {
+            case [
+                ((state.result !== [""] &&
+                    operation === "+") &&
+                    (state.secondNumber === [""]) ||
+                    (state.secondNumber === [""] && operation === "+")),
+            ]:
+                setState((state) => ({
+                    result: state.result,
+                    mathOp: "+",
+                    secondNumber: [""],
+                }));
+                setUpdatedState(false);
+                setValue(0);
+                break;
+            case [
+                (state.result === [""] &&
+                    operation === "-" &&
+                    state.secondNumber === [""]) ||
+                    (state.secondNumber === [""] && operation === "-"),
+            ]:
+                setState((state) => ({
+                    result: state.result,
+                    mathOp: "-",
+                    secondNumber: [""],
+                }));
+                setUpdatedState(false);
+                setValue(0);
+                break;
+            case [
+                (state.secondNumber === [""] && operation === "*")
+            ]:
+                setState((state) => ({
+                    result: state.result,
+                    mathOp: "*",
+                    secondNumber: [""],
+                }));
+                setUpdatedState(false);
+                setValue(0);
+                break;
+            case [
+                (state.result === [""] &&
+                    operation === "/" &&
+                    state.secondNumber === [""]) ||
+                    (state.secondNumber === [""] && operation === "/"),
+            ]:
+                setState((state) => ({
+                    result: state.result,
+                    mathOp: "/",
+                    secondNumber: [""],
+                }));
+                setUpdatedState(false);
+                setValue(0);
+                break;
+            default:
+                console.log(new Error("No operation selected..."));
+        }
+    };
+
     const clickHandlerEqual = () => {
         switch (state.mathOp) {
-            case (state.result === [""] && "+") || (state.secondNumber && "+"):
+            case (state.result === [""] && state.mathOp === "+") || ((state.secondNumber !== state.result || state.secondNumber === state.result) && state.mathOp === "+"):
                 if (!updatedState) {
                     state.result = mathjs.add(state.result, state.secondNumber);
                     setState((state) => ({
@@ -253,7 +226,7 @@ const App = () => {
                     setValue(state.result);
                 }
                 break;
-            case (state.result === [""] && "-") || (state.secondNumber && "-"):
+            case (state.result !== [""] && state.mathOp === "-") || (state.secondNumber !== [''] && state.mathOp === "-"):
                 if (!updatedState) {
                     setState((state) => ({
                         result: state.result,
@@ -277,8 +250,8 @@ const App = () => {
                     setValue(state.result);
                 }
                 break;
-            case (state.result === [""] && "*") ||
-                (state.secondNumber === [""] && "*"):
+            case (state.result !== [""] && state.mathOp === "*") ||
+                (state.secondNumber !== [""] && state.mathOp === "*"):
                 if (!updatedState) {
                     state.result = mathjs.multiply(
                         state.result,
@@ -295,7 +268,7 @@ const App = () => {
                     // setUpdatedState(true);
                 }
                 break;
-            case (state.result === [""] && "/") || (state.secondNumber === [""] && "/"):
+            case (state.result !== [""] && state.mathOp === "/") || (state.secondNumber !== [""] && state.mathOp === "/"):
                 if (!updatedState) {
                     state.result = mathjs.divide(
                         state.result,
@@ -382,7 +355,9 @@ const App = () => {
                     <div className='functions'>
                         <Clear
                             setState={setState}
+                            setValue={setValue}
                             setUpdatedState={setUpdatedState}
+                            updatedState={updatedState}
                         />
                         <RemoveOperator
                             clickHandlerRemoveOperator={
@@ -391,18 +366,18 @@ const App = () => {
                         />
                     </div>
                     <div className="operations">
-                            <MathOps
-                                value={value}
-                                setValue={setValue}
-                                state={state}
-                                updatedState={updatedState}
-                                setUpdatedState={setUpdatedState}
-                            />
+                        <MathOps
+                            value={value}
+                            setValue={setValue}
+                            state={state}
+                            setState={setState}
+                            updatedState={updatedState}
+                            setUpdatedState={setUpdatedState}
+                            clickHandler={clickHandlerOp} 
+                        />
                     </div>
                     <Equal
-                        symbol={"="}
-                        className={"math-operations"}
-                        clickHandlerEqual={clickHandlerEqual}
+                        clickHandlerEqual={clickHandlerEqual} 
                     />
                 </div>
             </ResultContext.Provider>
