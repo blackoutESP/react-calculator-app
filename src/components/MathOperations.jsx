@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from 'prop-types';
  
-const MathOperations = ({operation, className, props}) => {
-    const { value, setValue, state, setState, updatedState, setUpdatedState, clickHandlerOp } = props;
+const MathOperations = ({operation, className, props, clickHandlerOp}) => {
+    const { setValue, state, setState, updatedState, setUpdatedState } = props;
     // const { setValue, state, setState, setUpdatedState, className, clickHandlerOp } = props;
     /* console.log(value);
     console.log(setValue);
@@ -10,9 +10,10 @@ const MathOperations = ({operation, className, props}) => {
     console.log({setState});
     console.log(setUpdatedState);
     console.log(operation); */
+    // clickHandlerOp(value, setValue, state, setState, updatedState, setUpdatedState)
     return (
-        <div className={className}>
-            <button onClick={() => clickHandlerOp(value, setValue, state, setState, updatedState, setUpdatedState, operation)}>
+        <div className={className} onClick={() => clickHandlerOp(setValue, state, setState, updatedState, setUpdatedState, operation)}>
+            <button>
                 {operation}
             </button>
         </div>
