@@ -69,9 +69,6 @@ const App = () => {
 
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
-        console.log((((Number(state.result).toString().length >= 0) && state.mathOp === '')));
-        console.log((Array((Number(state.result).toString() === [''])) && state.mathOp === ''));
-        console.log(((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === ''));
         // ToDO: add logical conditions for setting state.secondNumber
         if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
@@ -103,15 +100,24 @@ const App = () => {
     const clickHandlerRemoveOperator = () => {};
 
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
-        console.log((Number(state.result).toString() === Number(['']).toString()) 
-                    && ((Number(state.secondNumber).toString() === Number(['']).toString())) && 
-                    String(state.mathOp) === String('') && String(operation) === String('-'));
-        if ((Number(state.result).toString() === Number(['']).toString()) 
-                    && ((Number(state.secondNumber).toString() === Number(['']).toString())) && 
+        console.log(Number(-Math.abs((Number(state.result).toString().concat(-1)))));
+        if ((Number(state.result).toString() === Number(['']).toString()) && 
                     String(state.mathOp) === String('') && String(operation) === String('-')) {
+                        // negative number
+                        setState((state) => ({
+                            result: Number(-Math.abs((Number(Number(state.result).toString().concat('-1'))))),
+                            mathOp: '',
+                            secondNumber: ['']
+                        }));
+                        setUpdatedState(false);
+                        setValue(0);
+        } else if ((Number(state.result).toString() !== Number(['']).toString()) 
+                    && ((Number(state.secondNumber).toString() !== Number(['']).toString())) && 
+                    String(state.mathOp) === String('')) {
+                        // negative number
                         setState((state) => ({
                             result: [''],
-                            mathOp: '-',
+                            mathOp: '',
                             secondNumber: ['']
                         }));
                         setUpdatedState(false);
