@@ -103,63 +103,19 @@ const App = () => {
     const clickHandlerRemoveOperator = () => {};
 
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
-        console.log((Array((Number(state.secondNumber).toString() === ['']))) && 
-                    state.mathOp === '' && operation === '-');
-        switch ([operation, state]) {
-            /* case [
-                ((Array((Number(state.result).toString() === [''])) && state.mathOp === '') && state.mathOp === '+')
-            ]:
-                console.log('entra...');
-                setState((state) => ({
-                    result: state.result ? state.result : [''],
-                    mathOp: operation,
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                console.log(state);
-                break;  */
-            case [(Array((Number(state.secondNumber).toString() === ['']))) && 
-                    state.mathOp === '' && operation === '-'] :
-                console.log([operation, state]);
-                setState((state) => ({
-                    result: -Math.abs(Number(['-'])),
-                    mathOp: operation,
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break;
-            /* case [
-                (state.result !== [""] &&
-                    operation === "*" &&
-                    state.secondNumber === [""]) ||
-                    (state.secondNumber === [""] && operation === "-")
-            ]:
-                setState((state) => ({
-                    result: state.result,
-                    mathOp: "*",
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break; */
-            /* case [
-                (state.result !== [""] &&
-                    operation === "/" &&
-                    state.secondNumber === [""]) ||
-                    (state.secondNumber === [""] && operation === "/"),
-            ]:
-                setState((state) => ({
-                    result: state.result,
-                    mathOp: "/",
-                    secondNumber: [""],
-                }));
-                setUpdatedState(false);
-                setValue(0);
-                break; */
-                default: 
-                    console.log(new Error('Unknown clickHandlerOp function error...'));
+        console.log((Number(state.result).toString() === Number(['']).toString()) 
+                    && ((Number(state.secondNumber).toString() === Number(['']).toString())) && 
+                    String(state.mathOp) === String('') && String(operation) === String('-'));
+        if ((Number(state.result).toString() === Number(['']).toString()) 
+                    && ((Number(state.secondNumber).toString() === Number(['']).toString())) && 
+                    String(state.mathOp) === String('') && String(operation) === String('-')) {
+                        setState((state) => ({
+                            result: [''],
+                            mathOp: '-',
+                            secondNumber: ['']
+                        }));
+                        setUpdatedState(false);
+                        setValue(0);
         }
     };
 
