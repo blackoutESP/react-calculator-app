@@ -70,16 +70,20 @@ const App = () => {
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
         console.log('check condition: ');
-        console.log((Number(state.result).toString() === Number(['']).toString()) && 
+        console.log((Number(state.result).toString() !== Number(['']).toString()));
+        //console.log(String(state.mathOp) === String('') && String(state.mathOp) === String('-'));
+
+        /* console.log((Number(state.result).toString() === Number(['']).toString()) && 
                             String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
                             (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
-                            (Array((Number(state.result).toString() === [''])) && 
-                            ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')))));
+                            ((Number(state.result).toString() === [''])) && 
+                            ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))))); */
+
         // ToDO: add logical conditions for setting state.secondNumber
         if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
                 if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
-                    (Array((Number(state.result).toString() === [''])) && state.mathOp === '')) && 
+                    ((Number(state.result).toString() !== ['']) && String(state.mathOp) === String(''))) && 
                     ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')) {
                         setState((state) => ({
                             result: Number(
@@ -88,14 +92,14 @@ const App = () => {
                             mathOp: '',
                             secondNumber: [""]
                         }));
-                } else if ((Number(state.result).toString() === Number(['']).toString()) && 
+                } else if ((Number(state.result).toString() !== Number(['']).toString()) && 
                             String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
                             (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
                             (Array((Number(state.result).toString() === [''])) && 
                             ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === ''))))) {
                                 setState((state) => ({
                                     result: Number(
-                                        -Math.abs([...state.result, (-(Number((Number(-0)))))].join(''))
+                                        -Math.abs([...state.result, (-(Number((Number(-1)))) * value)].join(''))
                                     ),
                                     mathOp: '',
                                     secondNumber: ['']
@@ -113,6 +117,9 @@ const App = () => {
             console.log(-Math.abs([...state.result, (-(Number((Number(-1)))))].join('')));
         }
         console.log((((((Number(state.result).toString().length >= 0) && String(operation) === String('-'))))));
+
+        // this returns correctly -6
+        console.log(-Math.abs([...state.result, (-(Number((Number(-1))) * 6))].join('')));
 
         console.log((Number(state.result).toString() === Number(['']).toString()) && 
                 String(state.mathOp) === String('') && String(operation) === String('-') &&
