@@ -103,8 +103,10 @@ const App = () => {
     const clickHandlerRemoveOperator = () => {};
 
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
+        console.log((Array((Number(state.secondNumber).toString() === ['']))) && 
+                    state.mathOp === '' && operation === '-');
         switch ([operation, state]) {
-            case [
+            /* case [
                 ((Array((Number(state.result).toString() === [''])) && state.mathOp === '') && state.mathOp === '+')
             ]:
                 console.log('entra...');
@@ -116,20 +118,19 @@ const App = () => {
                 setUpdatedState(false);
                 setValue(0);
                 console.log(state);
-                break; 
-            case [(state.result.length >= 0) && (operation === "-" && state.secondNumber === [''])] :
-                console.log(state);
-                console.log(operation);
+                break;  */
+            case [(Array((Number(state.secondNumber).toString() === ['']))) && 
+                    state.mathOp === '' && operation === '-'] :
+                console.log([operation, state]);
                 setState((state) => ({
-                    result: [''],
+                    result: -Math.abs(Number(['-'])),
                     mathOp: operation,
                     secondNumber: [""],
                 }));
                 setUpdatedState(false);
                 setValue(0);
-                console.log(state);
                 break;
-            case [
+            /* case [
                 (state.result !== [""] &&
                     operation === "*" &&
                     state.secondNumber === [""]) ||
@@ -142,8 +143,8 @@ const App = () => {
                 }));
                 setUpdatedState(false);
                 setValue(0);
-                break;
-            case [
+                break; */
+            /* case [
                 (state.result !== [""] &&
                     operation === "/" &&
                     state.secondNumber === [""]) ||
@@ -156,7 +157,7 @@ const App = () => {
                 }));
                 setUpdatedState(false);
                 setValue(0);
-                break;
+                break; */
                 default: 
                     console.log(new Error('Unknown clickHandlerOp function error...'));
         }
