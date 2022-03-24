@@ -72,7 +72,7 @@ const App = () => {
         console.log((((Number(state.result).toString().length >= 0) && state.mathOp === '')));
         console.log((Array((Number(state.result).toString() === [''])) && state.mathOp === ''));
         console.log(((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === ''));
-
+        // ToDO: add logical conditions for setting state.secondNumber
         if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
                 if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
@@ -105,7 +105,7 @@ const App = () => {
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
         switch ([operation, state]) {
             case [
-                ((Number(state.result)).toString() !== [''] && (Number(state.secondNumber)).toString() === [''] && state.mathOp === '+')
+                ((Array((Number(state.result).toString() === [''])) && state.mathOp === '') && state.mathOp === '+')
             ]:
                 console.log('entra...');
                 setState((state) => ({
