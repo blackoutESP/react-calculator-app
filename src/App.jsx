@@ -69,10 +69,14 @@ const App = () => {
 
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
+        console.log((((Number(state.result).toString().length >= 0) && state.mathOp === '')));
+        console.log((Array((Number(state.result).toString() === [''])) && state.mathOp === ''));
+        console.log(((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === ''));
+
         if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
-                if ((((Number(state.result).toString().length >= 0) && state.mathOp === '')) || 
-                    (((Number(state.result).toString() === [''])) && state.mathOp === '') || 
+                if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
+                    (Array((Number(state.result).toString() === [''])) && state.mathOp === '')) && 
                     ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')) {
                         setState((state) => ({
                             result: Number(
@@ -81,8 +85,8 @@ const App = () => {
                             mathOp: '',
                             secondNumber: [""]
                         }));
-                } else if ((((Number(state.result).toString().length <= 0) && state.mathOp === '')) || 
-                            (((Number(state.result).toString() === [''])) && state.mathOp === '') || 
+                } else if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
+                            (Array((Number(state.result).toString() === [''])) && state.mathOp === '')) && 
                             ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')) {
                         setState((state) => ({
                             result: Number(
@@ -99,36 +103,31 @@ const App = () => {
     const clickHandlerRemoveOperator = () => {};
 
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
-        console.log("clickHandlerOp");
-        console.log(state);
-        console.log(operation);
-        switch ([operation && state]) {
+        switch ([operation, state]) {
             case [
-                ((state.result !== [""] &&
-                    operation === "+") && state.secondNumber === ['']) ||
-                    (state.secondNumber === [""] && operation === "-")
+                ((Number(state.result)).toString() !== [''] && (Number(state.secondNumber)).toString() === [''] && state.mathOp === '+')
             ]:
+                console.log('entra...');
                 setState((state) => ({
-                    result: state.result,
-                    mathOp: "+",
+                    result: state.result ? state.result : [''],
+                    mathOp: operation,
                     secondNumber: [""],
                 }));
                 setUpdatedState(false);
                 setValue(0);
-                break;
-            case [
-                (state.result !== [""] &&
-                    operation === "-" &&
-                    state.secondNumber === [""]) ||
-                    (state.secondNumber === [""] && operation === "-")
-            ]:
+                console.log(state);
+                break; 
+            case [(state.result.length >= 0) && (operation === "-" && state.secondNumber === [''])] :
+                console.log(state);
+                console.log(operation);
                 setState((state) => ({
-                    result: state.result,
-                    mathOp: "-",
+                    result: [''],
+                    mathOp: operation,
                     secondNumber: [""],
                 }));
                 setUpdatedState(false);
                 setValue(0);
+                console.log(state);
                 break;
             case [
                 (state.result !== [""] &&
@@ -158,8 +157,8 @@ const App = () => {
                 setUpdatedState(false);
                 setValue(0);
                 break;
-            default:
-                console.log(new Error("No operation selected..."));
+                default: 
+                    console.log(new Error('Unknown clickHandlerOp function error...'));
         }
     };
 
