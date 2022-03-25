@@ -113,9 +113,6 @@ const App = () => {
 
         // this returns correctly Number -0 ...
         // console.log(-Math.abs([state.result, (-(Number((Number(parseFloat(state.result)))) * 6))].join('')));
-
-        // check
-        // line 120 is evaluated as false ... 
         console.log(((Number(state.result).toString() !== Number(['']).toString())));
         console.log(String(state.mathOp) === String(''));
         console.log(String(operation) === String('-'));
