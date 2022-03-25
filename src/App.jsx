@@ -112,18 +112,22 @@ const App = () => {
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
 
         // this returns correctly Number -0 ...
-        console.log(-Math.abs([...state.result, (-(Number((Number(parseFloat(state.result)))) * 6))].join('')));
+        // console.log(-Math.abs([state.result, (-(Number((Number(parseFloat(state.result)))) * 6))].join('')));
 
-        console.log((Number(state.result).toString() === Number(['']).toString()) && 
+        // check
+        // lines 119 and 120 are evaluated as false ... 
+        console.log(((Number(state.result).toString() !== Number([''].map(Number)).toString())));
+        console.log(String(state.mathOp) !== String(''));
+        console.log(String(operation) === String('-'));
+        console.log((Number(state.result).toString().length >= 0));
+        console.log(String(operation) === String('-'));
+        console.log(((Number(state.result).toString() !== [''].toString())));
+
+        if ((Number(state.result).toString() === Number(['']).toString()) && 
                 String(state.mathOp) === String('') && String(operation) === String('-') &&
                     (((((Number(state.result).toString().length >= 0) && String(operation) === String('-'))) && 
-                        ((Number(state.result).toString() === ['']))))).join('');
-
-        /* if ((Number(state.result).toString() === Number(['']).toString()) && 
-                String(state.mathOp) === String('') && String(operation) === String('-') &&
-                    (((((Number(state.result).toString().length >= 0) && String(operation) === String('-'))) && 
-                        (Array((Number(state.result).toString() === [''])) && 
-                            ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === ''))))) {
+                        ((Number(state.result).toString() !== [''].toString())) && 
+                            ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))))) {
                                 // negative number
                                 setState((state) => ({
                                     result: -Math.abs([...state.result, (-(Number((Number(parseFloat(state.result)))) * 6))].join('')),
@@ -143,7 +147,7 @@ const App = () => {
                         }));
                         setUpdatedState(false);
                         setValue(0);
-        } */
+        }
     };
 
     const clickHandlerEqual = () => {
