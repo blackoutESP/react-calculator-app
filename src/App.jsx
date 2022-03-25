@@ -41,7 +41,7 @@ const Clear = ({ setState, setUpdatedState, setValue }) => {
     const useClear = () => {
         setState(() => ({
             mathOp: '',
-            result: [''],
+            result: ['1'],
             secondNumber: [''],
         }));
         setUpdatedState(false);
@@ -60,20 +60,28 @@ const App = () => {
 
     const [state, setState] = useState({
         mathOp: "",
-        result: [""],
-        secondNumber: [""],
+        result: ['1'],
+        secondNumber: [''],
     });
 
     const [updatedState, setUpdatedState] = useState(false);
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(1);
 
+    //console.log(String(state.mathOp) === String('') && String(state.mathOp) === String('-'));
+    /*
+        console.log((Number(state.result).toString() === Number(['']).toString()) && 
+                            String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
+                            (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
+                            ((Number(state.result).toString() === [''])) && 
+                            ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String('')))));
+    */
     const clickHandlerFunction = (value) => {
-        console.log('clickHandlerFunction');
-        // ToDO: add logical conditions for setting state.secondNumber
+        /* console.log('clickHandlerFunction');
+        
         if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
                 if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
-                    (Array((Number(state.result).toString() === [''])) && state.mathOp === '')) && 
+                    ((Number(state.result).toString() !== ['']) && String(state.mathOp) === String(''))) && 
                     ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')) {
                         setState((state) => ({
                             result: Number(
@@ -82,35 +90,52 @@ const App = () => {
                             mathOp: '',
                             secondNumber: [""]
                         }));
-                } else if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
-                            (Array((Number(state.result).toString() === [''])) && state.mathOp === '')) && 
-                            ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')) {
-                        setState((state) => ({
-                            result: Number(
-                                -Math.abs((Number(Number(state.result).toString().concat(value))))
-                            ),
-                            mathOp: '',
-                            secondNumber: ['']
-                        }));
+                } else if ((Number(state.result).toString() !== Number(['']).toString()) && 
+                            String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
+                            (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
+                            (Array((Number(state.result).toString() === [''])) && 
+                            ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === ''))))) {
+                                setState((state) => ({
+                                    result: Number(
+                                        -Math.abs([...state.result, (-(Number((Number(-state.result)))) * value)].join(''))
+                                    ),
+                                    mathOp: '',
+                                    secondNumber: ['']
+                                }));
                 }
             }
-        }
+        } */
     };
 
     const clickHandlerRemoveOperator = () => {};
 
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
-        console.log(Number(-Math.abs((Number(state.result).toString().concat(-1)))));
-        if ((Number(state.result).toString() === Number(['']).toString()) && 
-                    String(state.mathOp) === String('') && String(operation) === String('-')) {
-                        // negative number
-                        setState((state) => ({
-                            result: Number(-Math.abs((Number(Number(state.result).toString().concat('-1'))))),
-                            mathOp: '',
-                            secondNumber: ['']
-                        }));
-                        setUpdatedState(false);
-                        setValue(0);
+
+        // this returns correctly Number -0 ...
+        // console.log(-Math.abs([state.result, (-(Number((Number(parseFloat(state.result)))) * 6))].join('')));
+
+        // check
+        // line 120 is evaluated as false ... 
+        console.log(((Number(state.result).toString() !== Number(['']).toString())));
+        console.log(String(state.mathOp) === String(''));
+        console.log(String(operation) === String('-'));
+        console.log((Number(state.result).toString().length >= 0));
+        console.log(String(operation) === String('-'));
+        console.log(((Number(state.result).toString() !== [''].toString())));
+
+        if (((Number(state.result).toString() !== Number(['']).toString())) && 
+                String(state.mathOp) === String('') && String(operation) === String('-') &&
+                    (((Number(state.result).toString().length >= 0) && String(operation) === String('-'))) && 
+                        ((Number(state.result).toString() !== [''].toString())) && 
+                            ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))) {
+                                // negative number: fix result assign
+                                setState((state) => ({
+                                    result: -Math.abs([state.result, (-(Number((Number(parseFloat(state.result)))) * 6))].join('')),
+                                    mathOp: '',
+                                    secondNumber: ['']
+                                }));
+                                setUpdatedState(false);
+                                setValue(0);
         } else if ((Number(state.result).toString() !== Number(['']).toString()) 
                     && ((Number(state.secondNumber).toString() !== Number(['']).toString())) && 
                     String(state.mathOp) === String('')) {
