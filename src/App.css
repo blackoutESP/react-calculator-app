@@ -27,7 +27,7 @@ body {
   justify-content: center;
   padding: 0.5rem;
   margin: 0 auto;
-  width: 5rem;
+  width: auto;
   color: rgba(70, 67, 70, 0.933);
   font-weight: bold;
   font-size: medium;

@@ -6,6 +6,8 @@ import React, {
     useContext,
     useState
 } from "react";
+import { combineLatest, from, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import Title from "./components/Title";
 // import Result from './components/Result';
@@ -67,6 +69,10 @@ const App = () => {
     const [updatedState, setUpdatedState] = useState(false);
     const [value, setValue] = useState(1);
 
+    let result$ = of(state.result);
+    let secondNumber$ = of(state.secondNumber);
+    let subscription$;
+
     //console.log(String(state.mathOp) === String('') && String(state.mathOp) === String('-'));
     /*
         console.log((Number(state.result).toString() === Number(['']).toString()) && 
@@ -75,8 +81,9 @@ const App = () => {
                             ((Number(state.result).toString() === [''])) && 
                             ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String('')))));
     */
+
     const clickHandlerFunction = (value) => {
-        /* console.log('clickHandlerFunction');
+        console.log('clickHandlerFunction');
         
         if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
@@ -90,6 +97,11 @@ const App = () => {
                             mathOp: '',
                             secondNumber: [""]
                         }));
+                        // RxJS
+                        result$ = from(Promise.resolve(Math.abs((Number(Number(state.result).toString().concat(value))))));
+                        /* subscription$ = combineLatest(result$, secondNumber$).pipe(
+                            map(([result, secondNumber]) => console.log(value))
+                        ); */
                 } else if ((Number(state.result).toString() !== Number(['']).toString()) && 
                             String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
                             (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
@@ -102,31 +114,40 @@ const App = () => {
                                     mathOp: '',
                                     secondNumber: ['']
                                 }));
+                                // RxJS
+                                result$ = from(Promise.resolve(-Math.abs([...state.result, (-(Number((Number(-state.result)))) * value)].join(''))));
+                                /* subscription$ = combineLatest(result$, secondNumber$).pipe(
+                                    map(([result, secondNumber]) => console.log(value))
+                                ); */
                 }
             }
-        } */
+        }
     };
 
     const clickHandlerRemoveOperator = () => {};
 
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
 
-        // this returns correctly Number -0 ...
-        console.log(-Math.abs([state.result, (-(Number((Number(parseFloat(-1)))) * 6))].join('')))
+        // correct
+        state.result = 0;
         console.log(-Math.abs([state.result, (-(Number((Number(-1))) * 6))].join('')));
-        console.log(((Number(state.result).toString() !== Number(['']).toString())));
+        
         console.log(String(state.mathOp) === String(''));
         console.log(String(operation) === String('-'));
         console.log((Number(state.result).toString().length >= 0));
         console.log(String(operation) === String('-'));
         console.log(((Number(state.result).toString() !== [''].toString())));
 
-        if (((Number(state.result).toString() !== Number(['']).toString())) &&
+        if (((state.result.toString() !== [''].toString())) &&
             String(state.mathOp) === String('') && 
                 String(operation) === String('-') &&
                     (Number(state.result).toString().length >= 0) &&
                         ((Number(state.result).toString() !== [''].toString())) &&
                             ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))) {
+                                // RxJS subscription
+                                subscription$ = combineLatest(result$, secondNumber$).subscribe(
+                                    (result, secondNumber) => console.log(result)
+                                );
                                 // negative number: fix result assign
                                 setState((state) => ({
                                     result: -Math.abs([state.result, (-(Number((Number(parseFloat(state.result)))) * 6))].join('')),
@@ -138,6 +159,10 @@ const App = () => {
         } else if ((Number(state.result).toString() !== Number(['']).toString()) 
                     && ((Number(state.secondNumber).toString() !== Number(['']).toString())) && 
                     String(state.mathOp) === String('')) {
+                        // RxJS subscription
+                        subscription$ = combineLatest(result$, secondNumber$).subscribe(
+                            (result, secondNumber) => console.log(result)
+                        );
                         // negative number
                         setState((state) => ({
                             result: [''],

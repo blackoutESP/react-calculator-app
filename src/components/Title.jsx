@@ -3,7 +3,7 @@ import React from 'react';
 const Title = () => {
     return (
         <div className='title'>
-            Calc App
+            Basic Calculator App
         </div>
     );
 };
