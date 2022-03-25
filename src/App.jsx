@@ -41,7 +41,7 @@ const Clear = ({ setState, setUpdatedState, setValue }) => {
     const useClear = () => {
         setState(() => ({
             mathOp: '',
-            result: [''],
+            result: ['1'],
             secondNumber: [''],
         }));
         setUpdatedState(false);
@@ -65,12 +65,11 @@ const App = () => {
     });
 
     const [updatedState, setUpdatedState] = useState(false);
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(1);
 
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
-        console.log('check condition: ');
-        console.log((Number(state.result).toString() !== Number(['']).toString()));
+        
         //console.log(String(state.mathOp) === String('') && String(state.mathOp) === String('-'));
 
         /* console.log((Number(state.result).toString() === Number(['']).toString()) && 
@@ -79,6 +78,7 @@ const App = () => {
                             ((Number(state.result).toString() === [''])) && 
                             ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))))); */
 
+        console.log(-Math.abs(...state.result, (-Math.abs(Number((Number(state.result)))) * value)));
         // ToDO: add logical conditions for setting state.secondNumber
         if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
@@ -99,7 +99,7 @@ const App = () => {
                             ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === ''))))) {
                                 setState((state) => ({
                                     result: Number(
-                                        -Math.abs([...state.result, (-(Number((Number(-1)))) * value)].join(''))
+                                        -Math.abs([...state.result, (-(Number((Number(-state.result)))) * value)].join(''))
                                     ),
                                     mathOp: '',
                                     secondNumber: ['']
@@ -134,7 +134,7 @@ const App = () => {
                             ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === ''))))) {
                                 // negative number
                                 setState((state) => ({
-                                    result: -Math.abs([...state.result, (-(Number((Number(-1)))))].join('')),
+                                    result: -Math.abs([...state.result, (-(Number((Number(value))) * -1))].join('')),
                                     mathOp: '',
                                     secondNumber: ['']
                                 }));
