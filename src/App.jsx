@@ -110,18 +110,17 @@ const App = () => {
     const clickHandlerRemoveOperator = () => {};
 
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
-
-        // this returns correctly Number -0 ...
-        console.log(-Math.abs([state.result, (-(Number((Number(parseFloat(-1)))) * 6))].join('')))
+        // correct
+        state.result = 0;
         console.log(-Math.abs([state.result, (-(Number((Number(-1))) * 6))].join('')));
-        console.log(((Number(state.result).toString() !== Number(['']).toString())));
+        
         console.log(String(state.mathOp) === String(''));
         console.log(String(operation) === String('-'));
         console.log((Number(state.result).toString().length >= 0));
         console.log(String(operation) === String('-'));
         console.log(((Number(state.result).toString() !== [''].toString())));
 
-        if (((Number(state.result).toString() !== Number(['']).toString())) &&
+        if (((state.result.toString() !== [''].toString())) &&
             String(state.mathOp) === String('') && 
                 String(operation) === String('-') &&
                     (Number(state.result).toString().length >= 0) &&
