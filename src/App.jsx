@@ -71,39 +71,17 @@ const App = () => {
 
     let result$ = of(state.result);
     let secondNumber$ = of(state.secondNumber);
+    let combinationResults = 0;
 
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
-        let negativeFloat = 0.0;
+        
         if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
                 if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
                     ((Number(state.result).toString() !== ['']) && String(state.mathOp) === String(''))) && 
                     ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')) {
-                        // comprobar si el primer valor es un signo negativo...
-                        if (value === '-') {
-                            /*
-                                si el signo es negativo, vamos guardando value en negativeFloat
-                                hasta que se tenga que actualizar el setState...
-                            */
-                            //negativeFloat += Math.abs((Number(Number(state.result).toString().concat(value))));
-                            //console.log(-negativeFloat);
-                            console.log(value);
-                            /*
-                                una vez que tenga negativeFloat con todas las cifras del operando, utilizamos useEffect
-                                para detectar los cambios. Cuando no haya más cambios setState.
-                            */
-                        } else {
-                            setState((state) => ({
-                                result: Number(
-                                    Math.abs((Number(Number(state.result).toString().concat(value))))
-                                ),
-                                mathOp: '',
-                                secondNumber: [""]
-                            }));
-                            // RxJS
-                            result$ = from(Promise.resolve(Math.abs((Number(Number(state.result).toString().concat(value))))));
-                        }
+                        
                 } else if ((Number(state.result).toString() !== Number(['']).toString()) && 
                             String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
                             (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
@@ -125,9 +103,52 @@ const App = () => {
 
     const clickHandlerRemoveOperator = () => {};
 
-    const UseCombinationResults = (combination) => {
-        useEffect(() => {}, []);
+    const UseCombinationResults = () => {
+        useEffect(() => {
+            /*
+            // comprobar si el primer valor es un signo negativo...
+                if (value === '-') {
+                    
+                        si el signo es negativo, vamos guardando value en negativeFloat
+                        hasta que se tenga que actualizar el setState...
+                    
+                    negativeFloat += Math.abs((Number(Number(state.result).toString().concat(value))));
+                    console.log(-negativeFloat);
+                    console.log(value);
+                    
+                        una vez que tenga negativeFloat con todas las cifras del operando, utilizamos useEffect
+                        para detectar los cambios. Cuando no haya más cambios setState.
+                    
+                } else {
+                    setState((state) => ({
+                        result: Number(
+                            Math.abs((Number(Number(state.result).toString().concat(value))))
+                        ),
+                        mathOp: '',
+                        secondNumber: [""]
+                    }));
+                    // RxJS
+                    result$ = from(Promise.resolve(Math.abs((Number(Number(state.result).toString().concat(value))))));
+                }
+            */
+            // RxJS subscription
+            combineLatest(result$, secondNumber$).subscribe(
+                (combination) => {
+                    console.log(combination[0]); 
+                    setState((state) => ({
+                        result: combinationResults,
+                        mathOp: '',
+                        secondNumber: ['']
+                    }));
+                    setUpdatedState(false);
+                }
+            );
+            // negative number: fix result assign
+            setValue(0);
+        }, []);
     };
+
+    const useCombinationResults = UseCombinationResults();
 
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
 
@@ -146,14 +167,9 @@ const App = () => {
                     (Number(state.result).toString().length >= 0) &&
                         ((Number(state.result).toString() !== [''].toString())) &&
                             ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))) {
-                                // RxJS subscription
-                                combineLatest(result$, secondNumber$).subscribe(
-                                    (combination) => {
-                                        console.log(combination, combination[0]);
-                                    }
-                                );
-                                // negative number: fix result assign
-                                setValue(0);
+                                
+                                // Intentar llamar al hook useCombinationResults de cualquier forma...
+                                
         } else if ((Number(state.result).toString() !== Number(['']).toString()) 
                     && ((Number(state.secondNumber).toString() !== Number(['']).toString())) && 
                     String(state.mathOp) === String('')) {
