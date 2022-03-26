@@ -73,7 +73,7 @@ const App = () => {
 
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
-        
+        let negativeFloat = 0.0;
         if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
                 if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
@@ -82,8 +82,13 @@ const App = () => {
                         // comprobar si el primer valor es un signo negativo...
                         if (value === '-') {
                             /*
-                                si el signo es negativo, vamos guardando value en una variable auxiliar
+                                si el signo es negativo, vamos guardando value en negativeFloat
                                 hasta que se tenga que actualizar el setState...
+                            */
+                            negativeFloat = Math.abs((Number(Number(state.result).toString().concat(value))));
+                            /*
+                                una vez que tenga negativeFloat con todas las cifras del operando, utilizamos useEffect
+                                para detectar los cambios. Cuando no haya más cambios setState.
                             */
                         } else {
                             setState((state) => ({
