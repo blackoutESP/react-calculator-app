@@ -3,10 +3,8 @@
 */
 import React, {
     createContext,
-    useContext,
     useState
 } from "react";
-import { combineLatest, from, of } from 'rxjs';
 
 import Title from "./components/Title";
 // import Result from './components/Result';
@@ -22,13 +20,25 @@ import * as mathjs from "mathjs";
 /*
     Generación de la función del componente Result
 */
-const Result = () => {
-    const { value, setValue } = useContext(ResultContext);
-    return (
-        <div className='result'>
-            <span>{value}</span>
-        </div>
-    );
+
+const Result = (state) => {
+    let symbol = '';
+    let result = state.value.result[0];
+    if (String(result).split('')[0] === '-') {
+        symbol = String(result).split('')[0];
+        result = String(result).split('-').slice(0, String(result).length)[1];
+        return (
+            <div className='result'>
+                <span>{result}{symbol}</span>
+            </div>
+        );
+    } else {
+        return (
+            <div className='result'>
+                <span>{result}</span>
+            </div>
+        );
+    }
 };
 
 /*
@@ -66,19 +76,7 @@ const App = () => {
     });
 
     const [updatedState, setUpdatedState] = useState(false);
-    const [value, setValue] = useState(1);
-
-    let result$ = of(state.result);
-    let secondNumber$ = of(state.secondNumber);
-
-    //console.log(String(state.mathOp) === String('') && String(state.mathOp) === String('-'));
-    /*
-        console.log((Number(state.result).toString() === Number(['']).toString()) && 
-                            String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
-                            (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
-                            ((Number(state.result).toString() === [''])) && 
-                            ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String('')))));
-    */
+    // const [value, setValue] = useState();
 
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
@@ -88,20 +86,17 @@ const App = () => {
                 if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
                     ((Number(state.result).toString() !== ['']) && String(state.mathOp) === String(''))) && 
                     ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')) {
-                        setState((state) => ({
-                            result: Number(
-                                Math.abs((Number(Number(state.result).toString().concat(value))))
-                            ),
-                            mathOp: '',
-                            secondNumber: [""]
-                        }));
-                        // RxJS
-                        result$ = from(Promise.resolve(Math.abs((Number(Number(state.result).toString().concat(value))))));
+                        console.log(value);
+                        // setState
+                        // setUpdatedState
                 } else if ((Number(state.result).toString() !== Number(['']).toString()) && 
                             String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
                             (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
                             (Array((Number(state.result).toString() === [''])) && 
                             ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === ''))))) {
+                                console.log(value);
+                                // setState
+                                // setUpdatedState
                                 setState((state) => ({
                                     result: Number(
                                         -Math.abs([...state.result, (-(Number((Number(-state.result)))) * value)].join(''))
@@ -109,8 +104,6 @@ const App = () => {
                                     mathOp: '',
                                     secondNumber: ['']
                                 }));
-                                // RxJS
-                                result$ = from(Promise.resolve(-Math.abs([...state.result, (-(Number((Number(-state.result)))) * value)].join(''))));
                 }
             }
         }
@@ -118,52 +111,25 @@ const App = () => {
 
     const clickHandlerRemoveOperator = () => {};
 
-    const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
+    const clickHandlerOp = (state, setState, updatedState, setUpdatedState, operation) => {
 
         // correct
         // console.log(-Math.abs([state.result, (-(Number((Number(-1))) * 6))].join('')));
-        
-        // console.log(String(state.mathOp) === String(''));
-        // console.log(String(operation) === String('-'));
-        // console.log((Number(state.result).toString().length >= 0));
-        // console.log(String(operation) === String('-'));
-        // console.log(((Number(state.result).toString() !== [''].toString())));
 
+        // primer if (not neccesary):  && ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))
         if (((state.result.toString() !== [''].toString())) &&
             String(state.mathOp) === String('') && 
                 String(operation) === String('-') &&
                     (Number(state.result).toString().length >= 0) &&
-                        ((Number(state.result).toString() !== [''].toString())) &&
-                            ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))) {
-                                // RxJS subscription
-                                combineLatest(result$, secondNumber$).subscribe(
-                                    (combination) => {
-                                        console.log(combination);
-                                    }
-                                );
-                                // negative number: fix result assign
-                                setState((state) => ({
-                                    result: -Math.abs([state.result, (-(Number((Number(parseFloat(state.result)))) * 6))].join('')),
-                                    mathOp: '',
-                                    secondNumber: ['']
-                                }));
-                                setUpdatedState(false);
-                                setValue(0);
+                        ((Number(state.result).toString() !== [''].toString()))) {
+                            // setState
+                            // setUpdatedState
+                                
         } else if ((Number(state.result).toString() !== Number(['']).toString()) 
                     && ((Number(state.secondNumber).toString() !== Number(['']).toString())) && 
                     String(state.mathOp) === String('')) {
-                        // RxJS subscription
-                        combineLatest(result$, secondNumber$).subscribe(
-                            (combination) => console.log(combination)
-                        );
-                        // negative number
-                        setState((state) => ({
-                            result: [''],
-                            mathOp: '',
-                            secondNumber: ['']
-                        }));
-                        setUpdatedState(false);
-                        setValue(0);
+                        // setState
+                        // setUpdatedState
         }
     };
 
@@ -180,7 +146,7 @@ const App = () => {
                         mathOp: ""
                     }));
                     setUpdatedState(true);
-                    setValue(state.result);
+                    //setValue(state.result);
                 }
                 break;
             case (state.result !== [""] && state.mathOp === "-") || (state.secondNumber !== [''] && state.mathOp === "-"):
@@ -191,7 +157,7 @@ const App = () => {
                         mathOp: "",
                     }));
                     setUpdatedState(true);
-                    setValue(state.result);
+                    //setValue(state.result);
                 } else {
                     // setUpdatedState(true);
                     state.result = mathjs.subtract(
@@ -204,7 +170,7 @@ const App = () => {
                         mathOp: "",
                     }));
                     setUpdatedState(true);
-                    setValue(state.result);
+                    //setValue(state.result);
                 }
                 break;
             case (state.result !== [""] && state.mathOp === "*") ||
@@ -220,7 +186,7 @@ const App = () => {
                         mathOp: "",
                     }));
                     setUpdatedState(true);
-                    setValue(state.result);
+                    //setValue(state.result);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -237,7 +203,7 @@ const App = () => {
                         mathOp: "",
                     }));
                     setUpdatedState(true);
-                    setValue(state.result);
+                    //setValue(state.result);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -256,7 +222,7 @@ const App = () => {
             <Title />
             <ResultContext.Provider value={{ state, setUpdatedState }}>
                 <div className='react-calculator'>
-                    <Result />
+                    <Result value={state}/>
                     <div className='numbers'>
                         <Button
                             value={1}
@@ -311,8 +277,8 @@ const App = () => {
                     </div>
                     <div className='functions'>
                         <Clear
+                            value={state}
                             setState={setState}
-                            setValue={setValue}
                             setUpdatedState={setUpdatedState}
                             updatedState={updatedState}
                         />
@@ -326,25 +292,25 @@ const App = () => {
                         <MathOperations
                             operation={'+'}
                             className={'math-operations'}
-                            props={{value, setValue, state, setState, updatedState, setUpdatedState}}
+                            props={{state, setState, updatedState, setUpdatedState}}
                             clickHandlerOp={clickHandlerOp}
                         />
                         <MathOperations
                             operation={'-'}
                             className={'math-operations'}
-                            props={{value, setValue, state, setState, updatedState, setUpdatedState}}
+                            props={{state, setState, updatedState, setUpdatedState}}
                             clickHandlerOp={clickHandlerOp}
                         />
                         <MathOperations
                             operation={'*'}
                             className={'math-operations'}
-                            props={{value, setValue, state, setState, updatedState, setUpdatedState}}
+                            props={{state, setState, updatedState, setUpdatedState}}
                             clickHandlerOp={clickHandlerOp}
                         />
                         <MathOperations
                             operation={'/'}
                             className={'math-operations'}
-                            props={{value, setValue, state, setState, updatedState, setUpdatedState}}
+                            props={{state, setState, updatedState, setUpdatedState}}
                             clickHandlerOp={clickHandlerOp}
                         />
                     </div>
