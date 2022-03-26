@@ -79,15 +79,23 @@ const App = () => {
                 if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
                     ((Number(state.result).toString() !== ['']) && String(state.mathOp) === String(''))) && 
                     ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')) {
-                        setState((state) => ({
-                            result: Number(
-                                Math.abs((Number(Number(state.result).toString().concat(value))))
-                            ),
-                            mathOp: '',
-                            secondNumber: [""]
-                        }));
-                        // RxJS
-                        result$ = from(Promise.resolve(Math.abs((Number(Number(state.result).toString().concat(value))))));
+                        // comprobar si el primer valor es un signo negativo...
+                        if (value === '-') {
+                            /*
+                                si el signo es negativo, vamos guardando value en una variable auxiliar
+                                hasta que se tenga que actualizar el setState...
+                            */
+                        } else {
+                            setState((state) => ({
+                                result: Number(
+                                    Math.abs((Number(Number(state.result).toString().concat(value))))
+                                ),
+                                mathOp: '',
+                                secondNumber: [""]
+                            }));
+                            // RxJS
+                            result$ = from(Promise.resolve(Math.abs((Number(Number(state.result).toString().concat(value))))));
+                        }
                 } else if ((Number(state.result).toString() !== Number(['']).toString()) && 
                             String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
                             (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
