@@ -71,15 +71,6 @@ const App = () => {
     let result$ = of(state.result);
     let secondNumber$ = of(state.secondNumber);
 
-    //console.log(String(state.mathOp) === String('') && String(state.mathOp) === String('-'));
-    /*
-        console.log((Number(state.result).toString() === Number(['']).toString()) && 
-                            String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
-                            (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
-                            ((Number(state.result).toString() === [''])) && 
-                            ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String('')))));
-    */
-
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
         
