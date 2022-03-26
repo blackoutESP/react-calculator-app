@@ -61,7 +61,7 @@ const App = () => {
 
     const [state, setState] = useState({
         mathOp: "",
-        result: ['1'],
+        result: ['0'],
         secondNumber: [''],
     });
 
@@ -121,14 +121,13 @@ const App = () => {
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
 
         // correct
-        state.result = 0;
-        console.log(-Math.abs([state.result, (-(Number((Number(-1))) * 6))].join('')));
+        // console.log(-Math.abs([state.result, (-(Number((Number(-1))) * 6))].join('')));
         
-        console.log(String(state.mathOp) === String(''));
-        console.log(String(operation) === String('-'));
-        console.log((Number(state.result).toString().length >= 0));
-        console.log(String(operation) === String('-'));
-        console.log(((Number(state.result).toString() !== [''].toString())));
+        // console.log(String(state.mathOp) === String(''));
+        // console.log(String(operation) === String('-'));
+        // console.log((Number(state.result).toString().length >= 0));
+        // console.log(String(operation) === String('-'));
+        // console.log(((Number(state.result).toString() !== [''].toString())));
 
         if (((state.result.toString() !== [''].toString())) &&
             String(state.mathOp) === String('') && 
@@ -138,7 +137,9 @@ const App = () => {
                             ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))) {
                                 // RxJS subscription
                                 combineLatest(result$, secondNumber$).subscribe(
-                                    (result, secondNumber) => console.log(result)
+                                    (combination) => {
+                                        console.log(combination);
+                                    }
                                 );
                                 // negative number: fix result assign
                                 setState((state) => ({
@@ -153,7 +154,7 @@ const App = () => {
                     String(state.mathOp) === String('')) {
                         // RxJS subscription
                         combineLatest(result$, secondNumber$).subscribe(
-                            (result, secondNumber) => console.log(result)
+                            (combination) => console.log(combination)
                         );
                         // negative number
                         setState((state) => ({
