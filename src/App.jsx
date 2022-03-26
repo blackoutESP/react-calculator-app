@@ -4,6 +4,7 @@
 import React, {
     createContext,
     useContext,
+    setContext,
     useState,
     useEffect
 } from "react";
@@ -23,67 +24,74 @@ import * as mathjs from "mathjs";
 /*
     Generación de la función del componente Result
 */
-const Result = () => {
+
+const UseCombinationResults = (mathOp, setState, setUpdatedState) => {
+
+    console.log('UseCombinationResults hook: ');
+    console.log(mathOp);
     const { value, setValue } = useContext(ResultContext);
-
-    const UseCombinationResults = (mathOp) => {
-
+    useEffect(() => {
         /*
-            Si se llama a este hook correctamente, podría actualizar los valores en el displayin
-            de la calculadora en tiempo real.
+        // comprobar si el primer valor es un signo negativo...
+            if (value === '-') {
+                
+                    si el signo es negativo, vamos guardando value en negativeFloat
+                    hasta que se tenga que actualizar el setState...
+                
+                negativeFloat += Math.abs((Number(Number(state.result).toString().concat(value))));
+                console.log(-negativeFloat);
+                console.log(value);
+                
+                    una vez que tenga negativeFloat con todas las cifras del operando, utilizamos useEffect
+                    para detectar los cambios. Cuando no haya más cambios setState.
+                
+            } else {
+                setState((state) => ({
+                    result: Number(
+                        Math.abs((Number(Number(state.result).toString().concat(value))))
+                    ),
+                    mathOp: '',
+                    secondNumber: [""]
+                }));
+                // RxJS
+                result$ = from(Promise.resolve(Math.abs((Number(Number(state.result).toString().concat(value))))));
+            }
         */
+        // RxJS subscription
+        /* combineLatest(result$, secondNumber$).subscribe(
+            (combination) => {
+                console.log(combination[0]); 
+                setState((state) => ({
+                    result: combinationResults,
+                    mathOp: '',
+                    secondNumber: ['']
+                }));
+                setUpdatedState(false);
+            }
+        ); */
+        // negative number: fix result assign
+        // setValue(0);
+    }, []);
+};
 
-        console.log('UseCombinationResults hook: ');
-        console.log(mathOp);
-        useEffect(() => {
-            /*
-            // comprobar si el primer valor es un signo negativo...
-                if (value === '-') {
-                    
-                        si el signo es negativo, vamos guardando value en negativeFloat
-                        hasta que se tenga que actualizar el setState...
-                    
-                    negativeFloat += Math.abs((Number(Number(state.result).toString().concat(value))));
-                    console.log(-negativeFloat);
-                    console.log(value);
-                    
-                        una vez que tenga negativeFloat con todas las cifras del operando, utilizamos useEffect
-                        para detectar los cambios. Cuando no haya más cambios setState.
-                    
-                } else {
-                    setState((state) => ({
-                        result: Number(
-                            Math.abs((Number(Number(state.result).toString().concat(value))))
-                        ),
-                        mathOp: '',
-                        secondNumber: [""]
-                    }));
-                    // RxJS
-                    result$ = from(Promise.resolve(Math.abs((Number(Number(state.result).toString().concat(value))))));
-                }
-            */
-            // RxJS subscription
-            /* combineLatest(result$, secondNumber$).subscribe(
-                (combination) => {
-                    console.log(combination[0]); 
-                    setState((state) => ({
-                        result: combinationResults,
-                        mathOp: '',
-                        secondNumber: ['']
-                    }));
-                    setUpdatedState(false);
-                }
-            ); */
-            // negative number: fix result assign
-            setValue(0);
-        }, []);
-    };
-
-    return (
-        <div className='result'>
-            <span>{value}</span>
-        </div>
-    );
+const Result = (state) => {
+    let symbol = '';
+    let result = state.value.result[0];
+    if (String(result).split('')[0] === '-') {
+        symbol = String(result).split('')[0];
+        result = String(result).split('-').slice(0, String(result).length)[1];
+        return (
+            <div className='result'>
+                <span>{result}{symbol}</span>
+            </div>
+        );
+    } else {
+        return (
+            <div className='result'>
+                <span>{result}</span>
+            </div>
+        );
+    }
 };
 
 /*
@@ -116,12 +124,12 @@ const App = () => {
 
     const [state, setState] = useState({
         mathOp: "",
-        result: ['0'],
+        result: ['-12'],
         secondNumber: [''],
     });
 
     const [updatedState, setUpdatedState] = useState(false);
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(state.result[0]);
 
     let result$ = of(state.result);
     let secondNumber$ = of(state.secondNumber);
@@ -161,12 +169,6 @@ const App = () => {
 
         // correct
         // console.log(-Math.abs([state.result, (-(Number((Number(-1))) * 6))].join('')));
-        
-        // console.log(String(state.mathOp) === String(''));
-        // console.log(String(operation) === String('-'));
-        // console.log((Number(state.result).toString().length >= 0));
-        // console.log(String(operation) === String('-'));
-        // console.log(((Number(state.result).toString() !== [''].toString())));
 
         if (((state.result.toString() !== [''].toString())) &&
             String(state.mathOp) === String('') && 
@@ -285,7 +287,7 @@ const App = () => {
             <Title />
             <ResultContext.Provider value={{ state, setUpdatedState }}>
                 <div className='react-calculator'>
-                    <Result />
+                    <Result value={state}/>
                     <div className='numbers'>
                         <Button
                             value={1}
