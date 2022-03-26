@@ -4,7 +4,8 @@
 import React, {
     createContext,
     useContext,
-    useState
+    useState,
+    useEffect
 } from "react";
 import { combineLatest, from, of } from 'rxjs';
 
@@ -124,6 +125,10 @@ const App = () => {
 
     const clickHandlerRemoveOperator = () => {};
 
+    const UseCombinationResults = (combination) => {
+        useEffect(() => {}, []);
+    };
+
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
 
         // correct
@@ -144,13 +149,7 @@ const App = () => {
                                 // RxJS subscription
                                 combineLatest(result$, secondNumber$).subscribe(
                                     (combination) => {
-                                        console.log(combination);
-                                        setState((state) => ({
-                                            result: -Math.abs([state.result, (-(Number((Number(parseFloat(combination[0]))))))].join('')),
-                                            mathOp: '',
-                                            secondNumber: ['']
-                                        }));
-                                        setUpdatedState(false);
+                                        console.log(combination, combination[0]);
                                     }
                                 );
                                 // negative number: fix result assign
