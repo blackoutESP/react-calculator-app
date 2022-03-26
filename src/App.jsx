@@ -25,6 +25,60 @@ import * as mathjs from "mathjs";
 */
 const Result = () => {
     const { value, setValue } = useContext(ResultContext);
+
+    const UseCombinationResults = (mathOp) => {
+
+        /*
+            Si se llama a este hook correctamente, podría actualizar los valores en el displayin
+            de la calculadora en tiempo real.
+        */
+
+        console.log('UseCombinationResults hook: ');
+        console.log(mathOp);
+        useEffect(() => {
+            /*
+            // comprobar si el primer valor es un signo negativo...
+                if (value === '-') {
+                    
+                        si el signo es negativo, vamos guardando value en negativeFloat
+                        hasta que se tenga que actualizar el setState...
+                    
+                    negativeFloat += Math.abs((Number(Number(state.result).toString().concat(value))));
+                    console.log(-negativeFloat);
+                    console.log(value);
+                    
+                        una vez que tenga negativeFloat con todas las cifras del operando, utilizamos useEffect
+                        para detectar los cambios. Cuando no haya más cambios setState.
+                    
+                } else {
+                    setState((state) => ({
+                        result: Number(
+                            Math.abs((Number(Number(state.result).toString().concat(value))))
+                        ),
+                        mathOp: '',
+                        secondNumber: [""]
+                    }));
+                    // RxJS
+                    result$ = from(Promise.resolve(Math.abs((Number(Number(state.result).toString().concat(value))))));
+                }
+            */
+            // RxJS subscription
+            /* combineLatest(result$, secondNumber$).subscribe(
+                (combination) => {
+                    console.log(combination[0]); 
+                    setState((state) => ({
+                        result: combinationResults,
+                        mathOp: '',
+                        secondNumber: ['']
+                    }));
+                    setUpdatedState(false);
+                }
+            ); */
+            // negative number: fix result assign
+            setValue(0);
+        }, []);
+    };
+
     return (
         <div className='result'>
             <span>{value}</span>
@@ -103,53 +157,6 @@ const App = () => {
 
     const clickHandlerRemoveOperator = () => {};
 
-    const UseCombinationResults = () => {
-        useEffect(() => {
-            /*
-            // comprobar si el primer valor es un signo negativo...
-                if (value === '-') {
-                    
-                        si el signo es negativo, vamos guardando value en negativeFloat
-                        hasta que se tenga que actualizar el setState...
-                    
-                    negativeFloat += Math.abs((Number(Number(state.result).toString().concat(value))));
-                    console.log(-negativeFloat);
-                    console.log(value);
-                    
-                        una vez que tenga negativeFloat con todas las cifras del operando, utilizamos useEffect
-                        para detectar los cambios. Cuando no haya más cambios setState.
-                    
-                } else {
-                    setState((state) => ({
-                        result: Number(
-                            Math.abs((Number(Number(state.result).toString().concat(value))))
-                        ),
-                        mathOp: '',
-                        secondNumber: [""]
-                    }));
-                    // RxJS
-                    result$ = from(Promise.resolve(Math.abs((Number(Number(state.result).toString().concat(value))))));
-                }
-            */
-            // RxJS subscription
-            combineLatest(result$, secondNumber$).subscribe(
-                (combination) => {
-                    console.log(combination[0]); 
-                    setState((state) => ({
-                        result: combinationResults,
-                        mathOp: '',
-                        secondNumber: ['']
-                    }));
-                    setUpdatedState(false);
-                }
-            );
-            // negative number: fix result assign
-            setValue(0);
-        }, []);
-    };
-
-    const useCombinationResults = UseCombinationResults();
-
     const clickHandlerOp = (setValue, state, setState, updatedState, setUpdatedState, operation) => {
 
         // correct
@@ -167,16 +174,15 @@ const App = () => {
                     (Number(state.result).toString().length >= 0) &&
                         ((Number(state.result).toString() !== [''].toString())) &&
                             ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))) {
-                                
-                                // Intentar llamar al hook useCombinationResults de cualquier forma...
+                                // Intentar llamar al hook UseCombinationResults de cualquier forma...
                                 
         } else if ((Number(state.result).toString() !== Number(['']).toString()) 
                     && ((Number(state.secondNumber).toString() !== Number(['']).toString())) && 
                     String(state.mathOp) === String('')) {
                         // RxJS subscription
-                        combineLatest(result$, secondNumber$).subscribe(
+                        /* combineLatest(result$, secondNumber$).subscribe(
                             (combination) => { 
-                                console.log(combination);
+                                console.log(combination[0]);
                                 // negative number
                                 setState((state) => ({
                                     result: [''],
@@ -185,7 +191,7 @@ const App = () => {
                                 }));
                                 setUpdatedState(false);
                             }
-                        );
+                        ); */
                         setValue(0);
         }
     };
