@@ -85,7 +85,9 @@ const App = () => {
                                 si el signo es negativo, vamos guardando value en negativeFloat
                                 hasta que se tenga que actualizar el setState...
                             */
-                            negativeFloat = Math.abs((Number(Number(state.result).toString().concat(value))));
+                            //negativeFloat += Math.abs((Number(Number(state.result).toString().concat(value))));
+                            //console.log(-negativeFloat);
+                            console.log(value);
                             /*
                                 una vez que tenga negativeFloat con todas las cifras del operando, utilizamos useEffect
                                 para detectar los cambios. Cuando no haya más cambios setState.
@@ -143,30 +145,32 @@ const App = () => {
                                 combineLatest(result$, secondNumber$).subscribe(
                                     (combination) => {
                                         console.log(combination);
+                                        setState((state) => ({
+                                            result: -Math.abs([state.result, (-(Number((Number(parseFloat(combination[0]))))))].join('')),
+                                            mathOp: '',
+                                            secondNumber: ['']
+                                        }));
+                                        setUpdatedState(false);
                                     }
                                 );
                                 // negative number: fix result assign
-                                setState((state) => ({
-                                    result: -Math.abs([state.result, (-(Number((Number(parseFloat(state.result)))) * 6))].join('')),
-                                    mathOp: '',
-                                    secondNumber: ['']
-                                }));
-                                setUpdatedState(false);
                                 setValue(0);
         } else if ((Number(state.result).toString() !== Number(['']).toString()) 
                     && ((Number(state.secondNumber).toString() !== Number(['']).toString())) && 
                     String(state.mathOp) === String('')) {
                         // RxJS subscription
                         combineLatest(result$, secondNumber$).subscribe(
-                            (combination) => console.log(combination)
+                            (combination) => { 
+                                console.log(combination);
+                                // negative number
+                                setState((state) => ({
+                                    result: [''],
+                                    mathOp: '',
+                                    secondNumber: ['']
+                                }));
+                                setUpdatedState(false);
+                            }
                         );
-                        // negative number
-                        setState((state) => ({
-                            result: [''],
-                            mathOp: '',
-                            secondNumber: ['']
-                        }));
-                        setUpdatedState(false);
                         setValue(0);
         }
     };
