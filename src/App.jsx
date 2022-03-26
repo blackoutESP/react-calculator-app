@@ -45,18 +45,15 @@ const Result = (state) => {
     Generación de la función del componente Clear, para borrar la memoria de la calculadora.
 */
 
-const Clear = ({ setState, setUpdatedState, setValue }) => {
-
-    /* const { setValue } = useContext(ResultContext); */
+const Clear = ({ setState, setUpdatedState }) => {
 
     const useClear = () => {
         setState(() => ({
             mathOp: '',
-            result: ['1'],
+            result: ['0'],
             secondNumber: [''],
         }));
         setUpdatedState(false);
-        setValue(0);
     }
     return <button onClick={useClear}>Clear</button>
 };
@@ -71,7 +68,7 @@ const App = () => {
 
     const [state, setState] = useState({
         mathOp: "",
-        result: ['0'],
+        result: ['-12'],
         secondNumber: [''],
     });
 
@@ -146,7 +143,6 @@ const App = () => {
                         mathOp: ""
                     }));
                     setUpdatedState(true);
-                    //setValue(state.result);
                 }
                 break;
             case (state.result !== [""] && state.mathOp === "-") || (state.secondNumber !== [''] && state.mathOp === "-"):
@@ -157,7 +153,6 @@ const App = () => {
                         mathOp: "",
                     }));
                     setUpdatedState(true);
-                    //setValue(state.result);
                 } else {
                     // setUpdatedState(true);
                     state.result = mathjs.subtract(
@@ -186,7 +181,6 @@ const App = () => {
                         mathOp: "",
                     }));
                     setUpdatedState(true);
-                    //setValue(state.result);
                 } else {
                     // setUpdatedState(true);
                 }
@@ -203,7 +197,6 @@ const App = () => {
                         mathOp: "",
                     }));
                     setUpdatedState(true);
-                    //setValue(state.result);
                 } else {
                     // setUpdatedState(true);
                 }
