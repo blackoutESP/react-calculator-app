@@ -68,8 +68,8 @@ const App = () => {
 
     const [state, setState] = useState({
         mathOp: "",
-        result: ['-12'],
-        secondNumber: [''],
+        result: ['0'],
+        secondNumber: ['0'],
     });
 
     const [updatedState, setUpdatedState] = useState(false);
@@ -77,30 +77,40 @@ const App = () => {
 
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
-        
+        console.log(Number(state.result).toString() !== Number(['']).toString());
+        console.log(Number(state.result).toString())
         if (state.mathOp === '') {
             if (!Number.isNaN(value)) {
-                if (((((Number(state.result).toString().length >= 0) && state.mathOp === '')) && 
-                    ((Number(state.result).toString() !== ['']) && String(state.mathOp) === String(''))) && 
+                // ((Number(state.result).toString().length >= 0) && state.mathOp === '')) &&
+                if (((String(state.mathOp) === String(''))) && 
                     ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')) {
                         console.log(value);
                         // setState
+                        setState((state) => ({
+                            result: Number(
+                                Math.abs([state.result, value].join(''))
+                            ),
+                            mathOp: '',
+                            secondNumber: ['0']
+                        }));
                         // setUpdatedState
-                } else if ((Number(state.result).toString() !== Number(['']).toString()) && 
-                            String(state.mathOp) === String('') && String(state.mathOp) === String('-') &&
+                        setUpdatedState(false);
+                } else if (String(state.mathOp) === String('-') && String(state.mathOp) === String('-') &&
                             (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
-                            (Array((Number(state.result).toString() === [''])) && 
-                            ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === ''))))) {
+                            (Array((Number(state.result).toString() !== [''])) &&
+                            (Number(state.result).toString() !== Number(['']).toString()) && 
+                            ((value === Number(state.result) || value !== Number(state.result))))))) {
                                 console.log(value);
                                 // setState
-                                // setUpdatedState
                                 setState((state) => ({
                                     result: Number(
-                                        -Math.abs([...state.result, (-(Number((Number(-state.result)))) * value)].join(''))
+                                        Number(-[state.result, value].join(''))
                                     ),
                                     mathOp: '',
-                                    secondNumber: ['']
+                                    secondNumber: ['0']
                                 }));
+                                // setUpdatedState
+                                setUpdatedState(false);
                 }
             }
         }
@@ -112,8 +122,6 @@ const App = () => {
 
         // correct
         // console.log(-Math.abs([state.result, (-(Number((Number(-1))) * 6))].join('')));
-
-        // primer if (not neccesary):  && ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))
         if (((state.result.toString() !== [''].toString())) &&
             String(state.mathOp) === String('') && 
                 String(operation) === String('-') &&
@@ -139,7 +147,7 @@ const App = () => {
                     state.result = mathjs.add(state.result, state.secondNumber);
                     setState((state) => ({
                         result: state.result,
-                        secondNumber: state.secondNumber,
+                        secondNumber: [0],
                         mathOp: ""
                     }));
                     setUpdatedState(true);
@@ -149,56 +157,41 @@ const App = () => {
                 if (!updatedState) {
                     setState((state) => ({
                         result: state.result,
-                        secondNumber: [""],
+                        secondNumber: ["0"],
                         mathOp: "",
                     }));
                     setUpdatedState(true);
                 } else {
-                    // setUpdatedState(true);
-                    state.result = mathjs.subtract(
-                        state.result,
-                        state.secondNumber
-                    );
+                    state.result = mathjs.subtract(state.result, state.secondNumber);
                     setState((state) => ({
                         result: state.result,
-                        secondNumber: state.secondNumber,
+                        secondNumber: ['0'],
                         mathOp: "",
                     }));
                     setUpdatedState(true);
-                    //setValue(state.result);
                 }
                 break;
             case (state.result !== [""] && state.mathOp === "*") ||
                 (state.secondNumber !== [""] && state.mathOp === "*"):
                 if (!updatedState) {
-                    state.result = mathjs.multiply(
-                        state.result,
-                        state.secondNumber
-                    );
+                    state.result = mathjs.multiply(state.result, state.secondNumber);
                     setState((state) => ({
                         result: state.result,
-                        secondNumber: state.secondNumber,
+                        secondNumber: ['0'],
                         mathOp: "",
                     }));
                     setUpdatedState(true);
-                } else {
-                    // setUpdatedState(true);
                 }
                 break;
             case (state.result !== [""] && state.mathOp === "/") || (state.secondNumber !== [""] && state.mathOp === "/"):
                 if (!updatedState) {
-                    state.result = mathjs.divide(
-                        state.result,
-                        state.secondNumber
-                    );
+                    state.result = mathjs.divide(state.result, state.secondNumber);
                     setState((state) => ({
                         result: state.result,
-                        secondNumber: state.secondNumber,
+                        secondNumber: ['0'],
                         mathOp: "",
                     }));
                     setUpdatedState(true);
-                } else {
-                    // setUpdatedState(true);
                 }
                 break;
             default:
