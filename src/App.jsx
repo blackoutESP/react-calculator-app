@@ -108,7 +108,10 @@ const App = () => {
                             setUpdatedState(false);
             } else {
                 // setState
-                console.log('algo turbio ocurre con el state... x)');
+                /*
+                    Solucionar bug: se está concatenando los operandos en un único valor,
+                    no se asigna ni en el result ni en el secondNumber ... WTF!
+                */
                 setState((state) => ({
                     result: Number(
                         Number([state.result, value].join(''))
@@ -118,7 +121,6 @@ const App = () => {
                 }));
                 // setUpdatedState
                 setUpdatedState(false);
-                console.log(state);
             }
         }
     };
