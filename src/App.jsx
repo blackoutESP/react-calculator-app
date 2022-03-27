@@ -22,9 +22,12 @@ import * as mathjs from "mathjs";
     Generación del componente Equal con un hook personalizado
 */
 
-const Equal = ({ symbol, className, state, setState, updatedState, setUpdatedState}) => {
+const Equal = ({ symbol, className, props }) => {
+
+    const {state, setState, updatedState, setUpdatedState} = props;
+    console.log(state, setState, updatedState, setUpdatedState);
     
-    const ClickHandlerEqual = () => {
+    const ClickHandlerEqual = (state, setState, updatedState, setUpdatedState) => {
         switch (state.mathOp) {
             case (state.result !== [""] && state.secondNumber !== ['']) && state.mathOp === "+":
                 if (!updatedState) {
@@ -41,7 +44,7 @@ const Equal = ({ symbol, className, state, setState, updatedState, setUpdatedSta
                 if (!updatedState) {
                     setState((state) => ({
                         result: state.result,
-                        secondNumber: ["0"],
+                        secondNumber: ['0'],
                         mathOp: "",
                     }));
                     setUpdatedState(true);
@@ -63,7 +66,7 @@ const Equal = ({ symbol, className, state, setState, updatedState, setUpdatedSta
                         secondNumber: ['0'],
                         mathOp: "",
                     }));
-                    setUpdatedState(true);
+                    //setUpdatedState(true);
                 }
                 break;
             case (state.result !== [""] && state.secondNumber !== [""]) && state.mathOp === "/":
@@ -374,13 +377,9 @@ const App = () => {
                             clickHandlerOp={clickHandlerOp}
                         />
                     </div>
-                    state, setState, updatedState, setUpdatedState,
                     <Equal
                         symbol={'='}
-                        state={state}
-                        setState={setState}
-                        updatedState={setUpdatedState}
-                        setUpdatedState={setUpdatedState}
+                        props={{state, setState, updatedState, setUpdatedState}}
                         className={'math-operations'} 
                     />
                 </div>
