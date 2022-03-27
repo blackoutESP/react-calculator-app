@@ -79,10 +79,10 @@ const App = () => {
 
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
-        // error en la condición lógica!
+        
         if (!Number.isNaN(value)) {
             if (((String(state.mathOp) === String('+'))) && 
-                ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))) {
+                ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String('+'))) {
                     // setState
                     setState((state) => ({
                         result: Number(
