@@ -89,7 +89,7 @@ const App = () => {
                             Math.abs([state.result, value].join(''))
                         ),
                         mathOp: '',
-                        secondNumber: ['0']
+                        secondNumber: Math.abs([state.secondNumber, value].join(''))
                     }));
                     // setUpdatedState
                     setUpdatedState(false);
@@ -102,21 +102,23 @@ const App = () => {
                                     Number(-[state.result, value].join(''))
                                 ),
                                 mathOp: '',
-                                secondNumber: ['0']
+                                secondNumber: Math.abs([state.secondNumber, value].join(''))
                             }));
                             // setUpdatedState
                             setUpdatedState(false);
             } else {
-                console.log('else');
-                console.log(state);
                 // setState
+                console.log('algo turbio ocurre con el state... x)');
                 setState((state) => ({
-                    result: state.result,
+                    result: Number(
+                        Number([state.result, value].join(''))
+                    ),
                     mathOp: '',
-                    secondNumber: Number([state.result, value].join(''))
+                    secondNumber: Number([state.secondNumber, value].join(''))
                 }));
                 // setUpdatedState
                 setUpdatedState(false);
+                console.log(state);
             }
         }
     };
