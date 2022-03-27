@@ -3,7 +3,8 @@
 */
 import React, {
     createContext,
-    useState
+    useState,
+    useEffect
 } from "react";
 
 import Title from "./components/Title";
@@ -116,7 +117,7 @@ const App = () => {
                         mathOp: state.mathOp,
                         secondNumber: ['0']
                     }));
-                } else if (state.mathOp !== '') {
+                } else if (state.mathOp !== '' && (state.mathOp === '*' || state.mathOp === '/')) {
                     setState((state) => ({
                         result: state.result,
                         mathOp: state.mathOp,
@@ -191,70 +192,76 @@ const App = () => {
         }
     };
 
-    const clickHandlerEqual = () => {
-        switch (state.mathOp) {
-            case (state.result === [""] && state.mathOp === "+") || 
-                    ((state.secondNumber !== state.result || 
-                        state.secondNumber === state.result) && state.mathOp === "+"):
-                if (!updatedState) {
-                    state.result = mathjs.add(state.result, state.secondNumber);
-                    setState((state) => ({
-                        result: state.result,
-                        secondNumber: [0],
-                        mathOp: ""
-                    }));
-                    setUpdatedState(true);
-                }
-                break;
-            case (state.result !== [""] && state.mathOp === "-") || (state.secondNumber !== [''] && state.mathOp === "-"):
-                if (!updatedState) {
-                    setState((state) => ({
-                        result: state.result,
-                        secondNumber: ["0"],
-                        mathOp: "",
-                    }));
-                    setUpdatedState(true);
-                } else {
-                    state.result = mathjs.subtract(state.result, state.secondNumber);
-                    setState((state) => ({
-                        result: state.result,
-                        secondNumber: ['0'],
-                        mathOp: "",
-                    }));
-                    setUpdatedState(true);
-                }
-                break;
-            case (state.result !== [""] && state.mathOp === "*") ||
-                (state.secondNumber !== [""] && state.mathOp === "*"):
-                if (!updatedState) {
-                    state.result = mathjs.multiply(state.result, state.secondNumber);
-                    setState((state) => ({
-                        result: state.result,
-                        secondNumber: ['0'],
-                        mathOp: "",
-                    }));
-                    setUpdatedState(true);
-                }
-                break;
-            case (state.result !== [""] && state.mathOp === "/") || (state.secondNumber !== [""] && state.mathOp === "/"):
-                if (!updatedState) {
-                    state.result = mathjs.divide(state.result, state.secondNumber);
-                    setState((state) => ({
-                        result: state.result,
-                        secondNumber: ['0'],
-                        mathOp: "",
-                    }));
-                    setUpdatedState(true);
-                }
-                break;
-            default:
-                console.log(
-                    new Error(
-                        "Unknown clickHandlerEqual handler function error..."
-                    )
-                );
-        }
+    const ClickHandlerEqual = () => {
+        console.log(state);
+        useEffect((state) => {
+            
+            switch (state.mathOp) {
+                case (state.result !== [""] && state.mathOp === "+") || (state.secondNumber !== [''] && state.mathOp === "-") || 
+                        ((state.secondNumber !== state.result || 
+                            state.secondNumber === state.result) && state.mathOp === "+"):
+                    if (!updatedState) {
+                        state.result = mathjs.add(state.result, state.secondNumber);
+                        setState((state) => ({
+                            result: state.result,
+                            secondNumber: [0],
+                            mathOp: ""
+                        }));
+                        setUpdatedState(true);
+                    }
+                    break;
+                case (state.result !== [""] && state.mathOp === "-") || (state.secondNumber !== [''] && state.mathOp === "-"):
+                    if (!updatedState) {
+                        setState((state) => ({
+                            result: state.result,
+                            secondNumber: ["0"],
+                            mathOp: "",
+                        }));
+                        setUpdatedState(true);
+                    } else {
+                        state.result = mathjs.subtract(state.result, state.secondNumber);
+                        setState((state) => ({
+                            result: state.result,
+                            secondNumber: ['0'],
+                            mathOp: "",
+                        }));
+                        setUpdatedState(true);
+                    }
+                    break;
+                case (state.result !== [""] && state.mathOp === "*") ||
+                    (state.secondNumber !== [""] && state.mathOp === "*"):
+                    if (!updatedState) {
+                        state.result = mathjs.multiply(state.result, state.secondNumber);
+                        setState((state) => ({
+                            result: state.result,
+                            secondNumber: ['0'],
+                            mathOp: "",
+                        }));
+                        setUpdatedState(true);
+                    }
+                    break;
+                case (state.result !== [""] && state.mathOp === "/") || (state.secondNumber !== [""] && state.mathOp === "/"):
+                    if (!updatedState) {
+                        state.result = mathjs.divide(state.result, state.secondNumber);
+                        setState((state) => ({
+                            result: state.result,
+                            secondNumber: ['0'],
+                            mathOp: "",
+                        }));
+                        setUpdatedState(true);
+                    }
+                    break;
+                default:
+                    console.log(
+                        new Error(
+                            "Unknown clickHandlerEqual handler function error..."
+                        )
+                    );
+            }
+        }, [state]);
     };
+
+    const clickHandlerEqual = ClickHandlerEqual(state);
 
     return (
         <main className='container'>
@@ -365,6 +372,7 @@ const App = () => {
                     </div>
                     <Equal
                         symbol={'='}
+                        state={state}
                         className={'math-operations'}
                         clickHandlerEqual={clickHandlerEqual} 
                     />

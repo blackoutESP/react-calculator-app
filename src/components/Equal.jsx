@@ -1,19 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 // import { ResultContext } from '../App';
 
-const Equal = ({ symbol, className, clickHandlerEqual}) => {
+const Equal = ({ state, symbol, className, ClickHandlerEqual}) => {
     return (
         <div className={className}>
-            <button onClick={clickHandlerEqual}>{symbol}</button>
+            <button onClick={ClickHandlerEqual}>{symbol}</button>
         </div>
     );
 };
 
 Equal.propTypes = {
     symbol: PropTypes.string.isRequired,
-    className: PropTypes.string.isRequired,
-    clickHandlerEqual: PropTypes.func.isRequired
+    className: PropTypes.string.isRequired
 };
 
 export default Equal;
