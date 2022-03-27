@@ -75,66 +75,73 @@ const App = () => {
     const [updatedState, setUpdatedState] = useState(false);
     // const [value, setValue] = useState();
 
+    const clickHandlerRemoveOperator = () => {};
+
     const clickHandlerFunction = (value) => {
         console.log('clickHandlerFunction');
-        console.log(Number(state.result).toString() !== Number(['']).toString());
-        console.log(Number(state.result).toString())
-        if (state.mathOp === '') {
-            if (!Number.isNaN(value)) {
-                // ((Number(state.result).toString().length >= 0) && state.mathOp === '')) &&
-                if (((String(state.mathOp) === String(''))) && 
-                    ((value === Number(state.result) || value !== Number(state.result)) && state.mathOp === '')) {
-                        console.log(value);
-                        // setState
-                        setState((state) => ({
-                            result: Number(
-                                Math.abs([state.result, value].join(''))
-                            ),
-                            mathOp: '',
-                            secondNumber: ['0']
-                        }));
-                        // setUpdatedState
-                        setUpdatedState(false);
-                } else if (String(state.mathOp) === String('-') && String(state.mathOp) === String('-') &&
-                            (((((Number(state.result).toString().length >= 0) && String(state.mathOp) === String('-'))) && 
-                            (Array((Number(state.result).toString() !== [''])) &&
-                            (Number(state.result).toString() !== Number(['']).toString()) && 
-                            ((value === Number(state.result) || value !== Number(state.result))))))) {
-                                console.log(value);
-                                // setState
-                                setState((state) => ({
-                                    result: Number(
-                                        Number(-[state.result, value].join(''))
-                                    ),
-                                    mathOp: '',
-                                    secondNumber: ['0']
-                                }));
-                                // setUpdatedState
-                                setUpdatedState(false);
-                }
+        // error en la condición lógica!
+        if (!Number.isNaN(value)) {
+            if (((String(state.mathOp) === String('+'))) && 
+                ((value === Number(state.result) || value !== Number(state.result)) && String(state.mathOp) === String(''))) {
+                    // setState
+                    setState((state) => ({
+                        result: Number(
+                            Math.abs([state.result, value].join(''))
+                        ),
+                        mathOp: '',
+                        secondNumber: ['0']
+                    }));
+                    // setUpdatedState
+                    setUpdatedState(false);
+            } else if ((String(state.mathOp) === String('-')) &&  
+                        ((value === Number(state.result) || value !== Number(state.result)))) {
+                            console.log(value);
+                            // setState
+                            setState((state) => ({
+                                result: Number(
+                                    Number(-[state.result, value].join(''))
+                                ),
+                                mathOp: '',
+                                secondNumber: ['0']
+                            }));
+                            // setUpdatedState
+                            setUpdatedState(false);
             }
         }
     };
 
-    const clickHandlerRemoveOperator = () => {};
-
     const clickHandlerOp = (state, setState, updatedState, setUpdatedState, operation) => {
-
+        
         // correct
         // console.log(-Math.abs([state.result, (-(Number((Number(-1))) * 6))].join('')));
-        if (((state.result.toString() !== [''].toString())) &&
+        if ((Number(state.result).toString() === Number(['']).toString()) &&
             String(state.mathOp) === String('') && 
-                String(operation) === String('-') &&
+                String(operation) === String('+') &&
                     (Number(state.result).toString().length >= 0) &&
                         ((Number(state.result).toString() !== [''].toString()))) {
                             // setState
+                            console.log('plus;');
+                            setState((state) => ({
+                                result: state.result,
+                                secondNumber: ['0'],
+                                mathOp: operation
+                            }));
                             // setUpdatedState
-                                
-        } else if ((Number(state.result).toString() !== Number(['']).toString()) 
-                    && ((Number(state.secondNumber).toString() !== Number(['']).toString())) && 
-                    String(state.mathOp) === String('')) {
+                            setUpdatedState(false); 
+        } else if ((Number(state.result).toString() === Number(['']).toString()) &&
+                    String(state.mathOp) === String('') && 
+                    String(operation) === String('-') &&
+                    (Number(state.result).toString().length >= 0) &&
+                    ((Number(state.result).toString() !== [''].toString()))) {
+                        console.log(operation);
                         // setState
+                        setState((state) => ({
+                            result: state.result,
+                            secondNumber: ['0'],
+                            mathOp: operation
+                        }));
                         // setUpdatedState
+                        setUpdatedState(false);
         }
     };
 
