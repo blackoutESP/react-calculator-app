@@ -3,8 +3,7 @@
 */
 import React, {
     createContext,
-    useState,
-    useEffect
+    useState
 } from "react";
 
 import Title from "./components/Title";
@@ -95,7 +94,7 @@ const App = () => {
         console.log('clickHandlerFunction');
         
         if (!Number.isNaN(value)) {
-            if (((String(state.mathOp) === String('+'))) && 
+            if (((String(state.mathOp) === String('+'))) && state.result === ['0'] &&
                 ((value === Number(state.result) || value !== Number(state.result)))) {
                     console.log(value);
                     // setState
@@ -108,7 +107,7 @@ const App = () => {
                     }));
                     // setUpdatedState
                     setUpdatedState(false);
-            } else if ((String(state.mathOp) === String('-')) &&  
+            } else if ((String(state.mathOp) === String('-')) && state.result === ['0'] && 
                         ((value === Number(state.result) || value !== Number(state.result)))) {
                             console.log(value);
                             // setState
@@ -121,27 +120,26 @@ const App = () => {
                             }));
                             // setUpdatedState
                             setUpdatedState(false);
-            /*
-                            ARREGLAR CONDICIONES LÓGICAS!!
-            */
-            } else if (state.mathOp === '') {
-                console.log(value);
-                setState((state) => ({
-                    result: Number(
-                        Number([value].join(''))
-                    ),
-                    mathOp: state.mathOp,
-                    secondNumber: ['0']
-                }));
-            } else if (state.mathOp !== '' && (state.mathOp === '*' || state.mathOp === '/')) {
-                    console.log(value);
-                    setState((state) => ({
-                        result: state.result,
-                        mathOp: state.mathOp,
-                        secondNumber: Number(
-                            Number([state.secondNumber, value].join(''))
-                        )
-                    }));
+            } else if ((String(state.mathOp) === String('*')) && state.result === ['0'] && 
+                        ((value === Number(state.result) || value !== Number(state.result)))) {
+                        console.log(value);
+                        setState((state) => ({
+                            result: Number(
+                                [state.result * value].join('')
+                            ),
+                            mathOp: state.mathOp,
+                            secondNumber: ['0']
+                        }));
+            } else if ((String(state.mathOp) === String('/')) && state.result === ['0'] && 
+                        ((value === Number(state.result) || value !== Number(state.result)))) {
+                        console.log(value);
+                        setState((state) => ({
+                            result: Number(
+                                Number([state.secondNumber / value].join(''))
+                            ),
+                            mathOp: state.mathOp,
+                            secondNumber: ['0']
+                        }));
             }
             // setUpdatedState
             setUpdatedState(false);
