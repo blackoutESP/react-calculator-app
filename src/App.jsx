@@ -193,9 +193,7 @@ const App = () => {
     };
 
     const ClickHandlerEqual = () => {
-        console.log(state);
-        useEffect((state) => {
-            
+        useEffect(() => {
             switch (state.mathOp) {
                 case (state.result !== [""] && state.mathOp === "+") || (state.secondNumber !== [''] && state.mathOp === "-") || 
                         ((state.secondNumber !== state.result || 
