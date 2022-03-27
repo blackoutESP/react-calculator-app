@@ -106,6 +106,17 @@ const App = () => {
                             }));
                             // setUpdatedState
                             setUpdatedState(false);
+            } else {
+                console.log('else');
+                console.log(state);
+                // setState
+                setState((state) => ({
+                    result: state.result,
+                    mathOp: '',
+                    secondNumber: Number([state.result, value].join(''))
+                }));
+                // setUpdatedState
+                setUpdatedState(false);
             }
         }
     };
@@ -120,7 +131,6 @@ const App = () => {
                     (Number(state.result).toString().length >= 0) &&
                         ((Number(state.result).toString() !== [''].toString()))) {
                             // setState
-                            console.log('plus;');
                             setState((state) => ({
                                 result: state.result,
                                 secondNumber: ['0'],
@@ -131,6 +141,32 @@ const App = () => {
         } else if ((Number(state.result).toString() === Number(['']).toString()) &&
                     String(state.mathOp) === String('') && 
                     String(operation) === String('-') &&
+                    (Number(state.result).toString().length >= 0) &&
+                    ((Number(state.result).toString() !== [''].toString()))) {
+                        console.log(operation);
+                        // setState
+                        setState((state) => ({
+                            result: state.result,
+                            secondNumber: ['0'],
+                            mathOp: operation
+                        }));
+                        // setUpdatedState
+                        setUpdatedState(false);
+        } else if (String(operation) === String('*') &&
+                    (Number(state.result).toString().length >= 0) &&
+                    ((Number(state.result).toString() !== [''].toString()))) {
+                        console.log(operation);
+                        // setState
+                        setState((state) => ({
+                            result: state.result,
+                            secondNumber: ['0'],
+                            mathOp: operation
+                        }));
+                        // setUpdatedState
+                        setUpdatedState(false);
+        } else if ((Number(state.result).toString() === Number(['']).toString()) &&
+                    String(state.mathOp) === String('') && 
+                    String(operation) === String('/') &&
                     (Number(state.result).toString().length >= 0) &&
                     ((Number(state.result).toString() !== [''].toString()))) {
                         console.log(operation);
