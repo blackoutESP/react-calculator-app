@@ -77,7 +77,7 @@ const App = () => {
 
     const clickHandlerRemoveOperator = () => {};
 
-    const clickHandlerFunction = (value) => {
+    const clickHandlerFunction = (value, state) => {
         console.log('clickHandlerFunction');
         
         if (!Number.isNaN(value)) {
@@ -108,17 +108,23 @@ const App = () => {
                             setUpdatedState(false);
             } else {
                 // setState
-                /*
-                    Solucionar bug: se está concatenando los operandos en un único valor,
-                    no se asigna ni en el result ni en el secondNumber ... WTF!
-                */
-                setState((state) => ({
-                    result: Number(
-                        Number([state.result, value].join(''))
-                    ),
-                    mathOp: '',
-                    secondNumber: Number([state.secondNumber, value].join(''))
-                }));
+                if (state.mathOp === '') {
+                    setState((state) => ({
+                        result: Number(
+                            Number([state.result, value].join(''))
+                        ),
+                        mathOp: state.mathOp,
+                        secondNumber: ['0']
+                    }));
+                } else if (state.mathOp !== '') {
+                    setState((state) => ({
+                        result: state.result,
+                        mathOp: state.mathOp,
+                        secondNumber: Number(
+                            Number([state.secondNumber, value].join(''))
+                        )
+                    }));
+                }
                 // setUpdatedState
                 setUpdatedState(false);
             }
@@ -259,51 +265,61 @@ const App = () => {
                     <div className='numbers'>
                         <Button
                             value={1}
+                            state={state}
                             className={"numbers"}
                             clickHandler={clickHandlerFunction}
                         />
                         <Button
                             value={2}
+                            state={state}
                             className={"numbers"}
                             clickHandler={clickHandlerFunction}
                         />
                         <Button
                             value={3}
+                            state={state}
                             className={"numbers"}
                             clickHandler={clickHandlerFunction}
                         />
                         <Button
                             value={4}
+                            state={state}
                             className={"numbers"}
                             clickHandler={clickHandlerFunction}
                         />
                         <Button
                             value={5}
+                            state={state}
                             className={"numbers"}
                             clickHandler={clickHandlerFunction}
                         />
                         <Button
                             value={6}
+                            state={state}
                             className={"numbers"}
                             clickHandler={clickHandlerFunction}
                         />
                         <Button
                             value={7}
+                            state={state}
                             className={"numbers"}
                             clickHandler={clickHandlerFunction}
                         />
                         <Button
                             value={8}
+                            state={state}
                             className={"numbers"}
                             clickHandler={clickHandlerFunction}
                         />
                         <Button
                             value={9}
+                            state={state}
                             className={"numbers"}
                             clickHandler={clickHandlerFunction}
                         />
                         <Button
                             value={0}
+                            state={state}
                             className={"numbers"}
                             clickHandler={clickHandlerFunction}
                         />

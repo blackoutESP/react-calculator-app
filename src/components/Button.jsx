@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({value, className, clickHandler}) => ( 
+const Button = ({value, state, className, clickHandler}) => ( 
     (
-        <button className={className} onClick={ () => clickHandler(value) }>
+        <button className={className} onClick={ () => clickHandler(value, state) }>
             <span>{ value }</span>
         </button>
     )
