@@ -214,7 +214,7 @@ const App = () => {
     };
 
     const clickHandlerEqual = (state, setState, updatedState, setUpdatedState) => {
-
+        console.log(state);
         switch (state.mathOp) {
             case (state.result !== ["0"] && state.secondNumber !== ['0'] && (String(state.mathOp) === String('+'))):
                 if (!updatedState) {
