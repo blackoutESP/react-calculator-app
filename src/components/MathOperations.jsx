@@ -3,14 +3,6 @@ import React from "react";
  
 const MathOperations = ({operation, className, props, clickHandlerOp}) => {
     const { state, setState, updatedState, setUpdatedState } = props;
-    // const { setValue, state, setState, setUpdatedState, className, clickHandlerOp } = props;
-    /* console.log(value);
-    console.log(setValue);
-    console.log(state);
-    console.log({setState});
-    console.log(setUpdatedState);
-    console.log(operation); */
-    // clickHandlerOp(value, setValue, state, setState, updatedState, setUpdatedState)
     return (
         <div className={className} onClick={() => clickHandlerOp(state, setState, updatedState, setUpdatedState, operation)}>
             <button>
