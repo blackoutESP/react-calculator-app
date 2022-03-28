@@ -204,7 +204,7 @@ const App = () => {
                     // setUpdatedState
                     setUpdatedState(false);
         } else if ((Number(state.result) !== Number(['0'])) &&
-                    String(operation) === String('*')) {
+                    String(operation) === String('/')) {
                         console.log(operation);
                         // setState
                         setState((state) => ({
