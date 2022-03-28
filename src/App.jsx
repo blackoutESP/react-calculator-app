@@ -92,11 +92,14 @@ const App = () => {
 
     const clickHandlerFunction = (value, state) => {
         console.log('clickHandlerFunction');
+        console.log(
+            (String(state.mathOp) === String('/')) && state.result !== ['0'] &&
+            ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))
+        );
 
         if (!Number.isNaN(value)) {
-            if ((String(state.mathOp) === String('') && state.result === ['0'] &&
-                (value === Number(state.result) || value !== Number(state.result)))) {
-                    console.log('entra');
+            if ((value === Number(state.result) || value !== Number(state.result)) &&
+                String(state.mathOp) === String('') && (Number(state.result) === Number(['0']) || Number(state.result) !== Number(['0']))) {
                     // setState
                     setState((state) => ({
                         result: Number(
@@ -107,150 +110,106 @@ const App = () => {
                     }));
                     // setUpdatedState
                     setUpdatedState(false);
+            } else {
+                if ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)) &&
+                        String(state.mathOp) === String('+') && (Number(state.secondNumber) === Number(['0']) || Number(state.secondNumber) !== Number(['0']))) {
+                            // setState
+                            setState((state) => ({
+                                result: state.result,
+                                mathOp: state.mathOp,
+                                secondNumber: Number(
+                                    Math.abs([state.secondNumber, value].join(''))
+                                )
+                            }));
+                            // setUpdatedState
+                            setUpdatedState(false);
+                }
+                
+                if ((String(state.mathOp) === String('-')) && state.result !== ['0'] && 
+                        ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
+                            // setState
+                            setState((state) => ({
+                                result: state.result,
+                                mathOp: state.mathOp,
+                                secondNumber: Number(
+                                    Number([state.secondNumber, value].join(''))
+                                )
+                            }));
+                            // setUpdatedState
+                            setUpdatedState(false);
+                }
+
+                if ((String(state.mathOp) === String('*')) && state.result !== ['0'] && 
+                        ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
+                            setState((state) => ({
+                                result: state.result,
+                                mathOp: state.mathOp,
+                                secondNumber: Number(
+                                    [state.secondNumber, value].join('')
+                                )
+                            }));
+                            // setUpdatedState
+                            setUpdatedState(false);
+                }
+
+                if ((String(state.mathOp) === String('/')) && state.result !== ['0'] &&
+                        ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
+                            console.log('entra');
+                            setState((state) => ({
+                                result: state.result,
+                                mathOp: state.mathOp,
+                                secondNumber: Number(
+                                    Number([state.secondNumber, value].join(''))
+                                )
+                            }));
+                            // setUpdatedState
+                            setUpdatedState(false);
+                }
             }
-        } else if ((String(state.mathOp) === String('+') && state.result !== ['0'] &&
-                    (value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
-                        console.log('entra');
-                        // setState
-                        setState((state) => ({
-                            result: state.result,
-                            mathOp: state.mathOp,
-                            secondNumber: Number(
-                                Math.abs([state.secondNumber, value].join(''))
-                            )
-                        }));
-                        // setUpdatedState
-                        setUpdatedState(false);
-        }
-
-        if ((String(state.mathOp) === String('-')) && state.result === ['0'] && 
-            ((value === Number(state.result) || value !== Number(state.result)))) {
-                    // setState
-                    setState((state) => ({
-                        result: Number(
-                            Number(-[state.result, value].join(''))
-                        ),
-                        mathOp: state.mathOp,
-                        secondNumber: ['0']
-                    }));
-                    // setUpdatedState
-                    setUpdatedState(false);
-        } else if ((String(state.mathOp) === String('-')) && state.result !== ['0'] && 
-                    ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
-                        // setState
-                        setState((state) => ({
-                            result: state.result,
-                            mathOp: state.mathOp,
-                            secondNumber: Number(
-                                Number(-[state.result, value].join(''))
-                            )
-                        }));
-                        // setUpdatedState
-                        setUpdatedState(false);
-        }
-
-        if ((String(state.mathOp) === String('')) && state.result === ['0'] && 
-            ((value === Number(state.result) || value !== Number(state.result)))) {
-                setState((state) => ({
-                    result: Number(
-                        [state.result * value].join('')
-                    ),
-                    mathOp: state.mathOp,
-                    secondNumber: ['0']
-                }));
-                // setUpdatedState
-                setUpdatedState(false);
-        } else if ((String(state.mathOp) === String('*')) && state.result !== ['0'] && 
-                    ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
-                        setState((state) => ({
-                            result: state.result,
-                            mathOp: state.mathOp,
-                            secondNumber: Number(
-                                [state.secondNumber * value].join('')
-                            )
-                        }));
-                        // setUpdatedState
-                        setUpdatedState(false);
-        }
-
-        if ((String(state.mathOp) === String('')) && state.result === ['0'] && 
-            ((value === Number(state.result) || value !== Number(state.result)))) {
-                setState((state) => ({
-                    result: Number(
-                        Number([state.secondNumber / value].join(''))
-                    ),
-                    mathOp: state.mathOp,
-                    secondNumber: ['0']
-                }));
-                // setUpdatedState
-                setUpdatedState(false);
-        } else if ((String(state.mathOp) === String('/')) && state.result !== ['0'] && 
-                    ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
-                        setState((state) => ({
-                            result: state.result,
-                            mathOp: state.mathOp,
-                            secondNumber: Number(
-                                Number([state.secondNumber / value].join(''))
-                            )
-                        }));
-                        // setUpdatedState
-                        setUpdatedState(false);
         }
     };
 
     const clickHandlerOp = (state, setState, updatedState, setUpdatedState, operation) => {
         
-        // correct
-        // console.log(-Math.abs([state.result, (-(Number((Number(-1))) * 6))].join('')));
-        if ((Number(state.result).toString() === Number(['']).toString()) &&
-            String(state.mathOp) === String('') && 
-                String(operation) === String('+') &&
-                    (Number(state.result).toString().length >= 0) &&
-                        ((Number(state.result).toString() !== [''].toString()))) {
-                            // setState
-                            setState((state) => ({
-                                result: state.result,
-                                secondNumber: ['0'],
-                                mathOp: operation
-                            }));
-                            // setUpdatedState
-                            setUpdatedState(false); 
-        } else if ((Number(state.result).toString() === Number(['']).toString()) &&
-                    String(state.mathOp) === String('') && 
-                    String(operation) === String('-') &&
-                    (Number(state.result).toString().length >= 0) &&
-                    ((Number(state.result).toString() !== [''].toString()))) {
+        if ((Number(state.result) !== Number(['0'])) &&
+            String(operation) === String('+')) {
+                // setState
+                setState((state) => ({
+                    result: state.result,
+                    secondNumber: state.secondNumber,
+                    mathOp: operation
+                }));
+                // setUpdatedState
+                setUpdatedState(false); 
+        } else if ((Number(state.result) !== Number(['0'])) &&
+                    String(operation) === String('-')) {
                         console.log(operation);
                         // setState
                         setState((state) => ({
                             result: state.result,
-                            secondNumber: ['0'],
+                            secondNumber: state.secondNumber,
                             mathOp: operation
                         }));
                         // setUpdatedState
                         setUpdatedState(false);
-        } else if (String(operation) === String('*') &&
-                    (Number(state.result).toString().length >= 0) &&
-                    ((Number(state.result).toString() !== [''].toString()))) {
+        }else if ((Number(state.result) !== Number(['0'])) &&
+                    String(operation) === String('*')) {
+                    console.log(operation);
+                    // setState
+                    setState((state) => ({
+                        result: state.result,
+                        secondNumber: state.secondNumber,
+                        mathOp: operation
+                    }));
+                    // setUpdatedState
+                    setUpdatedState(false);
+        } else if ((Number(state.result) !== Number(['0'])) &&
+                    String(operation) === String('*')) {
                         console.log(operation);
                         // setState
                         setState((state) => ({
                             result: state.result,
-                            secondNumber: ['0'],
-                            mathOp: operation
-                        }));
-                        // setUpdatedState
-                        setUpdatedState(false);
-        } else if ((Number(state.result).toString() === Number(['']).toString()) &&
-                    String(state.mathOp) === String('') && 
-                    String(operation) === String('/') &&
-                    (Number(state.result).toString().length >= 0) &&
-                    ((Number(state.result).toString() !== [''].toString()))) {
-                        console.log(operation);
-                        // setState
-                        setState((state) => ({
-                            result: state.result,
-                            secondNumber: ['0'],
+                            secondNumber: state.secondNumber,
                             mathOp: operation
                         }));
                         // setUpdatedState
