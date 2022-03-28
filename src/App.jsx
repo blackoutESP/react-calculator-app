@@ -18,8 +18,10 @@ import * as mathjs from "mathjs";
     Generación del componente Equal con un hook personalizado
 */
 
-const Equal = ({ symbol, className, state, setState, updatedState, setUpdatedState, clickHandlerEqual }) => {
-
+const Equal = ({ symbol, className, props }) => {
+    
+    const { state, setState, updatedState, setUpdatedState, clickHandlerEqual } = props;
+    
     return (
         <div className={className}>
             <button onClick={() => clickHandlerEqual(state, setState, updatedState, setUpdatedState)}>{symbol}</button>
@@ -33,7 +35,7 @@ const Equal = ({ symbol, className, state, setState, updatedState, setUpdatedSta
 
 const Result = (state) => {
     let symbol = '';
-    let result = state.value.result[0];
+    let result = state.value.result;
     if (String(result).split('')[0] === '-') {
         symbol = String(result).split('')[0];
         result = String(result).split('-').slice(0, String(result).length)[1];
@@ -214,9 +216,9 @@ const App = () => {
     };
 
     const clickHandlerEqual = (state, setState, updatedState, setUpdatedState) => {
-        console.log(state);
-        switch (state.mathOp) {
-            case (state.result !== ["0"] && state.secondNumber !== ['0'] && (String(state.mathOp) === String('+'))):
+        console.log(String(state.mathOp));
+        switch ((String(state.mathOp))) {
+            case '+':
                 if (!updatedState) {
                     state.result = mathjs.add(state.result, state.secondNumber);
                     setState((state) => ({
@@ -227,7 +229,7 @@ const App = () => {
                     setUpdatedState(true);
                 }
                 break;
-            case (state.result !== ["0"] && state.secondNumber !== ['0'] && state.mathOp === "-"):
+            case '-':
                 if (!updatedState) {
                     state.result = mathjs.subtract(state.result, state.secondNumber);
                     console.log(state.result);
@@ -239,7 +241,7 @@ const App = () => {
                     setUpdatedState(true);
                 }
                 break;
-            case (state.result !== ["0"] && state.secondNumber !== ["0"]) && state.mathOp === "*":
+            case '*':
                 if (!updatedState) {
                     state.result = mathjs.multiply(state.result, state.secondNumber);
                     setState((state) => ({
@@ -250,7 +252,7 @@ const App = () => {
                     //setUpdatedState(true);
                 }
                 break;
-            case (state.result !== ["0"] && state.secondNumber !== ["0"]) && state.mathOp === "/":
+            case '/':
                 if (!updatedState) {
                     state.result = mathjs.divide(state.result, state.secondNumber);
                     setState((state) => ({
@@ -273,7 +275,7 @@ const App = () => {
     return (
         <main className='container'>
             <Title />
-            <ResultContext.Provider value={{ state, setUpdatedState }}>
+            <ResultContext.Provider value={{ state, updatedState, setUpdatedState }}>
                 <div className='react-calculator'>
                     <Result value={state}/>
                     <div className='numbers'>
