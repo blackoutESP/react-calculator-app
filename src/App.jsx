@@ -7,13 +7,10 @@ import React, {
 } from "react";
 
 import Title from "./components/Title";
-// import Result from './components/Result';
 import Button from "./components/Button";
-// import Clear from './components/Clear';
 import RemoveOperator from "./components/RemoveOperator";
-// import Functions from './components/Functions';
 import MathOperations from "./components/MathOperations";
-// import Equal from "./components/Equal";
+
 import "./App.css";
 import * as mathjs from "mathjs";
 
@@ -21,11 +18,11 @@ import * as mathjs from "mathjs";
     Generación del componente Equal con un hook personalizado
 */
 
-const Equal = ({ symbol, className }) => {
+const Equal = ({ symbol, className, state, setState, updatedState, setUpdatedState, clickHandlerEqual }) => {
 
     return (
         <div className={className}>
-            <button>{symbol}</button>
+            <button onClick={() => clickHandlerEqual(state, setState, updatedState, setUpdatedState)}>{symbol}</button>
         </div>
     );
 };
@@ -218,7 +215,6 @@ const App = () => {
 
     const clickHandlerEqual = (state, setState, updatedState, setUpdatedState) => {
 
-        console.log(state);
         switch (state.mathOp) {
             case (state.result !== ["0"] && state.secondNumber !== ['0'] && (String(state.mathOp) === String('+'))):
                 if (!updatedState) {
@@ -384,7 +380,7 @@ const App = () => {
                     <Equal
                         symbol={'='}
                         className={'math-operations'}
-                        props={{state, setState, updatedState, setUpdatedState}}
+                        props={{state, setState, updatedState, setUpdatedState, clickHandlerEqual}}
                         clickHandlerEqual={clickHandlerEqual}
                     />
                 </div>
