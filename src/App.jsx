@@ -64,7 +64,7 @@ const Clear = ({ setState, setUpdatedState }) => {
         setState(() => ({
             mathOp: '',
             result: ['0'],
-            secondNumber: [''],
+            secondNumber: ['0'],
         }));
         setUpdatedState(false);
     }
@@ -92,57 +92,109 @@ const App = () => {
 
     const clickHandlerFunction = (value, state) => {
         console.log('clickHandlerFunction');
-        
+
         if (!Number.isNaN(value)) {
-            if (((String(state.mathOp) === String('+'))) && state.result === ['0'] &&
-                ((value === Number(state.result) || value !== Number(state.result)))) {
-                    console.log(value);
+            if ((String(state.mathOp) === String('') && state.result === ['0'] &&
+                (value === Number(state.result) || value !== Number(state.result)))) {
+                    console.log('entra');
                     // setState
                     setState((state) => ({
                         result: Number(
                             Math.abs([state.result, value].join(''))
                         ),
-                        mathOp: '',
+                        mathOp: state.mathOp,
                         secondNumber: ['0']
                     }));
                     // setUpdatedState
                     setUpdatedState(false);
-            } else if ((String(state.mathOp) === String('-')) && state.result === ['0'] && 
-                        ((value === Number(state.result) || value !== Number(state.result)))) {
-                            console.log(value);
-                            // setState
-                            setState((state) => ({
-                                result: Number(
-                                    Number(-[state.result, value].join(''))
-                                ),
-                                mathOp: '',
-                                secondNumber: Math.abs([state.secondNumber, value].join(''))
-                            }));
-                            // setUpdatedState
-                            setUpdatedState(false);
-            } else if ((String(state.mathOp) === String('*')) && state.result === ['0'] && 
-                        ((value === Number(state.result) || value !== Number(state.result)))) {
-                        console.log(value);
-                        setState((state) => ({
-                            result: Number(
-                                [state.result * value].join('')
-                            ),
-                            mathOp: state.mathOp,
-                            secondNumber: ['0']
-                        }));
-            } else if ((String(state.mathOp) === String('/')) && state.result === ['0'] && 
-                        ((value === Number(state.result) || value !== Number(state.result)))) {
-                        console.log(value);
-                        setState((state) => ({
-                            result: Number(
-                                Number([state.secondNumber / value].join(''))
-                            ),
-                            mathOp: state.mathOp,
-                            secondNumber: ['0']
-                        }));
             }
-            // setUpdatedState
-            setUpdatedState(false);
+        } else if ((String(state.mathOp) === String('+') && state.result !== ['0'] &&
+                    (value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
+                        console.log('entra');
+                        // setState
+                        setState((state) => ({
+                            result: state.result,
+                            mathOp: state.mathOp,
+                            secondNumber: Number(
+                                Math.abs([state.secondNumber, value].join(''))
+                            )
+                        }));
+                        // setUpdatedState
+                        setUpdatedState(false);
+        }
+
+        if ((String(state.mathOp) === String('-')) && state.result === ['0'] && 
+            ((value === Number(state.result) || value !== Number(state.result)))) {
+                    // setState
+                    setState((state) => ({
+                        result: Number(
+                            Number(-[state.result, value].join(''))
+                        ),
+                        mathOp: state.mathOp,
+                        secondNumber: ['0']
+                    }));
+                    // setUpdatedState
+                    setUpdatedState(false);
+        } else if ((String(state.mathOp) === String('-')) && state.result !== ['0'] && 
+                    ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
+                        // setState
+                        setState((state) => ({
+                            result: state.result,
+                            mathOp: state.mathOp,
+                            secondNumber: Number(
+                                Number(-[state.result, value].join(''))
+                            )
+                        }));
+                        // setUpdatedState
+                        setUpdatedState(false);
+        }
+
+        if ((String(state.mathOp) === String('')) && state.result === ['0'] && 
+            ((value === Number(state.result) || value !== Number(state.result)))) {
+                setState((state) => ({
+                    result: Number(
+                        [state.result * value].join('')
+                    ),
+                    mathOp: state.mathOp,
+                    secondNumber: ['0']
+                }));
+                // setUpdatedState
+                setUpdatedState(false);
+        } else if ((String(state.mathOp) === String('*')) && state.result !== ['0'] && 
+                    ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
+                        setState((state) => ({
+                            result: state.result,
+                            mathOp: state.mathOp,
+                            secondNumber: Number(
+                                [state.secondNumber * value].join('')
+                            )
+                        }));
+                        // setUpdatedState
+                        setUpdatedState(false);
+        }
+
+        if ((String(state.mathOp) === String('')) && state.result === ['0'] && 
+            ((value === Number(state.result) || value !== Number(state.result)))) {
+                setState((state) => ({
+                    result: Number(
+                        Number([state.secondNumber / value].join(''))
+                    ),
+                    mathOp: state.mathOp,
+                    secondNumber: ['0']
+                }));
+                // setUpdatedState
+                setUpdatedState(false);
+        } else if ((String(state.mathOp) === String('/')) && state.result !== ['0'] && 
+                    ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
+                        setState((state) => ({
+                            result: state.result,
+                            mathOp: state.mathOp,
+                            secondNumber: Number(
+                                Number([state.secondNumber / value].join(''))
+                            )
+                        }));
+                        // setUpdatedState
+                        setUpdatedState(false);
         }
     };
 
