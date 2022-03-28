@@ -154,7 +154,6 @@ const App = () => {
 
                 if ((String(state.mathOp) === String('/')) && state.result !== ['0'] &&
                         ((value === Number(state.secondNumber) || value !== Number(state.secondNumber)))) {
-                            console.log('entra');
                             setState((state) => ({
                                 result: state.result,
                                 mathOp: state.mathOp,
@@ -217,13 +216,13 @@ const App = () => {
         }
     };
 
-    const clickHandlerEqual = (props) => {
+    const clickHandlerEqual = (state, setState, updatedState, setUpdatedState) => {
 
-        const {state, setState, updatedState, setUpdatedState} = props;
-        
+        console.log(state);
         switch (state.mathOp) {
             case (state.result !== ["0"] && state.secondNumber !== ['0'] && (String(state.mathOp) === String('+'))):
                 if (!updatedState) {
+                    state.result = mathjs.add(state.result, state.secondNumber);
                     setState((state) => ({
                         result: state.result,
                         secondNumber: ['0'],
@@ -232,8 +231,10 @@ const App = () => {
                     setUpdatedState(true);
                 }
                 break;
-            case (state.result !== ["0"] && state.secondNumber !== ['0']) && state.mathOp === "-":
+            case (state.result !== ["0"] && state.secondNumber !== ['0'] && state.mathOp === "-"):
                 if (!updatedState) {
+                    state.result = mathjs.subtract(state.result, state.secondNumber);
+                    console.log(state.result);
                     setState((state) => ({
                         result: state.result,
                         secondNumber: ['0'],
